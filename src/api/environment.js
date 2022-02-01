@@ -1,0 +1,1 @@
+export const baseURL = "http://qa.4fin.in";

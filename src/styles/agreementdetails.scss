@@ -1,0 +1,30 @@
+.agreement-common-wrapper {
+	display: flex;
+	justify-content: space-evenly;
+	width: 100%;
+	border-radius: 8px;
+	border: 1px solid #dfe1e5;
+	padding: 4px;
+	background-color: #ded4e7;
+}
+
+.table-footer {
+	display: flex;
+	justify-content: flex-end;
+	margin-right: 5.5rem;
+}
+
+.footer-label {
+	margin-right: 10rem;
+}
+
+// table footer media query
+@media only screen and (max-width: 705px) {
+	.table-footer {
+		margin-right: 0;
+	}
+
+	.footer-label {
+		margin-right: 2rem;
+	}
+}
