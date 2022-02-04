@@ -44,23 +44,8 @@ const CustomerCommon = ({ children }) => {
 	return (
 		<div className='detail-header'>
 			<div className='basic-title-wrapper'>
-				{/* <div>
-                    <Typography variant="h6" className="customer-basic-title">
-                        Customer Basic Details
-                    </Typography>
-                </div> */}
 				<div className='title-container'>
 					<Typography variant='h6'>Customer Basic Details</Typography>
-					{/* <Button
-						className='back-button'
-						variant='contained'
-						color='primary'
-						onClick={() => {
-							window.location.href = '/customer-search';
-						}}
-						size={isWebDevice ? 'medium' : 'small'}>
-						Back to Customer Search
-					</Button> */}
 					<BackButton
 						path='/customer-search'
 						size={isWebDevice ? 'medium' : 'small'}

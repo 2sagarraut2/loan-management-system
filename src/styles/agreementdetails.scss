@@ -11,7 +11,7 @@
 .table-footer {
 	display: flex;
 	justify-content: flex-end;
-	margin-right: 5.5rem;
+	margin-right: 3rem;
 }
 
 .footer-label {
@@ -26,5 +26,9 @@
 
 	.footer-label {
 		margin-right: 2rem;
+	}
+
+	.footer-text {
+		word-break: break-word;
 	}
 }

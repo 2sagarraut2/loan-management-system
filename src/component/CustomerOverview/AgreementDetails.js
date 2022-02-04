@@ -53,7 +53,7 @@ const AgreementDetails = () => {
 			portfolioCode: 'ML',
 			totalTenor: '12/6',
 			outstandingAmount: '79000',
-			status: 'Live'
+			agreementStatus: 'Live'
 		},
 		{
 			key: '2',
@@ -62,7 +62,7 @@ const AgreementDetails = () => {
 			portfolioCode: 'ML',
 			totalTenor: '12/6',
 			outstandingAmount: '79000',
-			status: 'Live'
+			agreementStatus: 'Live'
 		},
 		{
 			key: '3',
@@ -71,7 +71,7 @@ const AgreementDetails = () => {
 			portfolioCode: 'ML',
 			totalTenor: '12/6',
 			outstandingAmount: '79000',
-			status: 'Live'
+			agreementStatus: 'Live'
 		},
 		{
 			key: '4',
@@ -80,7 +80,7 @@ const AgreementDetails = () => {
 			portfolioCode: 'ML',
 			totalTenor: '12/6',
 			outstandingAmount: '79000',
-			status: 'Live'
+			agreementStatus: 'Live'
 		}
 	];
 
@@ -125,8 +125,8 @@ const AgreementDetails = () => {
 			align: 'center'
 		},
 		{
-			title: 'Status',
-			dataIndex: 'status',
+			title: 'agreementStatus',
+			dataIndex: 'agreementStatus',
 			align: 'center'
 		}
 	];
@@ -142,7 +142,7 @@ const AgreementDetails = () => {
 				const portfolioCode = row.portfolioCode;
 				const total = row.totalTenor;
 				const amount = row.outstandingAmount;
-				const status = row.status;
+				const agreementStatus = row.agreementStatus;
 				return (
 					<div>
 						<div className='small-table-div'>
@@ -179,7 +179,7 @@ const AgreementDetails = () => {
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Status</h5>
-								<h5>{status}</h5>
+								<h5>{agreementStatus}</h5>
 							</span>
 						</div>
 					</div>

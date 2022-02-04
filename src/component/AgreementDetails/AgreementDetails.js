@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Tabs, Tab } from '@material-ui/core';
-import { useParams } from 'react-router-dom';
 import CustomTabPanel from '../CustomerOverview/CustomTabPanel';
 import ActualAgreementOverview from './ActualAgreementOverview';
 import ActualAgreementDetails from './ActualAgreementDetails';
@@ -13,10 +12,6 @@ import TransactionHistory from './TransactionHistory';
 import InterestHistory from './InterestHistory';
 
 const AgreementDetails = () => {
-	// getting userid to call getApi
-	const { agreementId } = useParams();
-	// console.log(agreementId);
-
 	const [value, setValue] = useState(0);
 
 	const handleTabChange = (event, value) => {
@@ -68,9 +63,6 @@ const AgreementDetails = () => {
 				<CustomTabPanel value={value} index={8}>
 					<InterestHistory />
 				</CustomTabPanel>
-				{/* <CustomTabPanel value={value} index={9}>
-                    <FeeParameters />
-                </CustomTabPanel> */}
 			</div>
 		</div>
 	);

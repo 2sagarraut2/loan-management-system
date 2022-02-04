@@ -61,6 +61,7 @@ const ProductParameters = () => {
 					setAmortType(data[0].amortizationType);
 					setEmiRounding(data[0].emiRounding);
 					setPenalIntRate(data[0].penalInterestRate);
+					setGraceDays(data[0].graceDays);
 					setPenalIntBasis(data[0].penalInterestBasis);
 					setPenalAccBasis(data[0].penalAccountingBasis);
 					setReLockInPeriod(data[0].reschLockinPeriod);
@@ -231,7 +232,7 @@ const ProductParameters = () => {
 					<h4>Minimum Prepayment Amount</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>minPrepayAmount</h4>
+					<h4 className='customer-title'>{minPrepayAmount}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Installment Gap Between Two 2 Prepayment</h4>
@@ -287,7 +288,6 @@ const ProductParameters = () => {
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4 className='customer-title'>{maxInterestRate}</h4>
 				</Grid>
-				{/*  */}
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Dropline OD</h4>
 				</Grid>

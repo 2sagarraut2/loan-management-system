@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core';
 import { Typography, AppBar, Toolbar } from '@material-ui/core';
 import logo from '../images/4Fin_logo.png';
 import '../styles/layout.scss';
+import LogOut from './LogOut';
+import { useMediaQuery } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -15,7 +17,7 @@ const useStyles = makeStyles((theme) => {
 		},
 		toolbar: theme.mixins.toolbar,
 		title: {
-			color: '#302a6b',
+			color: '#302a6b'
 		}
 	};
 });
@@ -24,22 +26,33 @@ const useStyles = makeStyles((theme) => {
 const Layout = ({ children }) => {
 	const classes = useStyles();
 
+	const isWebDevice = useMediaQuery('(min-width: 700px)');
+
 	return (
 		<div className={classes.root}>
 			{/* app bar */}
 			<AppBar elevation={0}>
 				<Toolbar className='nav-bar'>
-					<img
-						className='brand-logo'
-						src={logo}
-						alt='4FIN'
-						onClick={() => {
-							window.location.href = '/';
-						}}
-					/>
-					<Typography variant='h6' color='inherit' className={classes.title}>
-						Loan Management System
-					</Typography>
+					<div>
+						<div style={{ display: 'flex', alignItems: 'center' }}>
+							<img
+								className='brand-logo'
+								src={logo}
+								alt='4FIN'
+								onClick={() => {
+									window.location.href = '/';
+								}}
+							/>
+							<Typography
+								noWrap={false}
+								variant='h6'
+								color='inherit'
+								className={classes.title}>
+								Loan Management System
+							</Typography>
+						</div>
+					</div>
+					<LogOut path='/' size={isWebDevice ? 'medium' : 'small'} text='Logout' />
 				</Toolbar>
 			</AppBar>
 			{/* components are embeded here */}

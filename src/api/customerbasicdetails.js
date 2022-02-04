@@ -20,7 +20,7 @@ export const customerContactDetails = (userId) => {
 };
 
 export const customerAddressTypeList = (userId) => {
-	let url = `${baseURL}/lms/customer/getCustomerAddressTypeList?customerId=${userId}`;
+	let url = `${baseURL}/lmsapi/customer/getCustomerAddressTypeList?customerId=${userId}`;
 
 	return axios.get(url, {
 		method: 'GET',
@@ -29,7 +29,6 @@ export const customerAddressTypeList = (userId) => {
 };
 
 export const customerAddress = (userId, addrType) => {
-	console.log(userId, addrType);
 	let url = `${baseURL}/lmsapi/customer/getCustomerAddress?customerId=${userId}&addrType=${addrType}`;
 
 	return axios.get(url, {

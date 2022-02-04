@@ -4,7 +4,8 @@ import {
 	Snackbar,
 	Grid,
 	FormControl,
-	Select
+	Select,
+	Checkbox
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { Table } from 'antd';
@@ -22,13 +23,14 @@ const RepaymentSchedule = () => {
 	const { agreementId } = useParams();
 
 	// form hooks
-	const [consolidated, setConsolidated] = useState('');
+	const [consolidated, setConsolidated] = useState(true);
 	const [loanID, setLoanID] = useState([]);
 	const [selectedLoanID, setSelectedLoanID] = useState('');
 	const [data, setData] = useState([]);
 
 	useEffect(() => {
 		setLoading(true);
+		//add loanId from dropdown
 		agreementLoanList(agreementId)
 			.then((res) => {
 				if (res.status === 200) {
@@ -53,7 +55,8 @@ const RepaymentSchedule = () => {
 	}, [agreementId]);
 
 	const getAgreementAmortList = () => {
-		agreementAmortList(agreementId)
+		const agreeId = consolidated ? agreementId : selectedLoanID;
+		agreementAmortList(agreeId)
 			.then((res) => {
 				if (res.status === 200) {
 					const { data } = res;
@@ -70,8 +73,6 @@ const RepaymentSchedule = () => {
 				setErrorMsg(`${errorResponseMessage}`);
 				setLoading(false);
 			});
-
-		// eslint-disable-next-line
 	};
 
 	// columns for table
@@ -194,7 +195,13 @@ const RepaymentSchedule = () => {
 
 	const handleOnSelectChange = (e) => {
 		console.log(e.target.value);
+		setSelectedLoanID(e.target.value);
+		getAgreementAmortList();
 	};
+
+	const handleCheckChange = (event) => {
+		setConsolidated(event.target.checked);
+	  };
 
 	return (
 		<div style={{ padding: '1% 20px' }}>
@@ -232,13 +239,18 @@ const RepaymentSchedule = () => {
 					<h4>Consolidate</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{consolidated}</h4>
+					<Checkbox
+						checked={consolidated}
+						color='primary'
+						onChange={handleCheckChange}
+						inputProps={{ 'aria-label': 'secondary checkbox' }}
+					/>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Loan ID</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<FormControl style={{ margin: 7 }}>
+					<FormControl disabled={consolidated} style={{ margin: 7 }}>
 						<Select native value={agreementId} onChange={handleOnSelectChange}>
 							{loanID.map((item) => (
 								<option key={item.loanId} value={item.loanId}>

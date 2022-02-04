@@ -12,8 +12,8 @@ export const agreementInfo = (agreementId) => {
 };
 
 // agreement details
-export const agreementLoanInfo = (agreementId) => {
-    let url = `${baseURL}/lmsapi/agreement/getAgreementInfo?masterAgreement=${agreementId}`;
+export const agreementLoanInfo = (agreementId, loanId) => {
+    let url = `${baseURL}/lmsapi/agreement/getAgreementLoanInfo?mastAgrId=${agreementId}&loanId=${loanId}`;
 
 	return axios.get(url, {
 		method: 'GET',

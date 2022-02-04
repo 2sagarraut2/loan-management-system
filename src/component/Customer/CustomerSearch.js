@@ -202,7 +202,7 @@ const CustomerSearch = (props) => {
 						Back to Dashboard
 					</Button> */}
 					<BackButton
-						path='/'
+						path='/dashboard'
 						size={isWebDevice ? 'medium' : 'small'}
 						text='Dashboard'
 					/>

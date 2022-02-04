@@ -12,7 +12,8 @@ const AddressDetails = () => {
 	const [errorMsg, setErrorMsg] = useState('');
 
 	// form hooks
-	const [addressType, setAddressType] = useState([]);
+	const [address, setAddress] = useState([]);
+	// eslint-disable-next-line
 	const [selectedAddress, setSelectedAddress] = useState('');
 	const [address1, setAddress1] = useState('');
 	const [address2, setAddress2] = useState('');
@@ -29,11 +30,11 @@ const AddressDetails = () => {
 		customerAddressTypeList(userId)
 			.then((res) => {
 				if (res.status === 200) {
-					console.log(res);
 					const { data } = res;
-					setAddressType(data);
-					setSelectedAddress(data[0].address);
-					getCustomerAddress(userId, selectedAddress);
+					const adType = data[0].addrType;
+					setAddress(data);
+					setSelectedAddress(adType);
+					getCustomerAddress(userId, adType);
 				}
 				setLoading(false);
 			})
@@ -46,60 +47,24 @@ const AddressDetails = () => {
 				setErrorMsg(`${errorResponseMessage}`);
 				setLoading(false);
 			});
-			getCustomerAddress(userId, selectedAddress);
 
 		// eslint-disable-next-line
 	}, [userId]);
 
 	const getCustomerAddress = (customerId, addressType) => {
-		// setLoading(true);
+		setLoading(true);
 		customerAddress(customerId, addressType)
 			.then((res) => {
 				if (res.status === 200) {
-					console.log(res);
-					// const { data } = res;
-					setAddressType('Permanent');
-					setAddress1('Chikhali');
-					setAddress2('PCMC');
-					setAddress3('Pune');
-					setCity('Pune');
-					setState('Maharashtra');
-					setPostal('411019');
-					setPreffered('Yes');
-					getCustomerAddressDetails();
-				}
-				setLoading(false);
-			})
-			.catch((error) => {
-				const {
-					response: {
-						data: { errorResponseMessage }
-					}
-				} = error;
-				setErrorMsg(`${errorResponseMessage}`);
-				setLoading(false);
-			});
-	};
-
-	// useEffect(() => {
-	// 	getCustomerAddressDetails();
-	// }, [addressType])
-
-	const getCustomerAddressDetails = (userId, addressType) => {
-		setLoading(true);
-		customerAddress(userId, addressType)
-			.then((res) => {
-				if (res.status === 200) {
-					console.log(res);
-					// const { data } = res;
-					setAddressType('Permanent');
-					setAddress1('Chikhali');
-					setAddress2('PCMC');
-					setAddress3('Pune');
-					setCity('Pune');
-					setState('Maharashtra');
-					setPostal('411019');
-					setPreffered('Yes');
+					const { data } = res;
+					console.log(data);
+					setAddress1(data.addressLine1);
+					setAddress2(data.addressLine2);
+					setAddress3(data.addressLine3);
+					setCity(data.city);
+					setState(data.state);
+					setPostal(data.pinCode);
+					setPreffered(data.prefferedAddress);
 				}
 				setLoading(false);
 			})
@@ -116,6 +81,8 @@ const AddressDetails = () => {
 
 	const handleOnSelectChange = (e) => {
 		console.log(e.target.value);
+		setSelectedAddress(e.target.value);
+		getCustomerAddress(userId, e.target.value);
 	}
 
 	return (
@@ -156,16 +123,16 @@ const AddressDetails = () => {
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<FormControl style={{ margin: 7 }}>
 						<Select native value={userId} onChange={handleOnSelectChange}>
-							{addressType.map((item) => (
-								<option key={item.loanId} value={item.loanId}>
-									{item.loanId}
+							{address.map((item) => (
+								<option key={item.addrType} value={item.addrType}>
+									{item.addrType}
 								</option>
 							))}
 						</Select>
 					</FormControl>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					{/* <h4>Middle Name</h4> */}
+					{/* <h4></h4> */}
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					{/* <h4 className="customer-title">{""}</h4> */}

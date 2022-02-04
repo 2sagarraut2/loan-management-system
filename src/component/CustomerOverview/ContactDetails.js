@@ -131,12 +131,6 @@ const ContactDetails = () => {
 						{contactTimeFrom} to {contactTimeTo}
 					</h4>
 				</Grid>
-				{/* <Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: "1%" }}>
-                <h4>Customer Category</h4>
-            </Grid>
-            <Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: "1%" }}>
-                <h4 className="customer-title">{""}</h4>
-            </Grid> */}
 			</Grid>
 		</div>
 	);

@@ -4,7 +4,6 @@ import { useMediaQuery, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Loader from '../Loader';
 import { useParams } from 'react-router-dom';
-import { feeList } from '../../api';
 import { agreementDueList } from '../../api';
 
 const CurrentDue = () => {
@@ -42,35 +41,17 @@ const CurrentDue = () => {
 		// eslint-disable-next-line
 	}, [agreementId]);
 
-	// datasource for table
-	const dataSource = [
-		{
-			loanId: '1',
-			installmentNo: 1234,
-			dueCategory: 'Borrower',
-			dueHead: 'ML',
-			dueAmount: 12
-		},
-		{
-			loanId: '2',
-			installmentNo: 1234,
-			dueCategory: 'Borrower',
-			dueHead: 'ML',
-			dueAmount: 8
-		}
-	];
-
 	useEffect(() => {
 		let total = 0;
 
-		dataSource.forEach((x) => {
-			total += x.dueAmount;
+		data.map((item) => {
+			return total += item.dueAmount;
 		});
 
 		setTotal(total);
 
 		// eslint-disable-next-line
-	}, []);
+	}, [data]);
 
 	// columns for table
 	const webCols = [
@@ -183,11 +164,11 @@ const CurrentDue = () => {
 					dataSource={data}
 					columns={isWebDevice ? webCols : deviceCols}
 					pagination={false}
-					scroll={{ y: 350 }}
+					scroll={{ y: 450 }}
 					footer={() => (
 						<div className='table-footer'>
 							<h4 className='footer-label'>Total Dues</h4>
-							<h4>{total}</h4>
+							<h4 className='footer-text'>{total}</h4>
 						</div>
 					)}
 				/>

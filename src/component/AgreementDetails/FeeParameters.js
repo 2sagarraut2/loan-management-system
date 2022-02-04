@@ -40,34 +40,6 @@ const FeeParameters = () => {
 		// eslint-disable-next-line
 	}, [agreementId]);
 
-	// datasource for table
-	// const dataSource = [
-	// 	{
-	// 		key: '1',
-	// 		feeEvent: 'BOUNCE',
-	// 		fee_head: 'BOUNCE',
-	// 		tenor_from: '0',
-	// 		tenor_to: '12',
-	// 		minAmount: '0',
-	// 		maxAmount: '200000',
-	// 		feeType: 'feeAmount',
-	// 		feeAmount: '500',
-	// 		taxApplicatbleYN: 'Y'
-	// 	},
-	// 	{
-	// 		key: '2',
-	// 		feeEvent: 'BOUNCE',
-	// 		fee_head: 'BOUNCE',
-	// 		tenor_from: '0',
-	// 		tenor_to: '12',
-	// 		minAmount: '0',
-	// 		maxAmount: '200000',
-	// 		feeType: 'feeAmount',
-	// 		feeAmount: '500',
-	// 		taxApplicatbleYN: 'Y'
-	// 	}
-	// ];
-
 	// columns for table
 	const webCols = [
 		{
@@ -87,14 +59,14 @@ const FeeParameters = () => {
 			children: [
 				{
 					title: 'From',
-					key: 'tenor_from',
-					dataIndex: 'tenor_from',
+					key: 'minTenor',
+					dataIndex: 'minTenor',
 					align: 'center'
 				},
 				{
 					title: 'To',
-					key: 'tenor_to',
-					dataIndex: 'tenor_to',
+					key: 'maxTenor',
+					dataIndex: 'maxTenor',
 					align: 'center'
 				}
 			]
@@ -143,8 +115,8 @@ const FeeParameters = () => {
 			render: (value, row, index) => {
 				const feeEvent = row.feeEvent;
 				const fee_head = row.fee_head;
-				const from_tenor = row.tenor_from;
-				const to_tenor = row.tenor_to;
+				const from_tenor = row.minTenor;
+				const to_tenor = row.maxTenor;
 				const minAmount = row.minAmount;
 				const maxAmount = row.maxAmount;
 				const feeType = row.feeType;

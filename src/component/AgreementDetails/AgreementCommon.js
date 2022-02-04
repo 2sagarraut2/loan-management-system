@@ -14,16 +14,6 @@ const AgreementCommon = ({ children }) => {
 			<div className='basic-title-wrapper'>
 				<div className='title-container'>
 					<Typography variant='h6'>Agreement Overview</Typography>
-					{/* <Button
-						className='back-button'
-						variant='contained'
-						color='primary'
-						onClick={() => {
-							window.location.href = `/customer-search/${userId}`;
-						}}
-						size={isWebDevice ? 'medium' : 'small'}>
-						Back to Basic Details
-					</Button> */}
 					<BackButton
 						path={`/customer-search/${userId}`}
 						size={isWebDevice ? 'medium' : 'small'}

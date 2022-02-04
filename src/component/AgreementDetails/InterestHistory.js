@@ -23,6 +23,7 @@ const InterestHistory = () => {
 	// form hooks
 	const [data, setData] = useState([]);
 	const [loanID, setLoanID] = useState([]);
+	// eslint-disable-next-line
 	const [selectedLoanID, setSelectedLoanID] = useState('');
 
 	useEffect(() => {
@@ -70,8 +71,6 @@ const InterestHistory = () => {
 				setErrorMsg(`${errorResponseMessage}`);
 				setLoading(false);
 			});
-
-		// eslint-disable-next-line
 	};
 
 	// datasource for table
@@ -168,6 +167,7 @@ const InterestHistory = () => {
 	];
 
 	const handleOnSelectChange = (e) => {
+		setSelectedLoanID(selectedLoanID);
 		interestAccuralHistory(agreementId, e.target.value);
 	};
 
@@ -228,6 +228,7 @@ const InterestHistory = () => {
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4 className='customer-title'>{}</h4>
+					{/* "will be datepicker" */}
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>To Date</h4>

@@ -35,7 +35,21 @@ const ActualAgreementOverview = () => {
 			.then((res) => {
 				if (res.status === 200) {
 					const { data } = res;
-					console.log(data)
+					setHomeBranch(data.homeBranch);
+					setServicingBranch(data.servBranch);
+					// setProduct(data.)
+					// setFinalDisbursment(data.)
+					setSanctionedAmount(data.sanctionedAmount);
+					setLoanAmount(data.loanAmount);
+					setPreviuosInstallment(data.prevInstallmentAmount);
+					setNextInstallment(data.nextInstallmentAmount);
+					setPreviousInstallmentDate(data.dtPrevInstallment);
+					setNextInstallmentDate(data.dtNextInstallment);
+					setOverdue(data.overdueAmount);
+					setOutstanding(data.outstandingAmount);
+					setExcessAmount(data.excessAmount);
+					setAssetQuality(data.assetClass);
+					SetDPDStatus(data.dpd);
 				}
 				setLoading(false);
 			})

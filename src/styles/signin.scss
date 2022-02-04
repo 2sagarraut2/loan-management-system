@@ -1,0 +1,76 @@
+.container-wrapper {
+	background-color: #2596BE;
+	height: 100%;
+}
+
+.container {
+	position: relative;
+	border-radius: 8px;
+	background-color: #fff;
+
+	// display: flex;
+	padding: 25px 35px;
+	max-width: max-content;
+	// flex-direction: column;
+	// align-items: flex-start;
+	// justify-content: space-between;
+	border-radius: 8px;
+	background-color: white;
+	overflow: hidden;
+}
+
+.center {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.heading-wrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #d3d3d3;
+}
+
+.head-wrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: baseline;
+	padding-bottom: 8px;
+}
+
+.login-container {
+	padding: 5%;
+	display: flex;
+}
+
+.login-wrapper {
+	display: flex;
+	align-items: center;
+}
+
+.login-title {
+	font-size: medium;
+}
+
+.MuiFormControl-root > .MuiTextField-root {
+	margin-bottom: 10%;
+}
+
+.action-wrapper > .login-button {
+	padding: 9px 60px;
+}
+
+.action-wrapper {
+	display: flex;
+	justify-content: center;
+}
+
+.password-icon {
+	cursor: pointer;
+}
