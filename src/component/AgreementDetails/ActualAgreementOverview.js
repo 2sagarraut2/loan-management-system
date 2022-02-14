@@ -16,7 +16,7 @@ const ActualAgreementOverview = () => {
 	const [homeBranch, setHomeBranch] = useState('');
 	const [servicingBranch, setServicingBranch] = useState('');
 	const [product, setProduct] = useState('');
-	const [finalDisbursment, setFinalDisbursment] = useState('');
+	// const [finalDisbursment, setFinalDisbursment] = useState('');
 	const [sacntionedAmount, setSanctionedAmount] = useState('');
 	const [loanAmount, setLoanAmount] = useState('');
 	const [previousInstallment, setPreviuosInstallment] = useState('');
@@ -37,8 +37,8 @@ const ActualAgreementOverview = () => {
 					const { data } = res;
 					setHomeBranch(data.homeBranch);
 					setServicingBranch(data.servBranch);
-					// setProduct(data.)
-					// setFinalDisbursment(data.)
+					setProduct(data.productCode)
+					// setFinalDisbursment(data.servBranch) needs to be removed
 					setSanctionedAmount(data.sanctionedAmount);
 					setLoanAmount(data.loanAmount);
 					setPreviuosInstallment(data.prevInstallmentAmount);
@@ -120,7 +120,7 @@ const ActualAgreementOverview = () => {
 					<h4>Final Disbursment</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{finalDisbursment}</h4>
+					<h4 className='customer-title'>'-'</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Sanctioned Amount/Loan</h4>

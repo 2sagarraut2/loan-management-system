@@ -190,17 +190,6 @@ const CustomerSearch = (props) => {
 			<div className='header_container'>
 				<div className='title-container'>
 					<Typography variant='h6'>Customer Search</Typography>
-					{/* <Button
-						className='back-button'
-						variant='contained'
-						color='primary'
-						onClick={() => {
-							window.location.href = '/';
-						}}
-						size={isWebDevice ? 'medium' : 'small'}
-						startIcon={<ArrowBackIosIcon />}>
-						Back to Dashboard
-					</Button> */}
 					<BackButton
 						path='/dashboard'
 						size={isWebDevice ? 'medium' : 'small'}

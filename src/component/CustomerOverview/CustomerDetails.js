@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
-import { Tabs, Tab } from '@material-ui/core';
+import { Tabs, Tab, makeStyles } from '@material-ui/core';
 import CustomTabPanel from './CustomTabPanel';
 import BasicDetails from './BasicDetails';
 import ContactDetails from './ContactDetails';
 import AddressDetails from './AddressDetails';
 import AgreementDetails from './AgreementDetails';
 
+const useStyles = makeStyles(() => {
+	return {
+		indicator: {
+			backgroundColor: '#8000f5'
+		}
+	};
+});
+
 const CustomerDetails = () => {
-	// getting userid to call getApi
-	// const { userId } = useParams();
-	// console.log(userId);
+	const classes = useStyles();
 
 	const [value, setValue] = useState(0);
 
@@ -24,6 +30,7 @@ const CustomerDetails = () => {
 					orientation='vertical'
 					value={value}
 					onChange={handleTabChange}
+					classes={{ indicator: classes.indicator }}
 					className='tab-inner-wrapper'>
 					<Tab label='Basic Information' />
 					<Tab label='Contact Details' />

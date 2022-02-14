@@ -40,7 +40,7 @@ const Layout = ({ children }) => {
 								src={logo}
 								alt='4FIN'
 								onClick={() => {
-									window.location.href = '/';
+									window.location.href = '/dashboard';
 								}}
 							/>
 							<Typography

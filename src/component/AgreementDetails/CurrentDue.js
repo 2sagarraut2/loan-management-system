@@ -35,6 +35,7 @@ const CurrentDue = () => {
 					}
 				} = error;
 				setErrorMsg(`${errorResponseMessage}`);
+				setData([]);
 				setLoading(false);
 			});
 
@@ -45,10 +46,10 @@ const CurrentDue = () => {
 		let total = 0;
 
 		data.map((item) => {
-			return total += item.dueAmount;
+			return (total += item.dueAmount);
 		});
 
-		setTotal(total);
+		setTotal(numberWithCommas(total));
 
 		// eslint-disable-next-line
 	}, [data]);
@@ -78,6 +79,10 @@ const CurrentDue = () => {
 		{
 			title: 'Due Amount',
 			dataIndex: 'dueAmount',
+			render: (value, row, index) => {
+				const amount = row.dueAmount;
+				return <span>{numberWithCommas(amount)}</span>;
+			},
 			align: 'center'
 		}
 	];
@@ -126,6 +131,10 @@ const CurrentDue = () => {
 		}
 	];
 
+	const numberWithCommas = (x) => {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	};
+
 	return (
 		<div style={{ padding: '1% 20px' }}>
 			<Snackbar
@@ -159,7 +168,7 @@ const CurrentDue = () => {
 			{loading && <Loader />}
 			<div className='table-wrapper'>
 				<Table
-					rowKey='loanId'
+					rowKey='dueDtlId'
 					className='cust-table'
 					dataSource={data}
 					columns={isWebDevice ? webCols : deviceCols}

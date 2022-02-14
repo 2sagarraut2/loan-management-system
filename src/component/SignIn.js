@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { login } from '../utils';
 import '../styles/signin.scss';
-import { FormControl, TextField, Button } from '@material-ui/core';
+import {
+	FormControl,
+	TextField,
+	Button,
+	useMediaQuery
+} from '@material-ui/core';
 import logo from '../images/4Fin_logo.png';
 import { useNavigate } from 'react-router-dom';
 import Visibility from '@material-ui/icons/Visibility';
@@ -9,6 +14,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 const SignIn = (props) => {
 	const navigate = useNavigate();
+	const isWebDevice = useMediaQuery('(min-width: 768px)');
 
 	const [showPassword, setShowPassword] = useState(false);
 
@@ -22,9 +28,9 @@ const SignIn = (props) => {
 		setShowPassword(!showPassword);
 	};
 
-	const handleMouseDownPassword = (event) => {
-		event.preventDefault();
-	};
+	// const handleMouseDownPassword = (event) => {
+	// 	event.preventDefault();
+	// };
 
 	return (
 		<div className='container-wrapper'>
@@ -33,27 +39,26 @@ const SignIn = (props) => {
 					<div className='head-wrapper'>
 						<div>
 							<img
-								className='brand-logo'
+								className='main-logo'
 								src={logo}
 								alt='4FIN'
-								onClick={() => {
-									window.location.href = '/';
-								}}
 							/>
 						</div>
 						<h4>Loan Management System</h4>
 					</div>
-					<div>
+					<div className='version-div'>
 						<h6>Version 1.0</h6>
 					</div>
 				</div>
 				<div className='login-container'>
+					{isWebDevice ? null : <div style={{ width: '100%' }}>A</div>}
 					<div className='login-wrapper'>
-						<div>
+						<div className='login-inner-wrapper'>
 							<h3>Login</h3>
 							<FormControl>
 								<TextField
 									placeholder='Username'
+									fullWidth
 									variant='outlined'
 									size='small'
 								/>
@@ -61,6 +66,7 @@ const SignIn = (props) => {
 							<FormControl>
 								<TextField
 									placeholder='Password'
+									fullWidth
 									variant='outlined'
 									size='small'
 									type={showPassword ? 'text' : 'password'}
@@ -86,12 +92,14 @@ const SignIn = (props) => {
 							</div>
 						</div>
 					</div>
-					<div style={{ width: '100%' }}>A</div>
+					{isWebDevice ? <div style={{ width: '100%' }}>A</div> : null}
 				</div>
 			</div>
-			<div style={{ position: 'absolute', top: '76%', left: '38%' }}>
-				<h4 style={{ color: '#fff', wordBreak: 'break-word' }}>Powered by: 4A Financial Technologies Pvt. Ltd.</h4>
-			</div>
+			{/* <div className='footer-wrapper'>
+				<h4 style={{ color: '#fff', wordBreak: 'break-word' }}>
+					Powered by: 4A Financial Technologies Pvt. Ltd.
+				</h4>
+			</div> */}
 		</div>
 	);
 };

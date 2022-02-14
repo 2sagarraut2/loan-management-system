@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tabs, Tab } from '@material-ui/core';
+import { Tabs, Tab, makeStyles } from '@material-ui/core';
 import CustomTabPanel from '../CustomerOverview/CustomTabPanel';
 import ActualAgreementOverview from './ActualAgreementOverview';
 import ActualAgreementDetails from './ActualAgreementDetails';
@@ -11,8 +11,18 @@ import RepaymentSchedule from './RepaymentSchedule';
 import TransactionHistory from './TransactionHistory';
 import InterestHistory from './InterestHistory';
 
+const useStyles = makeStyles(() => {
+	return {
+		indicator: {
+			backgroundColor: '#8000f5',
+			// padding: '1%'
+		}
+	};
+});
+
 const AgreementDetails = () => {
 	const [value, setValue] = useState(0);
+	const classes = useStyles();
 
 	const handleTabChange = (event, value) => {
 		setValue(value);
@@ -25,6 +35,7 @@ const AgreementDetails = () => {
 					orientation='vertical'
 					value={value}
 					onChange={handleTabChange}
+					classes={{ indicator: classes.indicator }}
 					className='tab-inner-wrapper'>
 					<Tab label='Agreement Overview' />
 					<Tab label='Agreement Details' />

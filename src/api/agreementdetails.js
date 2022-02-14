@@ -92,8 +92,8 @@ export const agreementTransList = (agreementId) => {
 };
 
 //interst accural history
-export const interstAccuralHistory = (agreementId, loanID) => {
-    let url = `${baseURL}/lmsapi/agreement/getAgreementIntAccrualList?masterAgreement=${agreementId}&loanId=${loanID}`;
+export const interstAccuralHistory = (agreementId, loanID, fromDate, toDate) => {
+    let url = `${baseURL}/lmsapi/agreement/getAgreementIntAccrualList?masterAgreement=${agreementId}&loanId=${loanID}&fromDate=${fromDate}&toDate=${toDate}`;
 
 	return axios.get(url, {
 		method: 'GET',

@@ -1,37 +1,15 @@
 import React, { useState } from 'react';
-import CustomerSearch from '../../component/Customer/CustomerSearch';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Loader from '../../component/Loader';
-import '../../styles/customer.scss';
-import { searchCustomer } from '../../api';
+import '../../styles/batchcontrol.scss';
+import Batches from '../../component/BatchController/Batches';
 
-const Customer = () => {
+const Batch = () => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [successMsg, setSuccessMsg] = useState('');
 	const [errorMsg, setErrorMsg] = useState('');
-
-	const searchForCustomer = (params) => {
-		setLoading(true);
-		searchCustomer(params)
-			.then((res) => {
-				if (res.status === 200) {
-					setData(res.data);
-				}
-				setLoading(false);
-			})
-			.catch((error) => {
-				const {
-					response: {
-						data: { errorResponseMessage }
-					}
-				} = error;
-				setErrorMsg(`${errorResponseMessage}`);
-				setData([]);
-				setLoading(false);
-			});
-	};
 
 	return (
 		<div>
@@ -65,14 +43,10 @@ const Customer = () => {
 			</Snackbar>
 			{loading && <Loader />}
 			<div>
-				<CustomerSearch
-					data={data}
-					searchForCustomer={searchForCustomer}
-					setData={setData}
-				/>
+                <Batches />
 			</div>
 		</div>
 	);
 };
 
-export default Customer;
+export default Batch;

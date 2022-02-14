@@ -34,6 +34,7 @@ const LimitDetails = () => {
 					}
 				} = error;
 				setErrorMsg(`${errorResponseMessage}`);
+				setData([]);
 				setLoading(false);
 			});
 
@@ -156,7 +157,7 @@ const LimitDetails = () => {
 			{loading && <Loader />}
 			<div className='table-wrapper'>
 				<Table
-					rowKey='loanId'
+					rowKey='slimitId'
 					className='cust-table'
 					dataSource={data}
 					columns={isWebDevice ? webCols : deviceCols}

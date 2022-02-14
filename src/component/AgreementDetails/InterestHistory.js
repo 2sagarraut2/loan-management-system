@@ -8,6 +8,11 @@ import {
 } from '@material-ui/core';
 import { Table } from 'antd';
 import { Alert } from '@material-ui/lab';
+import {
+	MuiPickersUtilsProvider,
+	KeyboardDatePicker
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import Loader from '../Loader';
 import { useParams } from 'react-router-dom';
 import { agreementLoanList, interstAccuralHistory } from '../../api';
@@ -23,18 +28,19 @@ const InterestHistory = () => {
 	// form hooks
 	const [data, setData] = useState([]);
 	const [loanID, setLoanID] = useState([]);
-	// eslint-disable-next-line
 	const [selectedLoanID, setSelectedLoanID] = useState('');
+	const [fromDate, setFromDate] = useState(new Date());
+	const [toDate, setToDate] = useState(new Date());
 
 	useEffect(() => {
-		setLoading(true);
+		// setLoading(true);
 		agreementLoanList(agreementId)
 			.then((res) => {
 				if (res.status === 200) {
 					const { data } = res;
 					setLoanID(data);
 					setSelectedLoanID(data[0].loanId);
-					interestAccuralHistory(agreementId, data[0].loanId);
+					interestAccuralHistory(agreementId, data[0].loanId, fromDate, toDate);
 				}
 				setLoading(false);
 			})
@@ -47,14 +53,20 @@ const InterestHistory = () => {
 				setErrorMsg(`${errorResponseMessage}`);
 				setLoading(false);
 			});
-		setData(dataSource);
 
 		// eslint-disable-next-line
 	}, [agreementId]);
 
-	const interestAccuralHistory = (agreementId, loanID) => {
+	const interestAccuralHistory = (agreementId, loanID, fromDate, toDate) => {
+		const fromDateParam = `${fromDate.getFullYear()}-${
+			fromDate.getMonth() + 1
+		}-${fromDate.getDate()}`;
+		const toDateParam = `${toDate.getFullYear()}-${
+			toDate.getMonth() + 1
+		}-${toDate.getDate()}`;
+		console.log(fromDateParam, toDateParam);
 		setLoading(true);
-		interstAccuralHistory(agreementId, loanID)
+		interstAccuralHistory(agreementId, loanID, fromDateParam, toDateParam)
 			.then((res) => {
 				if (res.status === 200) {
 					const { data } = res;
@@ -69,29 +81,10 @@ const InterestHistory = () => {
 					}
 				} = error;
 				setErrorMsg(`${errorResponseMessage}`);
+				setData([]);
 				setLoading(false);
 			});
 	};
-
-	// datasource for table
-	const dataSource = [
-		{
-			key: 1,
-			dtTranDate: '1-Jan-2022',
-			tranType: 'Disbursment',
-			remark: 'Financed Amount',
-			debitAmount: 1000000,
-			creditAmount: 0
-		},
-		{
-			key: 2,
-			dtTranDate: '1-Jan-2022',
-			tranType: 'Disbursment',
-			remark: 'Financed Amount',
-			debitAmount: 1000000,
-			creditAmount: 0
-		}
-	];
 
 	// columns for table
 	const webCols = [
@@ -168,7 +161,21 @@ const InterestHistory = () => {
 
 	const handleOnSelectChange = (e) => {
 		setSelectedLoanID(selectedLoanID);
-		interestAccuralHistory(agreementId, e.target.value);
+		interestAccuralHistory(agreementId, e.target.value, fromDate, toDate);
+	};
+
+	const handleFromDateChange = (e) => {
+		setFromDate(e);
+		if (fromDate && toDate) {
+			interestAccuralHistory(agreementId, selectedLoanID, e, toDate);
+		}
+	};
+
+	const handleToDateChange = (e) => {
+		setToDate(e);
+		if (fromDate && toDate) {
+			interestAccuralHistory(agreementId, selectedLoanID, fromDate, e);
+		}
 	};
 
 	return (
@@ -214,7 +221,10 @@ const InterestHistory = () => {
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<FormControl style={{ margin: 7 }}>
-						<Select native value={agreementId} onChange={handleOnSelectChange}>
+						<Select
+							native
+							value={selectedLoanID}
+							onChange={handleOnSelectChange}>
 							{loanID.map((item) => (
 								<option key={item.loanId} value={item.loanId}>
 									{item.loanId}
@@ -227,14 +237,31 @@ const InterestHistory = () => {
 					<h4>From Date</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{}</h4>
-					{/* "will be datepicker" */}
+					<MuiPickersUtilsProvider utils={DateFnsUtils}>
+						<KeyboardDatePicker
+							clearable
+							value={fromDate}
+							onChange={(date) => handleFromDateChange(date)}
+							format='dd/MM/yyyy'
+							allowKeyboardControl={false}
+							invalidDateMessage={'Invalid Date Format'}
+						/>
+					</MuiPickersUtilsProvider>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>To Date</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{}</h4>
+					<MuiPickersUtilsProvider utils={DateFnsUtils}>
+						<KeyboardDatePicker
+							clearable
+							value={toDate}
+							onChange={(date) => handleToDateChange(date)}
+							format='dd/MM/yyyy'
+							allowKeyboardControl={false}
+							invalidDateMessage={'Invalid Date Format'}
+						/>
+					</MuiPickersUtilsProvider>
 				</Grid>
 			</Grid>
 

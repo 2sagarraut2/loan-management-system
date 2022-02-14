@@ -1,5 +1,5 @@
 .container-wrapper {
-	background-color: #2596BE;
+	background-color: #2596be;
 	height: 100%;
 }
 
@@ -30,6 +30,8 @@
 
 .heading-wrapper {
 	display: flex;
+	flex-wrap: wrap;
+	flex-wrap: wrap;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
@@ -38,10 +40,22 @@
 
 .head-wrapper {
 	display: flex;
+	flex-wrap: wrap;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: baseline;
 	padding-bottom: 8px;
+}
+
+.main-logo {
+	width: 100px;
+	height: 30px;
+	padding-right: 15px;
+}
+
+
+.version-div {
+	padding-left: 10px;
 }
 
 .login-container {
@@ -71,6 +85,43 @@
 	justify-content: center;
 }
 
+.login-inner-wrapper > .MuiFormControl-root {
+	width: 100%;
+}
+
 .password-icon {
 	cursor: pointer;
+}
+
+.footer-wrapper {
+	position: absolute;
+	top: 76%;
+	left: 38%;
+}
+
+.footer-wrapper > h4 {
+	word-break: break-all;
+}
+
+@media only screen and (max-width: 768px) {
+	.heading-wrapper {
+		justify-content: center;
+		text-align-last: center;
+	}
+
+	.head-wrapper {
+		justify-content: center;
+	}
+
+	.container-wrapper {
+		padding: 0 12%;
+	}
+
+	.center {
+		position: relative;
+	}
+
+	.login-container {
+		flex-direction: column;
+	}
 }

@@ -71,6 +71,7 @@ const RepaymentSchedule = () => {
 					}
 				} = error;
 				setErrorMsg(`${errorResponseMessage}`);
+				setData([]);
 				setLoading(false);
 			});
 	};
@@ -115,6 +116,10 @@ const RepaymentSchedule = () => {
 		{
 			title: 'Closing',
 			dataIndex: 'closingPrincipal',
+			render: (value, row, key) => {
+				const principal = row.closingPrincipal;
+				return <span>{numberWithCommas(principal)}</span>;
+			},
 			align: 'center'
 		},
 		{
@@ -194,14 +199,17 @@ const RepaymentSchedule = () => {
 	];
 
 	const handleOnSelectChange = (e) => {
-		console.log(e.target.value);
 		setSelectedLoanID(e.target.value);
 		getAgreementAmortList();
 	};
 
 	const handleCheckChange = (event) => {
 		setConsolidated(event.target.checked);
-	  };
+	};
+
+	const numberWithCommas = (x) => {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	};
 
 	return (
 		<div style={{ padding: '1% 20px' }}>
@@ -251,7 +259,10 @@ const RepaymentSchedule = () => {
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<FormControl disabled={consolidated} style={{ margin: 7 }}>
-						<Select native value={agreementId} onChange={handleOnSelectChange}>
+						<Select
+							native
+							value={selectedLoanID}
+							onChange={handleOnSelectChange}>
 							{loanID.map((item) => (
 								<option key={item.loanId} value={item.loanId}>
 									{item.loanId}
@@ -263,7 +274,7 @@ const RepaymentSchedule = () => {
 			</Grid>
 			<div className='table-wrapper'>
 				<Table
-					rowKey='installmentNo'
+					rowKey='repaySchId'
 					className='cust-table'
 					dataSource={data}
 					columns={isWebDevice ? webCols : deviceCols}

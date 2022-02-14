@@ -24,7 +24,6 @@ const AgreementDetails = () => {
 		customerAgreementList(userId)
 			.then((res) => {
 				if (res.status === 200) {
-					console.log(res);
 					const { data } = res;
 					setData(data);
 				}
@@ -37,52 +36,12 @@ const AgreementDetails = () => {
 					}
 				} = error;
 				setErrorMsg(`${errorResponseMessage}`);
+				setData([]);
 				setLoading(false);
 			});
-		setData(dataSource);
 
 		// eslint-disable-next-line
 	}, [userId]);
-
-	// datasource for table
-	const dataSource = [
-		{
-			key: '1',
-			mastAgrId: 1234,
-			customerType: 'Borrower',
-			portfolioCode: 'ML',
-			totalTenor: '12/6',
-			outstandingAmount: '79000',
-			agreementStatus: 'Live'
-		},
-		{
-			key: '2',
-			mastAgrId: 1234,
-			customerType: 'Borrower',
-			portfolioCode: 'ML',
-			totalTenor: '12/6',
-			outstandingAmount: '79000',
-			agreementStatus: 'Live'
-		},
-		{
-			key: '3',
-			mastAgrId: 1234,
-			customerType: 'Borrower',
-			portfolioCode: 'ML',
-			totalTenor: '12/6',
-			outstandingAmount: '79000',
-			agreementStatus: 'Live'
-		},
-		{
-			key: '4',
-			mastAgrId: 1234,
-			customerType: 'Borrower',
-			portfolioCode: 'ML',
-			totalTenor: '12/6',
-			outstandingAmount: '79000',
-			agreementStatus: 'Live'
-		}
-	];
 
 	// columns for table
 	const webCols = [
@@ -221,6 +180,7 @@ const AgreementDetails = () => {
 			{loading && <Loader />}
 			<div className='table-wrapper'>
 				<Table
+					rowKey='mastAgrId'
 					className='cust-table'
 					dataSource={data}
 					columns={isWebDevice ? webCols : deviceCols}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table } from 'antd';
 import { useMediaQuery, Grid, Snackbar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import Loader from '../Loader';
 import { useParams } from 'react-router-dom';
 import { agreementTransList } from '../../api';
@@ -19,7 +20,7 @@ const TransactionHistory = () => {
 	const [instlDue, setInstlDue] = useState('');
 	const [chargesDue, setChargesDue] = useState('');
 	const [excessAmount, setExcessAmount] = useState('');
-	const [data, setData] = useState('');	
+	const [data, setData] = useState('');
 
 	useEffect(() => {
 		setLoading(true);
@@ -28,6 +29,11 @@ const TransactionHistory = () => {
 				if (res.status === 200) {
 					const { data } = res;
 					setData(data);
+					setprinOutstanding("");
+					setDueAmount("");
+					setInstlDue("");
+					setChargesDue("");
+					setExcessAmount("");
 				}
 				setLoading(false);
 			})
@@ -38,6 +44,7 @@ const TransactionHistory = () => {
 					}
 				} = error;
 				setErrorMsg(`${errorResponseMessage}`);
+				setData([]);
 				setLoading(false);
 			});
 
@@ -129,6 +136,35 @@ const TransactionHistory = () => {
 
 	return (
 		<div>
+			<Snackbar
+				open={Boolean(successMsg)}
+				autoHideDuration={3000}
+				onClose={() => setSuccessMsg('')}>
+				<Alert
+					elevation={6}
+					variant='filled'
+					onClose={() => {
+						setSuccessMsg('');
+					}}
+					severity='success'>
+					{successMsg}
+				</Alert>
+			</Snackbar>
+			<Snackbar
+				open={Boolean(errorMsg)}
+				autoHideDuration={3000}
+				onClose={() => setErrorMsg('')}>
+				<Alert
+					elevation={6}
+					variant='filled'
+					onClose={() => {
+						setErrorMsg('');
+					}}
+					severity='error'>
+					{errorMsg}
+				</Alert>
+			</Snackbar>
+			{loading && <Loader />}
 			<Grid container style={{ padding: '1% 20px' }}>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Principal Outstanding</h4>
@@ -165,6 +201,7 @@ const TransactionHistory = () => {
 			<div style={{ padding: '1% 20px' }}>
 				<div className='table-wrapper'>
 					<Table
+						rowKey='tranId'
 						className='cust-table'
 						dataSource={data}
 						columns={isWebDevice ? webCols : deviceCols}

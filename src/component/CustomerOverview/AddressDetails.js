@@ -26,7 +26,7 @@ const AddressDetails = () => {
 	const { userId } = useParams();
 
 	useEffect(() => {
-		// setLoading(true);
+		setLoading(true);
 		customerAddressTypeList(userId)
 			.then((res) => {
 				if (res.status === 200) {
@@ -57,7 +57,6 @@ const AddressDetails = () => {
 			.then((res) => {
 				if (res.status === 200) {
 					const { data } = res;
-					console.log(data);
 					setAddress1(data.addressLine1);
 					setAddress2(data.addressLine2);
 					setAddress3(data.addressLine3);
@@ -80,7 +79,6 @@ const AddressDetails = () => {
 	};
 
 	const handleOnSelectChange = (e) => {
-		console.log(e.target.value);
 		setSelectedAddress(e.target.value);
 		getCustomerAddress(userId, e.target.value);
 	}
@@ -122,7 +120,7 @@ const AddressDetails = () => {
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<FormControl style={{ margin: 7 }}>
-						<Select native value={userId} onChange={handleOnSelectChange}>
+						<Select native value={selectedAddress} onChange={handleOnSelectChange}>
 							{address.map((item) => (
 								<option key={item.addrType} value={item.addrType}>
 									{item.addrType}

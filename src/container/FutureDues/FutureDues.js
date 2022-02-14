@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import CustomerSearch from '../../component/Customer/CustomerSearch';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Loader from '../../component/Loader';
-import '../../styles/customer.scss';
-import { searchCustomer } from '../../api';
+import '../../styles/batchcontrol.scss';
+import Dues from '../../component/Dues/Dues';
+import { futureDues } from '../../api/futuredues';
 
-const Customer = () => {
+const FutureDues = () => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [successMsg, setSuccessMsg] = useState('');
 	const [errorMsg, setErrorMsg] = useState('');
 
-	const searchForCustomer = (params) => {
+	const getFutureDues = (params) => {
 		setLoading(true);
-		searchCustomer(params)
+		futureDues(params)
 			.then((res) => {
 				if (res.status === 200) {
 					setData(res.data);
@@ -31,7 +31,7 @@ const Customer = () => {
 				setData([]);
 				setLoading(false);
 			});
-	};
+	}
 
 	return (
 		<div>
@@ -65,14 +65,10 @@ const Customer = () => {
 			</Snackbar>
 			{loading && <Loader />}
 			<div>
-				<CustomerSearch
-					data={data}
-					searchForCustomer={searchForCustomer}
-					setData={setData}
-				/>
+                <Dues getFutureDues={getFutureDues} data={data} setData={setData} />
 			</div>
 		</div>
 	);
 };
 
-export default Customer;
+export default FutureDues;

@@ -85,7 +85,6 @@ const ActualAgreementDetails = () => {
 	const handleOnSelectChange = (e) => {
 		setSelectedLoanId(e.target.value);
 		getAgreementLoanInfo(agreementId, selectedLoanId);
-		console.log(selectedLoanId);
 	};
 
 	return (
@@ -127,7 +126,7 @@ const ActualAgreementDetails = () => {
 						<FormControl style={{ margin: 7 }}>
 							<Select
 								native
-								value={agreementId}
+								value={selectedLoanId}
 								onChange={handleOnSelectChange}>
 								{loanIds.map((item) => (
 									<option key={item.loanId} value={item.loanId}>

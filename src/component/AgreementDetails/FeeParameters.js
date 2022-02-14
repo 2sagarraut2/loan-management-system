@@ -34,6 +34,7 @@ const FeeParameters = () => {
 					}
 				} = error;
 				setErrorMsg(`${errorResponseMessage}`);
+				setData([]);
 				setLoading(false);
 			});
 
@@ -201,7 +202,7 @@ const FeeParameters = () => {
 			{loading && <Loader />}
 			<div className='table-wrapper'>
 				<Table
-					rowKey='key'
+					rowKey='feeParamId'
 					className='cust-table'
 					dataSource={data}
 					columns={isWebDevice ? webCols : deviceCols}

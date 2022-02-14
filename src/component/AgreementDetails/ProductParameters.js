@@ -51,7 +51,6 @@ const ProductParameters = () => {
 			.then((res) => {
 				if (res.status === 200) {
 					const { data } = res;
-					console.log(res);
 					setProductCode(data[0].prodCode);
 					setInterestFrequency(data[0].interestAccrualFrequ);
 					setEmiBasis(data[0].emiBasis);

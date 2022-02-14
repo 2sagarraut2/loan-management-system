@@ -42,6 +42,7 @@
 	border: 1px solid #dfe1e5;
 	padding: 4px;
 	background-color: #ded4e7;
+	word-break: break-all;
 }
 
 .customer-title {
@@ -62,4 +63,8 @@
 .tab-inner-wrapper {
 	min-width: 150px;
 	border-right: 1px solid #d3d3d3;
+}
+
+.tab-color {
+	background-color: #6f1fb6;
 }
