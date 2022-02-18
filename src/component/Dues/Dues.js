@@ -130,8 +130,9 @@ const Dues = (props) => {
 	};
 
 	const handleOnSearch = () => {
-		console.log(toDate, fromDate);
-		getFutureDues(fromDate, toDate);
+		const fromDateParam = fromDate.toJSON().slice(0,10).replace(/-/g,'-')
+		const toDateParam = toDate.toJSON().slice(0,10).replace(/-/g,'-')
+		getFutureDues(fromDateParam, toDateParam);
 	};
 
 	const handleOnReset = () => {

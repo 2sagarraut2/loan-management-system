@@ -4,6 +4,7 @@ import { Alert } from '@material-ui/lab';
 import Loader from '../Loader';
 import { useParams } from 'react-router-dom';
 import { agreementLoanList, agreementLoanInfo } from '../../api';
+import { numberWithCommas } from '../../utils';
 
 const ActualAgreementDetails = () => {
 	const [loading, setLoading] = useState(false);
@@ -57,17 +58,17 @@ const ActualAgreementDetails = () => {
 			.then((res) => {
 				if (res.status === 200) {
 					const { data } = res;
-					setLoanAmount(data.loanAmount)
-					setInterestType(data.interestType)
-					setIndexRate(data.indexRate)
-					setInterestRate(data.interestRate)
-					setSpreadRate(data.spreadRate)
+					setLoanAmount(data.loanAmount);
+					setInterestType(data.interestType);
+					setIndexRate(data.indexRate);
+					setInterestRate(data.interestRate);
+					setSpreadRate(data.spreadRate);
 					setOffsetRate(data.offsetRate);
-					offsetDate(data.dtDisbursement)
-					setTenorStart(data.dtTenorStartDate)
-					setTenorEnd(data.dtTenorEndDate)
-					setUnbilledPrinciple(data.unbilledPrincipal)
-					setTotalBalTenor(data.balanceTenor)
+					offsetDate(data.dtDisbursement);
+					setTenorStart(data.dtTenorStartDate);
+					setTenorEnd(data.dtTenorEndDate);
+					setUnbilledPrinciple(data.unbilledPrincipal);
+					setTotalBalTenor(data.balanceTenor);
 				}
 				setLoading(false);
 			})
@@ -122,25 +123,31 @@ const ActualAgreementDetails = () => {
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Loan ID</h4>
 				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%', alignItems: 'end' }}>
-						<FormControl style={{ margin: 7 }}>
-							<Select
-								native
-								value={selectedLoanId}
-								onChange={handleOnSelectChange}>
-								{loanIds.map((item) => (
-									<option key={item.loanId} value={item.loanId}>
-										{item.loanId}
-									</option>
-								))}
-							</Select>
-						</FormControl>
+				<Grid
+					item
+					xs={6}
+					sm={6}
+					md={3}
+					lg={3}
+					style={{ padding: '1%', alignItems: 'end' }}>
+					<FormControl style={{ margin: 7 }}>
+						<Select
+							native
+							value={selectedLoanId}
+							onChange={handleOnSelectChange}>
+							{loanIds.map((item) => (
+								<option key={item.loanId} value={item.loanId}>
+									{item.loanId}
+								</option>
+							))}
+						</Select>
+					</FormControl>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Loan Amount</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{loanAmount}</h4>
+					<h4 className='customer-title'>{numberWithCommas(loanAmount)}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Interest Type</h4>
@@ -206,7 +213,7 @@ const ActualAgreementDetails = () => {
 					<h4>Unbilled Principle</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{unbilledPrinciple}</h4>
+					<h4 className='customer-title'>{numberWithCommas(unbilledPrinciple)}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Total Balance Tenor</h4>

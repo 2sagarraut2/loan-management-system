@@ -2,38 +2,14 @@ import React, { useState } from 'react';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Loader from '../../component/Loader';
-import '../../styles/batchcontrol.scss';
-import Dues from '../../component/Dues/Dues';
-import { futureDues } from '../../api/futuredues';
+import '../../styles/batchdetails.scss';
+import Batch from '../../component/Batches/Batch';
 
-const FutureDues = () => {
+const BatchDetails = () => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [successMsg, setSuccessMsg] = useState('');
 	const [errorMsg, setErrorMsg] = useState('');
-
-	const getFutureDues = (fromDate, toDate) => {
-		const params = { fromDate, toDate };
-		console.log("params", params)
-		// setLoading(true);
-		futureDues(fromDate, toDate)
-			.then((res) => {
-				if (res.status === 200) {
-					setData(res.data);
-				}
-				setLoading(false);
-			})
-			.catch((error) => {
-				const {
-					response: {
-						data: { errorResponseMessage }
-					}
-				} = error;
-				setErrorMsg(`${errorResponseMessage}`);
-				setData([]);
-				setLoading(false);
-			});
-	}
 
 	return (
 		<div>
@@ -67,10 +43,10 @@ const FutureDues = () => {
 			</Snackbar>
 			{loading && <Loader />}
 			<div>
-                <Dues getFutureDues={getFutureDues} data={data} setData={setData} />
+                <Batch />
 			</div>
 		</div>
 	);
 };
 
-export default FutureDues;
+export default BatchDetails;

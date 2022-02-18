@@ -1,15 +1,15 @@
 import './App.css';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import PrivateRoute from './component/Route/PrivateRoute';
+// import PublicRoute from './component/Route/PublicRoute'
+import SignIn from './component/SignIn';
 import Dashboard from './container/Dashboard';
 import Customer from './container/Customer/Customer';
 import CustomerOverview from './container/CustomerOverview/CustomerOverview';
 import AgreementOverview from './container/AgreementOverview/AgreementOverview';
-import Batch from './container/BatchControl/Batch';
 import FutureDues from './container/FutureDues/FutureDues';
-import PrivateRoute from './component/Route/PrivateRoute';
-// import PublicRoute from './component/Route/PublicRoute'
-import SignIn from './component/SignIn';
-// import { isLogin } from './utils/index'
+import Batch from './container/BatchControl/Batch';
+import BatchDetails from './container/BatchDetails/BatchDetails';
 
 function App() {
 	return (
@@ -32,8 +32,8 @@ function App() {
 						/>
 						<Route path='batch-control' element={<Batch />} />
 						<Route
-							path='batch-control/:agreementId'
-							element={<CustomerOverview />} //change
+							path='batch-control/:batchId'
+							element={<BatchDetails />}
 						/>
 						<Route path='future-dues' element={<FutureDues />} />
 					</Route>

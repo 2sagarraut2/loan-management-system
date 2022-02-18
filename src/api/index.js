@@ -1,3 +1,4 @@
+import { CheckUser } from './userLogin';
 import { searchCustomer } from './searchcustomer';
 import {
 	customerBasicDetails,
@@ -14,13 +15,19 @@ import {
 	agreementDueList,
 	productParameters,
 	agreementLimitList,
+	agreementTransHeader,
 	agreementTransList,
 	interstAccuralHistory,
 	agreementInfo,
 	agreementLoanInfo
 } from './agreementdetails';
+import {
+	searchBatchDetails,
+	batchDetails
+} from './batchcontrol';
 
 export {
+	CheckUser,
 	searchCustomer,
 	customerBasicDetails,
 	customerContactDetails,
@@ -34,8 +41,11 @@ export {
 	customerAddress,
 	productParameters,
 	agreementLimitList,
+	agreementTransHeader,
 	agreementTransList,
 	interstAccuralHistory,
 	agreementInfo,
-	agreementLoanInfo
+	agreementLoanInfo,
+	searchBatchDetails,
+	batchDetails
 };

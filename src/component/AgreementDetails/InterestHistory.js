@@ -58,13 +58,8 @@ const InterestHistory = () => {
 	}, [agreementId]);
 
 	const interestAccuralHistory = (agreementId, loanID, fromDate, toDate) => {
-		const fromDateParam = `${fromDate.getFullYear()}-${
-			fromDate.getMonth() + 1
-		}-${fromDate.getDate()}`;
-		const toDateParam = `${toDate.getFullYear()}-${
-			toDate.getMonth() + 1
-		}-${toDate.getDate()}`;
-		console.log(fromDateParam, toDateParam);
+		const fromDateParam = fromDate.toJSON().slice(0,10).replace(/-/g,'-');
+		const toDateParam = toDate.toJSON().slice(0,10).replace(/-/g,'-');
 		setLoading(true);
 		interstAccuralHistory(agreementId, loanID, fromDateParam, toDateParam)
 			.then((res) => {

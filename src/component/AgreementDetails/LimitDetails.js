@@ -5,6 +5,7 @@ import { Alert } from '@material-ui/lab';
 import Loader from '../Loader';
 import { useParams } from 'react-router-dom';
 import { agreementLimitList } from '../../api';
+import { numberWithCommas } from '../../utils';
 
 const LimitDetails = () => {
 	const [loading, setLoading] = useState(false);
@@ -56,11 +57,23 @@ const LimitDetails = () => {
 		{
 			title: 'Sanction Amount',
 			dataIndex: 'limitSanctionAmount',
+			render: (value, row, key) => {
+				const amount = row.limitSanctionAmount;
+				return (
+					<span>{numberWithCommas(amount)}</span>
+				)
+			},
 			align: 'center'
 		},
 		{
 			title: 'Utilized Amount',
 			dataIndex: 'utilizedLimit',
+			render: (value, row, key) => {
+				const amount = row.utilizedLimit;
+				return (
+					<span>{numberWithCommas(amount)}</span>
+				)
+			},
 			align: 'center'
 		},
 		{
@@ -101,11 +114,11 @@ const LimitDetails = () => {
 						<div className='small-table-div'>
 							<span className='mobile-left-align'>
 								<h5 className='small-table-label'>Sanction Amount</h5>
-								<h5>{limitSanctionAmount}</h5>
+								<h5>{numberWithCommas(limitSanctionAmount)}</h5>
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Utilized Amount</h5>
-								<h5>{utilizedLimit}</h5>
+								<h5>{numberWithCommas(utilizedLimit)}</h5>
 							</span>
 						</div>
 						<div className='small-table-div'>

@@ -79,6 +79,7 @@
 	}
 
 	.title-container .back-button {
-		max-width: min-content;
+		// max-width: min-content;
+		min-width: max-content;
 	}
 }

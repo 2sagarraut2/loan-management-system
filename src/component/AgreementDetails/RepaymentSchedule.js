@@ -13,6 +13,7 @@ import Loader from '../Loader';
 import { agreementLoanList } from '../../api';
 import { useParams } from 'react-router-dom';
 import { agreementAmortList } from '../../api';
+import { numberWithCommas } from '../../utils';
 
 const RepaymentSchedule = () => {
 	const [loading, setLoading] = useState(false);
@@ -96,6 +97,10 @@ const RepaymentSchedule = () => {
 		{
 			title: 'Principal',
 			dataIndex: 'principalAmount',
+			render: (value, row, key) => {
+				const principal = numberWithCommas(row.principalAmount);
+				return <span>{numberWithCommas(principal)}</span>;
+			},
 			align: 'center'
 		},
 		{
@@ -124,7 +129,7 @@ const RepaymentSchedule = () => {
 		},
 		{
 			title: 'Payment Dt.',
-			dataIndex: 'payment_date',
+			dataIndex: 'dtPaymentDate',
 			align: 'center'
 		}
 	];
@@ -143,13 +148,13 @@ const RepaymentSchedule = () => {
 				const bpiAmount = row.bpiAmount;
 				const installmentAmount = row.installmentAmount;
 				const closingPrincipal = row.closingPrincipal;
-				const payment_date = row.payment_date;
+				const payment_date = row.dtPaymentDate;
 				return (
 					<div>
 						<div className='small-table-div'>
 							<span className='mobile-left-align'>
 								<h5 className='small-table-label'>Opening</h5>
-								<h5>{openingPrincipal}</h5>
+								<h5>{numberWithCommas(openingPrincipal)}</h5>
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Inst#</h5>
@@ -163,7 +168,7 @@ const RepaymentSchedule = () => {
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Principal</h5>
-								<h5>{principalAmount}</h5>
+								<h5>{numberWithCommas(principalAmount)}</h5>
 							</span>
 						</div>
 						<div className='small-table-div'>
@@ -179,7 +184,7 @@ const RepaymentSchedule = () => {
 						<div className='small-table-div'>
 							<span className='mobile-left-align'>
 								<h5 className='small-table-label'>Inst. Amt</h5>
-								<h5>{installmentAmount}</h5>
+								<h5>{numberWithCommas(installmentAmount)}</h5>
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Closing</h5>
@@ -205,10 +210,6 @@ const RepaymentSchedule = () => {
 
 	const handleCheckChange = (event) => {
 		setConsolidated(event.target.checked);
-	};
-
-	const numberWithCommas = (x) => {
-		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	};
 
 	return (

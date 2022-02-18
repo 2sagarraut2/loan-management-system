@@ -4,7 +4,8 @@ import { useMediaQuery, Grid, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Loader from '../Loader';
 import { useParams } from 'react-router-dom';
-import { agreementTransList } from '../../api';
+import { agreementTransHeader, agreementTransList } from '../../api';
+import { numberWithCommas } from '../../utils';
 
 const TransactionHistory = () => {
 	const [loading, setLoading] = useState(false);
@@ -51,6 +52,33 @@ const TransactionHistory = () => {
 		// eslint-disable-next-line
 	}, [agreementId]);
 
+	useEffect(() => {
+		setLoading(true);
+		agreementTransHeader(agreementId)
+			.then((res) => {
+				if (res.status === 200) {
+					const { data } = res;
+					setprinOutstanding(data.principalOutstanding);
+					setDueAmount(data.dueBalance);
+					setInstlDue(data.installmentDue);
+					setChargesDue(data.chargesDue);
+					setExcessAmount(data.excessAmount);
+				}
+				setLoading(false);
+			})
+			.catch((error) => {
+				const {
+					response: {
+						data: { errorResponseMessage }
+					}
+				} = error;
+				setErrorMsg(`${errorResponseMessage}`);
+				setLoading(false);
+			});
+
+		// eslint-disable-next-line
+	}, [agreementId]);
+
 	// columns for table
 	const webCols = [
 		{
@@ -76,11 +104,19 @@ const TransactionHistory = () => {
 		{
 			title: 'Debit Amount',
 			dataIndex: 'debitAmount',
+			render: (value, row, key) => {
+				const amount = numberWithCommas(row.debitAmount);
+				return (<span>{amount}</span>)
+			},
 			align: 'center'
 		},
 		{
 			title: 'Credit Amount',
 			dataIndex: 'creditAmount',
+			render: (value, row, key) => {
+				const amount = numberWithCommas(row.creditAmount);
+				return (<span>{amount}</span>)
+			},
 			align: 'center'
 		}
 	];
@@ -94,8 +130,8 @@ const TransactionHistory = () => {
 				const tranId = row.tranId;
 				const tranType = row.tranType;
 				const remark = row.remark;
-				const debitAmount = row.debitAmount;
-				const creditAmount = row.creditAmount;
+				const debitAmount = numberWithCommas(row.debitAmount);
+				const creditAmount = numberWithCommas(row.creditAmount);
 				return (
 					<div>
 						<div className='small-table-div'>
@@ -170,31 +206,31 @@ const TransactionHistory = () => {
 					<h4>Principal Outstanding</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{prinOutstanding}</h4>
+					<h4 className='customer-title'>{numberWithCommas(prinOutstanding)}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Due Balance Amount</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{dueAmount}</h4>
+					<h4 className='customer-title'>{numberWithCommas(dueAmount)}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Installment Dues</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{instlDue}</h4>
+					<h4 className='customer-title'>{numberWithCommas(instlDue)}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Charges Dues</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{chargesDue}</h4>
+					<h4 className='customer-title'>{numberWithCommas(chargesDue)}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Excess Amount</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{excessAmount}</h4>
+					<h4 className='customer-title'>{numberWithCommas(excessAmount)}</h4>
 				</Grid>
 			</Grid>
 

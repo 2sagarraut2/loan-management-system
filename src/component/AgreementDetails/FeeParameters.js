@@ -5,6 +5,7 @@ import { Alert } from '@material-ui/lab';
 import Loader from '../Loader';
 import { useParams } from 'react-router-dom';
 import { feeList } from '../../api';
+import { numberWithCommas } from '../../utils';
 
 const FeeParameters = () => {
 	const [loading, setLoading] = useState(false);
@@ -79,12 +80,20 @@ const FeeParameters = () => {
 					title: 'From',
 					key: 'minAmount',
 					dataIndex: 'minAmount',
+					render: (value, row, key) => {
+						const amount = numberWithCommas(row.minAmount);
+						return <span>{amount}</span>;
+					},
 					align: 'center'
 				},
 				{
 					title: 'To',
 					key: 'maxAmount',
 					dataIndex: 'maxAmount',
+					render: (value, row, key) => {
+						const amount = numberWithCommas(row.maxAmount);
+						return <span>{amount}</span>;
+					},
 					align: 'center'
 				}
 			]
@@ -99,6 +108,10 @@ const FeeParameters = () => {
 			title: 'Amount / %',
 			key: 'feeAmount',
 			dataIndex: 'feeAmount',
+			render: (value, row, key) => {
+				const amount = row.feeAmount;
+				return <div>{numberWithCommas(amount)}</div>;
+			},
 			align: 'center'
 		},
 		{
@@ -118,8 +131,8 @@ const FeeParameters = () => {
 				const fee_head = row.fee_head;
 				const from_tenor = row.minTenor;
 				const to_tenor = row.maxTenor;
-				const minAmount = row.minAmount;
-				const maxAmount = row.maxAmount;
+				const minAmount = numberWithCommas(row.minAmount);
+				const maxAmount = numberWithCommas(row.maxAmount);
 				const feeType = row.feeType;
 				const feeAmount = row.feeAmount;
 				const taxApplicatbleYN = row.taxApplicatbleYN;
@@ -154,7 +167,7 @@ const FeeParameters = () => {
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Amount / %</h5>
-								<h5>{feeAmount}</h5>
+								<h5>{numberWithCommas(feeAmount)}</h5>
 							</span>
 						</div>
 						<div className='last-label-center'>

@@ -3,8 +3,8 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import '../styles/dashboard.scss';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-// import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
+// import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import FindInPageRoundedIcon from '@material-ui/icons/FindInPageRounded';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import { useNavigate } from 'react-router-dom';
@@ -16,16 +16,16 @@ const Dashboard = () => {
 			icon: <FindInPageRoundedIcon />,
 			path: '/customer-search'
 		},
-		// {
-		// 	text: 'Batch Control Center',
-		// 	icon: <AddBoxRoundedIcon />,
-		// 	path: '/batch-control'
-		// },
 		{
-			text: 'My Approvals',
-			icon: <ThumbUpIcon />,
-			path: '/approvals'
+			text: 'Batch Control Center',
+			icon: <AddBoxRoundedIcon />,
+			path: '/batch-control'
 		},
+		// {
+		// 	text: 'My Approvals',
+		// 	icon: <ThumbUpIcon />,
+		// 	path: '/approvals'
+		// },
 		{
 			text: 'Future Dues',
 			icon: <AccessTimeIcon />,

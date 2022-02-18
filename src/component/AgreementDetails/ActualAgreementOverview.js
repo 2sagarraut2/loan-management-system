@@ -4,6 +4,7 @@ import { Alert } from '@material-ui/lab';
 import Loader from '../Loader';
 import { useParams } from 'react-router-dom';
 import { agreementInfo } from '../../api';
+import { numberWithCommas } from '../../utils';
 
 const ActualAgreementOverview = () => {
 	const [loading, setLoading] = useState(false);
@@ -37,7 +38,7 @@ const ActualAgreementOverview = () => {
 					const { data } = res;
 					setHomeBranch(data.homeBranch);
 					setServicingBranch(data.servBranch);
-					setProduct(data.productCode)
+					setProduct(data.productCode);
 					// setFinalDisbursment(data.servBranch) needs to be removed
 					setSanctionedAmount(data.sanctionedAmount);
 					setLoanAmount(data.loanAmount);
@@ -126,13 +127,15 @@ const ActualAgreementOverview = () => {
 					<h4>Sanctioned Amount/Loan</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{sacntionedAmount}</h4>
+					<h4 className='customer-title'>
+						{numberWithCommas(sacntionedAmount)}
+					</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Loan Amount/Utilized</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{loanAmount}</h4>
+					<h4 className='customer-title'>{numberWithCommas(loanAmount)}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Previous Installment Amount</h4>
@@ -162,19 +165,19 @@ const ActualAgreementOverview = () => {
 					<h4>Overdue Amount</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{overdue}</h4>
+					<h4 className='customer-title'>{numberWithCommas(overdue)}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Outstanding Amount</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{outstanding}</h4>
+					<h4 className='customer-title'>{numberWithCommas(outstanding)}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Excess Amount</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{excessAmount}</h4>
+					<h4 className='customer-title'>{numberWithCommas(excessAmount)}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Asset Quality</h4>

@@ -81,6 +81,16 @@ export const agreementAmortList = (agreementId) => {
 	});
 };
 
+// transaction history header
+export const agreementTransHeader = (agreementId) => {
+    let url = `${baseURL}/lmsapi/agreement/getAgreementTranHistoryHeader?masterAgreement=${agreementId}`;
+
+	return axios.get(url, {
+		method: 'GET',
+		headers: { 'Content-Type': 'application/json' }
+	});
+};
+
 // transaction history
 export const agreementTransList = (agreementId) => {
     let url = `${baseURL}/lmsapi/agreement/getAgreementTranHistoryList?masterAgreement=${agreementId}`;

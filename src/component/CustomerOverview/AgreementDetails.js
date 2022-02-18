@@ -7,6 +7,7 @@ import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Loader from '../Loader';
 import { customerAgreementList } from '../../api';
+import { numberWithCommas } from '../../utils';
 
 const AgreementDetails = () => {
 	const [loading, setLoading] = useState(false);
@@ -81,6 +82,12 @@ const AgreementDetails = () => {
 		{
 			title: 'OS Amount',
 			dataIndex: 'outstandingAmount',
+			render: (value, row, key) => {
+				const amount = row.outstandingAmount;
+				return (
+					<span>{numberWithCommas(amount)}</span>
+				)
+			},
 			align: 'center'
 		},
 		{
@@ -134,7 +141,7 @@ const AgreementDetails = () => {
 						<div className='small-table-div'>
 							<span className='mobile-left-align'>
 								<h5 className='small-table-label'>OS Amount</h5>
-								<h5>{amount}</h5>
+								<h5>{numberWithCommas(amount)}</h5>
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Status</h5>

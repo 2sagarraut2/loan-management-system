@@ -5,8 +5,11 @@ import {
 	Typography,
 	FormControl,
 	Select,
-	Link
+	Link,
+	Snackbar
 } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+import Loader from '../Loader';
 import { makeStyles } from '@material-ui/core/styles';
 import {
 	MuiPickersUtilsProvider,
@@ -17,6 +20,8 @@ import BackButton from '../BackButton';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { Table } from 'antd';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { searchBatchDetails } from '../../api';
+import { downloadFile } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -31,90 +36,46 @@ const useStyles = makeStyles((theme) => ({
 
 const Batches = (props) => {
 	const isWebDevice = useMediaQuery('(min-width: 700px)');
+	const [loading, setLoading] = useState(false);
+	const [successMsg, setSuccessMsg] = useState('');
+	const [errorMsg, setErrorMsg] = useState('');
 
 	const classes = useStyles();
 
 	// form hooks
+	const [data, setData] = useState([]);
 	const [instrumentType, setInstrumentType] = useState('ECS');
-	const [batchStatus, setBatchStatus] = useState('OPEN');
+	const [batchStatus, setBatchStatus] = useState('O');
 	const [fromDate, setFromDate] = useState(new Date());
 	const [toDate, setToDate] = useState(new Date());
+	const [selectedRows, setSelectedRows] = useState([]);
 	const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
-	const data = [
-		{
-			batchNo: 1,
-			instrumentType: 'ECS',
-			batchStatus: 'Open',
-			totalInstrument: 100,
-			batchDate: '24/12/2022',
-			depositBank: 'SBI'
-		},
-		{
-			batchNo: 2,
-			instrumentType: 'ECS',
-			batchStatus: 'Open',
-			totalInstrument: 100,
-			batchDate: '24/12/2022',
-			depositBank: 'SBI'
-		},
-		{
-			batchNo: 3,
-			instrumentType: 'ECS',
-			batchStatus: 'Open',
-			totalInstrument: 100,
-			batchDate: '24/12/2022',
-			depositBank: 'SBI'
-		},
-		{
-			batchNo: 4,
-			instrumentType: 'ECS',
-			batchStatus: 'Open',
-			totalInstrument: 100,
-			batchDate: '24/12/2022',
-			depositBank: 'SBI'
-		},
-		{
-			batchNo: 5,
-			instrumentType: 'ECS',
-			batchStatus: 'Open',
-			totalInstrument: 100,
-			batchDate: '24/12/2022',
-			depositBank: 'SBI'
-		},
-		{
-			batchNo: 6,
-			instrumentType: 'ECS',
-			batchStatus: 'Open',
-			totalInstrument: 100,
-			batchDate: '24/12/2022',
-			depositBank: 'SBI'
-		},
-		{
-			batchNo: 7,
-			instrumentType: 'ECS',
-			batchStatus: 'Open',
-			totalInstrument: 100,
-			batchDate: '24/12/2022',
-			depositBank: 'SBI'
-		},
-		{
-			batchNo: 8,
-			instrumentType: 'ECS',
-			batchStatus: 'Open',
-			totalInstrument: 100,
-			batchDate: '24/12/2022',
-			depositBank: 'SBI'
-		},
-		{
-			batchNo: 9,
-			instrumentType: 'ECS',
-			batchStatus: 'Open',
-			totalInstrument: 100,
-			batchDate: '24/12/2022',
-			depositBank: 'SBI'
-		}
-	];
+	const searchBatches = (instrumentType, batchStatus, toDate, fromDate) => {
+		const fromDateParam = fromDate.toJSON().slice(0, 10).replace(/-/g, '-');
+		const toDateParam = toDate.toJSON().slice(0, 10).replace(/-/g, '-');
+		const params = { instrumentType, batchStatus, toDateParam, fromDateParam };
+		setLoading(true);
+
+		searchBatchDetails(params)
+			.then((res) => {
+				if (res.status === 200) {
+					const { data } = res;
+					setData(data);
+				}
+				setLoading(false);
+			})
+			.catch((error) => {
+				const {
+					response: {
+						data: { errorResponseMessage }
+					}
+				} = error;
+				setErrorMsg(`${errorResponseMessage}`);
+				setLoading(false);
+				setData([]);
+			});
+	};
 
 	// instrument type options array
 	const instrumentTypesOptions = [
@@ -140,12 +101,17 @@ const Batches = (props) => {
 		{
 			key: 1,
 			name: 'Open',
-			type: 'open'
+			type: 'O'
 		},
 		{
 			key: 2,
 			name: 'Closed',
-			type: 'closed'
+			type: 'C'
+		},
+		{
+			key: 3,
+			name: 'Download',
+			type: 'D'
 		}
 	];
 
@@ -153,15 +119,15 @@ const Batches = (props) => {
 	const webCols = [
 		{
 			title: 'Batch No.',
-			dataIndex: 'batchNo',
+			dataIndex: 'batchId',
 			align: 'center',
 			render: (value, row, index) => {
-				const id = row.batchNo;
+				const id = row.batchId;
 				return (
 					<span>
 						<Link
 							onClick={() => {
-								window.location.href = `/future-dues/${id}`;
+								window.location.href = `/batch-control/${id}`;
 							}}>
 							{id}
 						</Link>
@@ -184,18 +150,18 @@ const Batches = (props) => {
 			align: 'center'
 		},
 		{
-			title: 'Total Instrument',
-			dataIndex: 'totalInstrument',
+			title: 'Total Instruments',
+			dataIndex: 'totalInstruments',
 			align: 'center'
 		},
 		{
 			title: 'Batch Date',
-			dataIndex: 'dueHead',
+			dataIndex: 'dtBatchDate',
 			align: 'center'
 		},
 		{
 			title: 'Deposit Bank',
-			dataIndex: 'depositBank',
+			dataIndex: 'depositBankName',
 			align: 'center'
 		}
 	];
@@ -206,12 +172,12 @@ const Batches = (props) => {
 			dataIndex: 'mastAgrId',
 			align: 'left',
 			render: (value, row, index) => {
-				const id = row.mastAgrId;
-				const loanId = row.loanId;
-				const date = row.dtDueDate;
-				const category = row.dueCategory;
-				const head = row.dueHead;
-				const no = row.installmentNo;
+				const id = row.batchId;
+				const type = row.instrumentType;
+				const status = row.batchStatus;
+				const totalInst = row.totalInstruments;
+				const date = row.dtBatchDate;
+				const bank = row.depositBankName;
 				return (
 					<div>
 						<div className='small-table-div'>
@@ -223,27 +189,27 @@ const Batches = (props) => {
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Instrument Type</h5>
-								<h5>{loanId}</h5>
+								<h5>{type}</h5>
 							</span>
 						</div>
 						<div className='small-table-div'>
 							<span>
 								<h5 className='small-table-label'>Batch Status</h5>
-								<h5>{date}</h5>
+								<h5>{status}</h5>
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Total Instrument</h5>
-								<h5>{category}</h5>
+								<h5>{totalInst}</h5>
 							</span>
 						</div>
 						<div className='small-table-div'>
 							<span>
 								<h5 className='small-table-label'>Batch Date</h5>
-								<h5>{head}</h5>
+								<h5>{date}</h5>
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Deposit Bank</h5>
-								<h5>{no}</h5>
+								<h5>{bank}</h5>
 							</span>
 						</div>
 					</div>
@@ -269,7 +235,7 @@ const Batches = (props) => {
 	};
 
 	const handleOnSearch = () => {
-		console.log(instrumentType, batchStatus, toDate, fromDate);
+		searchBatches(instrumentType, batchStatus, toDate, fromDate);
 	};
 
 	const handleOnReset = () => {
@@ -277,20 +243,78 @@ const Batches = (props) => {
 		setBatchStatus('open');
 		setToDate(new Date());
 		setFromDate(new Date());
+		setData([]);
 	};
 
+	// for table row selection change
 	const onSelectChange = (selectedRowKeys, selectedRows) => {
-		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
 		setSelectedRowKeys(selectedRowKeys);
+		setSelectedRows(selectedRows);
 	};
 
+	// table row selection function
 	const rowSelection = {
 		selectedRowKeys,
 		onChange: onSelectChange
 	};
 
+	// function for download
+	const handleOnDownload = () => {
+		const dataIds = selectedRows.map((item) => {
+			return item.batchId;
+		});
+
+		console.log(dataIds);
+		const url = '';
+		downloadFile(url);
+	};
+
+	// file upload function
+	const onFileUploadChange = (e) => {
+		const files = e.target.files;
+		console.warn(files);
+
+		const reader = new FileReader();
+		reader.readAsDataURL(files[0]);
+
+		reader.onload = (e) => {
+			const formData = { file: e.target.result };
+			console.log(formData);
+			// send form data to api
+		};
+	};
+
 	return (
 		<div>
+			<Snackbar
+				open={Boolean(successMsg)}
+				autoHideDuration={3000}
+				onClose={() => setSuccessMsg('')}>
+				<Alert
+					elevation={6}
+					variant='filled'
+					onClose={() => {
+						setSuccessMsg('');
+					}}
+					severity='success'>
+					{successMsg}
+				</Alert>
+			</Snackbar>
+			<Snackbar
+				open={Boolean(errorMsg)}
+				autoHideDuration={3000}
+				onClose={() => setErrorMsg('')}>
+				<Alert
+					elevation={6}
+					variant='filled'
+					onClose={() => {
+						setErrorMsg('');
+					}}
+					severity='error'>
+					{errorMsg}
+				</Alert>
+			</Snackbar>
+			{loading && <Loader />}
 			<div className='header_container'>
 				<div className='title-container'>
 					<Typography variant='h6'>Batch Control Center</Typography>
@@ -445,7 +469,7 @@ const Batches = (props) => {
 			</div>
 			<div className='table-wrapper'>
 				<Table
-					rowKey='batchNo'
+					rowKey='batchId'
 					className='cust-table'
 					dataSource={data}
 					columns={isWebDevice ? webCols : deviceCols}
@@ -458,18 +482,19 @@ const Batches = (props) => {
 						variant='contained'
 						color='primary'
 						className='search-buttons'
-						// onClick={handleOnSearch}
+						onClick={handleOnDownload}
 						disabled={!selectedRowKeys.length}
 						style={{ marginLeft: 5 }}>
 						Batch Downoad
 					</Button>
 					<FormControl>
 						<input
-							accept='image/*'
 							className={classes.input}
 							id='contained-button-file'
 							multiple
 							type='file'
+							accept=".csv"
+							onChange={onFileUploadChange}
 						/>
 						<label htmlFor='contained-button-file'>
 							<Button
@@ -481,15 +506,6 @@ const Batches = (props) => {
 							</Button>
 						</label>
 					</FormControl>
-					{/* <Button
-						variant='contained'
-						color='primary'
-						className='search-buttons'
-						// onClick={handleOnSearch}
-						// disabled={!Boolean(fromDate & toDate)}
-						style={{ marginLeft: 5 }}>
-						Batch Upload
-					</Button> */}
 				</div>
 			</div>
 		</div>

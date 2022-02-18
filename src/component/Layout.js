@@ -27,6 +27,7 @@ const Layout = ({ children }) => {
 	const classes = useStyles();
 
 	const isWebDevice = useMediaQuery('(min-width: 700px)');
+	const user = localStorage.getItem('loginData');
 
 	return (
 		<div className={classes.root}>
@@ -43,16 +44,27 @@ const Layout = ({ children }) => {
 									window.location.href = '/dashboard';
 								}}
 							/>
-							<Typography
-								noWrap={false}
-								variant='h6'
-								color='inherit'
-								className={classes.title}>
-								Loan Management System
-							</Typography>
+							{isWebDevice ? (
+								<Typography
+									noWrap={false}
+									variant='h6'
+									color='inherit'
+									className={classes.title}>
+									Loan Management System
+								</Typography>
+							) : (
+								<div className={classes.title}>Loan Management System</div>
+							)}
 						</div>
 					</div>
-					<LogOut path='/' size={isWebDevice ? 'medium' : 'small'} text='Logout' />
+					<div className='user-logout-wrapper'>
+						<span className='user-name'>{user}</span>
+						<LogOut
+							path='/'
+							size={isWebDevice ? 'medium' : 'small'}
+							text='Logout'
+						/>
+					</div>
 				</Toolbar>
 			</AppBar>
 			{/* components are embeded here */}

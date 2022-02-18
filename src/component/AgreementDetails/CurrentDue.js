@@ -5,6 +5,7 @@ import { Alert } from '@material-ui/lab';
 import Loader from '../Loader';
 import { useParams } from 'react-router-dom';
 import { agreementDueList } from '../../api';
+import { numberWithCommas } from '../../utils';
 
 const CurrentDue = () => {
 	const [loading, setLoading] = useState(false);
@@ -130,10 +131,6 @@ const CurrentDue = () => {
 			}
 		}
 	];
-
-	const numberWithCommas = (x) => {
-		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-	};
 
 	return (
 		<div style={{ padding: '1% 20px' }}>
