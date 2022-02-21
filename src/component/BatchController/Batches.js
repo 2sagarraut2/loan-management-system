@@ -10,29 +10,29 @@ import {
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Loader from '../Loader';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import {
 	MuiPickersUtilsProvider,
 	KeyboardDatePicker
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import BackButton from '../BackButton';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+// import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { Table } from 'antd';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { searchBatchDetails } from '../../api';
-import { downloadFile } from '../../utils';
+import { searchBatchDetails, downloadBatch } from '../../api';
+// import { downloadFile } from '../../utils';
 
-const useStyles = makeStyles((theme) => ({
-	root: {
-		'& > *': {
-			margin: theme.spacing(1)
-		}
-	},
-	input: {
-		display: 'none'
-	}
-}));
+// const useStyles = makeStyles((theme) => ({
+// 	root: {
+// 		'& > *': {
+// 			margin: theme.spacing(1)
+// 		}
+// 	},
+// 	input: {
+// 		display: 'none'
+// 	}
+// }));
 
 const Batches = (props) => {
 	const isWebDevice = useMediaQuery('(min-width: 700px)');
@@ -40,7 +40,7 @@ const Batches = (props) => {
 	const [successMsg, setSuccessMsg] = useState('');
 	const [errorMsg, setErrorMsg] = useState('');
 
-	const classes = useStyles();
+	// const classes = useStyles();
 
 	// form hooks
 	const [data, setData] = useState([]);
@@ -93,6 +93,11 @@ const Batches = (props) => {
 			key: 3,
 			name: 'NACH',
 			type: 'nach'
+		},
+		{
+			key: 4,
+			name: 'ENACH',
+			type: 'enach'
 		}
 	];
 
@@ -265,24 +270,78 @@ const Batches = (props) => {
 		});
 
 		console.log(dataIds);
-		const url = '';
-		downloadFile(url);
+		const params = {
+			arrBatchId: dataIds,
+			businessDate: '2020-02-01'
+		};
+		// const url = '';
+		// downloadFile(url);
+		setLoading(true);
+
+		downloadBatch(params)
+			.then((res) => {
+				if (res.status === 200) {
+					const byteArray = res.data;
+
+					var blob = new Blob([byteArray], { type: 'application/octet-stream' });
+					var link = document.createElement('a');
+					link.href = window.URL.createObjectURL(blob);
+					link.download = 'download.zip';
+					link.click();
+				}
+				setLoading(false);
+			})
+			.catch((error) => {
+				const {
+					response: {
+						data: { errorResponseMessage }
+					}
+				} = error;
+				setErrorMsg(`${errorResponseMessage}`);
+				setLoading(false);
+			});
 	};
 
 	// file upload function
-	const onFileUploadChange = (e) => {
-		const files = e.target.files;
-		console.warn(files);
+	// const onFileUploadChange = (e) => {
+	// 	const files = e.target.files;
+	// 	console.warn(files[0].name);
 
-		const reader = new FileReader();
-		reader.readAsDataURL(files[0]);
+	// 	const reader = new FileReader();
+	// 	reader.readAsDataURL(files[0]);
 
-		reader.onload = (e) => {
-			const formData = { file: e.target.result };
-			console.log(formData);
-			// send form data to api
-		};
-	};
+	// 	reader.onload = (e) => {
+	// 		const formData = { file: e.target.result };
+	// 		// console.log(formData);
+	// 		// send form data to api
+
+	// 		const params = {
+	// 			batchId: batchId,
+	// 			fileData: formData,
+	// 			fileName: files[0].name,
+	// 			businessDate: '2020-02-01'
+	// 		};
+
+	// 		console.log(params)
+
+	// 		uploadBatch(params)
+	// 			.then((res) => {
+	// 				if (res.status === 200) {
+	// 					const { data } = res;
+	// 				}
+	// 				setLoading(false);
+	// 			})
+	// 			.catch((error) => {
+	// 				const {
+	// 					response: {
+	// 						data: { errorResponseMessage }
+	// 					}
+	// 				} = error;
+	// 				setErrorMsg(`${errorResponseMessage}`);
+	// 				setLoading(false);
+	// 			});
+	// 	};
+	// };
 
 	return (
 		<div>
@@ -487,13 +546,13 @@ const Batches = (props) => {
 						style={{ marginLeft: 5 }}>
 						Batch Downoad
 					</Button>
-					<FormControl>
+					{/* <FormControl>
 						<input
 							className={classes.input}
 							id='contained-button-file'
 							multiple
 							type='file'
-							accept=".csv"
+							accept='.csv'
 							onChange={onFileUploadChange}
 						/>
 						<label htmlFor='contained-button-file'>
@@ -505,7 +564,7 @@ const Batches = (props) => {
 								Batch Upload
 							</Button>
 						</label>
-					</FormControl>
+					</FormControl> */}
 				</div>
 			</div>
 		</div>

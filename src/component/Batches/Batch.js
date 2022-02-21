@@ -14,7 +14,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { Table } from 'antd';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useParams } from 'react-router-dom';
-import { batchDetails } from '../../api';
+import { batchDetails, downloadBatch, uploadBatch } from '../../api';
 import { numberWithCommas } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
@@ -167,7 +167,80 @@ const Batch = (props) => {
 	];
 
 	const handleOnDownload = () => {
-		
+		const dataIds = batchId;
+		console.log(dataIds);
+
+		const params = {
+			arrBatchId: dataIds,
+			businessDate: '2020-02-01'
+		};
+		// const url = '';
+		// downloadFile(url);
+		setLoading(true);
+
+		downloadBatch(params)
+			.then((res) => {
+				if (res.status === 200) {
+					const byteArray = res.data;
+
+					var blob = new Blob([byteArray], { type: 'application/octet-stream' });
+					var link = document.createElement('a');
+					link.href = window.URL.createObjectURL(blob);
+					link.download = 'download.zip';
+					link.click();
+				}
+				setLoading(false);
+			})
+			.catch((error) => {
+				const {
+					response: {
+						data: { errorResponseMessage }
+					}
+				} = error;
+				setErrorMsg(`${errorResponseMessage}`);
+				setLoading(false);
+			});
+	};
+
+	// file upload function
+	const onFileUploadChange = (e) => {
+		const files = e.target.files;
+		// console.warn(files[0].name);
+
+		const reader = new FileReader();
+		reader.readAsDataURL(files[0]);
+
+		reader.onload = (e) => {
+			const formData = { file: e.target.result };
+			// console.log(formData);
+			// send form data to api
+
+			const params = {
+				batchId: batchId,
+				fileData: formData,
+				fileName: files[0].name,
+				businessDate: '2020-02-01'
+			};
+
+			uploadBatch(params)
+				.then((res) => {
+					if (res.status === 200) {
+						const { data } = res;
+						console.log(data);
+						setSuccessMsg(data);
+					}
+					setLoading(false);
+				})
+				.catch((error) => {
+					const {
+						response: {
+							data: { errorResponseMessage }
+						}
+					} = error;
+					setErrorMsg(`${errorResponseMessage}`);
+					setLoading(false);
+				});
+		};
 	};
 
 	return (
@@ -211,7 +284,7 @@ const Batch = (props) => {
 					/>
 				</div>
 				<Table
-					rowKey='batchNo'
+					rowKey='mastAgrId'
 					className='cust-table'
 					dataSource={data}
 					columns={isWebDevice ? webCols : deviceCols}
@@ -219,7 +292,7 @@ const Batch = (props) => {
 					scroll={{ y: 320 }}
 				/>
 				<div className='table-footer-batches'>
-					<Button
+				<Button
 						variant='contained'
 						color='primary'
 						className='search-buttons'
@@ -229,11 +302,12 @@ const Batch = (props) => {
 					</Button>
 					<FormControl>
 						<input
-							accept='image/*'
 							className={classes.input}
 							id='contained-button-file'
 							multiple
 							type='file'
+							accept='.csv'
+							onChange={onFileUploadChange}
 						/>
 						<label htmlFor='contained-button-file'>
 							<Button

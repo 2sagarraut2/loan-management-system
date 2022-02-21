@@ -23,7 +23,9 @@ import {
 } from './agreementdetails';
 import {
 	searchBatchDetails,
-	batchDetails
+	batchDetails,
+	downloadBatch,
+	uploadBatch
 } from './batchcontrol';
 
 export {
@@ -47,5 +49,7 @@ export {
 	agreementInfo,
 	agreementLoanInfo,
 	searchBatchDetails,
-	batchDetails
+	batchDetails,
+	downloadBatch,
+	uploadBatch
 };
