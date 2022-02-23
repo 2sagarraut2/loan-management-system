@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	Grid,
 	Button,
@@ -20,7 +20,8 @@ import BackButton from '../BackButton';
 // import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { Table } from 'antd';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { searchBatchDetails, downloadBatch } from '../../api';
+import { searchBatchDetails, downloadBatch, getBusinessDate } from '../../api';
+import { convertDate } from '../../utils';
 // import { downloadFile } from '../../utils';
 
 // const useStyles = makeStyles((theme) => ({
@@ -50,10 +51,17 @@ const Batches = (props) => {
 	const [toDate, setToDate] = useState(new Date());
 	const [selectedRows, setSelectedRows] = useState([]);
 	const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+	const [buDate, setBuDate] = useState('');
+
+	useEffect(() => {
+		// to get latest business date from api
+		getDate();
+	}, []);
 
 	const searchBatches = (instrumentType, batchStatus, toDate, fromDate) => {
-		const fromDateParam = fromDate.toJSON().slice(0, 10).replace(/-/g, '-');
-		const toDateParam = toDate.toJSON().slice(0, 10).replace(/-/g, '-');
+		// const fromDateParam = fromDate.toJSON().slice(0, 10).replace(/-/g, '-');
+		const fromDateParam = convertDate(fromDate);
+		const toDateParam = convertDate(toDate);
 		const params = { instrumentType, batchStatus, toDateParam, fromDateParam };
 		setLoading(true);
 
@@ -263,19 +271,37 @@ const Batches = (props) => {
 		onChange: onSelectChange
 	};
 
+	const getDate = () => {
+		getBusinessDate()
+			.then((res) => {
+				if (res.status === 200) {
+					const { data } = res;
+					setBuDate(data.data);
+				}
+			})
+			.catch((error) => {
+				const {
+					response: {
+						data: { errorResponseMessage }
+					}
+				} = error;
+				setErrorMsg(`${errorResponseMessage}`);
+				setBuDate('');
+			});
+	};
+
 	// function for download
 	const handleOnDownload = () => {
 		const dataIds = selectedRows.map((item) => {
 			return item.batchId;
 		});
 
-		console.log(dataIds);
 		const params = {
 			arrBatchId: dataIds,
-			businessDate: '2020-02-01'
+			businessDate: buDate
 		};
-		// const url = '';
-		// downloadFile(url);
+		console.log(params);
+
 		setLoading(true);
 
 		downloadBatch(params)
@@ -283,7 +309,9 @@ const Batches = (props) => {
 				if (res.status === 200) {
 					const byteArray = res.data;
 
-					var blob = new Blob([byteArray], { type: 'application/octet-stream' });
+					var blob = new Blob([byteArray], {
+						type: 'application/octet-stream'
+					});
 					var link = document.createElement('a');
 					link.href = window.URL.createObjectURL(blob);
 					link.download = 'download.zip';
@@ -511,7 +539,6 @@ const Batches = (props) => {
 							color='primary'
 							className='search-buttons'
 							onClick={handleOnSearch}
-							// disabled={!Boolean(instrumentType || batchStatus|| fromDate || toDate)}
 							style={{ marginLeft: 5 }}>
 							APPLY FILTER
 						</Button>
@@ -519,7 +546,6 @@ const Batches = (props) => {
 							variant='contained'
 							className='search-buttons'
 							onClick={handleOnReset}
-							// disabled={!Boolean(instrumentType || batchStatus || fromDate || toDate)}
 							style={{ marginLeft: 5 }}>
 							CLEAR FILTER
 						</Button>

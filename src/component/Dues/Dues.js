@@ -7,6 +7,7 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import BackButton from '../BackButton';
 import { Table } from 'antd';
+import { convertDate } from '../../utils';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const Dues = (props) => {
@@ -130,8 +131,8 @@ const Dues = (props) => {
 	};
 
 	const handleOnSearch = () => {
-		const fromDateParam = fromDate.toJSON().slice(0,10).replace(/-/g,'-')
-		const toDateParam = toDate.toJSON().slice(0,10).replace(/-/g,'-')
+		const fromDateParam = convertDate(fromDate);
+		const toDateParam = convertDate(toDate);
 		getFutureDues(fromDateParam, toDateParam);
 	};
 

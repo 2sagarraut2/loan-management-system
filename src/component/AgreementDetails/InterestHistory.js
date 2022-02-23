@@ -15,6 +15,7 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import Loader from '../Loader';
 import { useParams } from 'react-router-dom';
+import { convertDate } from '../../utils';
 import { agreementLoanList, interstAccuralHistory } from '../../api';
 
 const InterestHistory = () => {
@@ -58,8 +59,8 @@ const InterestHistory = () => {
 	}, [agreementId]);
 
 	const interestAccuralHistory = (agreementId, loanID, fromDate, toDate) => {
-		const fromDateParam = fromDate.toJSON().slice(0,10).replace(/-/g,'-');
-		const toDateParam = toDate.toJSON().slice(0,10).replace(/-/g,'-');
+		const fromDateParam = convertDate(fromDate);
+		const toDateParam = convertDate(toDate);
 		setLoading(true);
 		interstAccuralHistory(agreementId, loanID, fromDateParam, toDateParam)
 			.then((res) => {

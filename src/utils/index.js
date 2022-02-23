@@ -43,7 +43,11 @@ export const isLogin = () => {
 
 // to add commas to numbers
 export const numberWithCommas = (x) => {
-	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	if (x) {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	} else {
+		return x;
+	}
 };
 
 // to download any file
@@ -57,4 +61,14 @@ export const downloadFile = (url, name = null) => {
 		downloadLink.setAttribute('download', name);
 	}
 	downloadLink.click();
+};
+
+export const convertDate = (inputFormat) => {
+	if (inputFormat) {
+		function pad(s) {
+			return s < 10 ? '0' + s : s;
+		}
+		var d = new Date(inputFormat);
+		return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join('-');
+	}
 };

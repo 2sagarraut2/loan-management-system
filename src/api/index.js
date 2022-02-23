@@ -27,6 +27,7 @@ import {
 	downloadBatch,
 	uploadBatch
 } from './batchcontrol';
+import { getBusinessDate } from './businessdate.js';
 
 export {
 	CheckUser,
@@ -51,5 +52,6 @@ export {
 	searchBatchDetails,
 	batchDetails,
 	downloadBatch,
-	uploadBatch
+	uploadBatch,
+	getBusinessDate
 };

@@ -14,7 +14,7 @@ const FutureDues = () => {
 
 	const getFutureDues = (fromDate, toDate) => {
 		const params = { fromDate, toDate };
-		console.log("params", params)
+		// console.log("params", params)
 		// setLoading(true);
 		futureDues(fromDate, toDate)
 			.then((res) => {

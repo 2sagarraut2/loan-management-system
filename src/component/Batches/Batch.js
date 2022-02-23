@@ -14,7 +14,12 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { Table } from 'antd';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useParams } from 'react-router-dom';
-import { batchDetails, downloadBatch, uploadBatch } from '../../api';
+import {
+	batchDetails,
+	downloadBatch,
+	uploadBatch,
+	getBusinessDate
+} from '../../api';
 import { numberWithCommas } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,6 +45,7 @@ const Batch = (props) => {
 
 	// form hooks
 	const [data, setData] = useState([]);
+	const [buDate, setBuDate] = useState('');
 
 	useEffect(() => {
 		batchDetails(batchId)
@@ -60,6 +66,11 @@ const Batch = (props) => {
 				setLoading(false);
 				setData([]);
 			});
+	}, [batchId]);
+
+	useEffect(() => {
+		// to get latest business date from api
+		getDate();
 	}, [batchId]);
 
 	// columns for table
@@ -106,9 +117,7 @@ const Batch = (props) => {
 			dataIndex: 'instrumentAmount',
 			render: (value, row, key) => {
 				const amount = numberWithCommas(row.instrumentAmount);
-				return (
-					<span>{amount}</span>
-				)
+				return <span>{amount}</span>;
 			},
 			align: 'center'
 		}
@@ -166,24 +175,45 @@ const Batch = (props) => {
 		}
 	];
 
+	const getDate = () => {
+		getBusinessDate()
+			.then((res) => {
+				if (res.status === 200) {
+					const { data } = res;
+					setBuDate(data);
+				}
+			})
+			.catch((error) => {
+				const {
+					response: {
+						data: { errorResponseMessage }
+					}
+				} = error;
+				setErrorMsg(`${errorResponseMessage}`);
+				setBuDate('');
+			});
+	};
+
 	const handleOnDownload = () => {
 		const dataIds = batchId;
-		console.log(dataIds);
 
 		const params = {
 			arrBatchId: dataIds,
-			businessDate: '2020-02-01'
+			businessDate: buDate
 		};
-		// const url = '';
-		// downloadFile(url);
+
 		setLoading(true);
+
+		console.log('params', params);
 
 		downloadBatch(params)
 			.then((res) => {
 				if (res.status === 200) {
 					const byteArray = res.data;
 
-					var blob = new Blob([byteArray], { type: 'application/octet-stream' });
+					var blob = new Blob([byteArray], {
+						type: 'application/octet-stream'
+					});
 					var link = document.createElement('a');
 					link.href = window.URL.createObjectURL(blob);
 					link.download = 'download.zip';
@@ -212,34 +242,38 @@ const Batch = (props) => {
 
 		reader.onload = (e) => {
 			const formData = { file: e.target.result };
-			// console.log(formData);
 			// send form data to api
 
 			const params = {
 				batchId: batchId,
 				fileData: formData,
 				fileName: files[0].name,
-				businessDate: '2020-02-01'
+				businessDate: buDate
 			};
 
-			uploadBatch(params)
-				.then((res) => {
-					if (res.status === 200) {
-						const { data } = res;
-						console.log(data);
-						setSuccessMsg(data);
-					}
-					setLoading(false);
-				})
-				.catch((error) => {
-					const {
-						response: {
-							data: { errorResponseMessage }
+			console.log(params);
+
+			if (buDate) {
+				setLoading(true);
+				uploadBatch(params)
+					.then((res) => {
+						if (res.status === 200) {
+							const { data } = res;
+							console.log(data);
+							setSuccessMsg(data);
 						}
-					} = error;
-					setErrorMsg(`${errorResponseMessage}`);
-					setLoading(false);
-				});
+						setLoading(false);
+					})
+					.catch((error) => {
+						const {
+							response: {
+								data: { errorResponseMessage }
+							}
+						} = error;
+						setErrorMsg(`${errorResponseMessage}`);
+						setLoading(false);
+					});
+			}
 		};
 	};
 
@@ -292,7 +326,7 @@ const Batch = (props) => {
 					scroll={{ y: 320 }}
 				/>
 				<div className='table-footer-batches'>
-				<Button
+					<Button
 						variant='contained'
 						color='primary'
 						className='search-buttons'
