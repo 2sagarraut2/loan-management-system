@@ -30,11 +30,11 @@ const TransactionHistory = () => {
 				if (res.status === 200) {
 					const { data } = res;
 					setData(data);
-					setprinOutstanding("");
-					setDueAmount("");
-					setInstlDue("");
-					setChargesDue("");
-					setExcessAmount("");
+					setprinOutstanding('');
+					setDueAmount('');
+					setInstlDue('');
+					setChargesDue('');
+					setExcessAmount('');
 				}
 				setLoading(false);
 			})
@@ -82,18 +82,23 @@ const TransactionHistory = () => {
 	// columns for table
 	const webCols = [
 		{
-			title: 'Tran. Date',
+			title: 'Transaction Date',
 			dataIndex: 'dtTranDate',
 			align: 'center'
 		},
 		{
-			title: 'Tran. ID',
+			title: 'Transaction ID',
 			dataIndex: 'tranId',
 			align: 'center'
 		},
 		{
 			title: 'Transaction Type',
 			dataIndex: 'tranType',
+			align: 'center'
+		},
+		{
+			title: 'Transaction Category',
+			dataIndex: 'tranCategory',
 			align: 'center'
 		},
 		{
@@ -106,7 +111,7 @@ const TransactionHistory = () => {
 			dataIndex: 'debitAmount',
 			render: (value, row, key) => {
 				const amount = numberWithCommas(row.debitAmount);
-				return (<span>{amount}</span>)
+				return <span>{amount}</span>;
 			},
 			align: 'center'
 		},
@@ -115,7 +120,7 @@ const TransactionHistory = () => {
 			dataIndex: 'creditAmount',
 			render: (value, row, key) => {
 				const amount = numberWithCommas(row.creditAmount);
-				return (<span>{amount}</span>)
+				return <span>{amount}</span>
 			},
 			align: 'center'
 		}
@@ -129,6 +134,7 @@ const TransactionHistory = () => {
 				const dtTranDate = row.dtTranDate;
 				const tranId = row.tranId;
 				const tranType = row.tranType;
+				const tranCategory = row.tranCategory;
 				const remark = row.remark;
 				const debitAmount = numberWithCommas(row.debitAmount);
 				const creditAmount = numberWithCommas(row.creditAmount);
@@ -150,16 +156,22 @@ const TransactionHistory = () => {
 								<h5>{tranType}</h5>
 							</span>
 							<span className='mobile-right-align'>
-								<h5 className='small-table-label'>Transaction Remark</h5>
-								<h5>{remark}</h5>
+								<h5 className='small-table-label'>Transaction Category</h5>
+								<h5>{tranCategory}</h5>
 							</span>
 						</div>
 						<div className='small-table-div'>
 							<span className='mobile-left-align'>
+								<h5 className='small-table-label'>Transaction Remark</h5>
+								<h5>{remark}</h5>
+							</span>
+							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Debit Amount</h5>
 								<h5>{debitAmount}</h5>
 							</span>
-							<span className='mobile-right-align'>
+						</div>
+						<div className='last-label-center'>
+							<span>
 								<h5 className='small-table-label'>Credit Amount</h5>
 								<h5>{creditAmount}</h5>
 							</span>
@@ -206,7 +218,9 @@ const TransactionHistory = () => {
 					<h4>Principal Outstanding</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{numberWithCommas(prinOutstanding)}</h4>
+					<h4 className='customer-title'>
+						{numberWithCommas(prinOutstanding)}
+					</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Due Balance Amount</h4>

@@ -110,7 +110,7 @@ const SignIn = (props) => {
 						<div>
 							<img className='main-logo' src={logo} alt='4FIN' />
 						</div>
-						<h4>Loan Management System</h4>
+						<h4 className='login-heading'>Loan Management System</h4>
 					</div>
 					<div className='version-div'>
 						<h6>Version 1.0</h6>

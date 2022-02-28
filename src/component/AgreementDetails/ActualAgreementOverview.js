@@ -17,7 +17,6 @@ const ActualAgreementOverview = () => {
 	const [homeBranch, setHomeBranch] = useState('');
 	const [servicingBranch, setServicingBranch] = useState('');
 	const [product, setProduct] = useState('');
-	// const [finalDisbursment, setFinalDisbursment] = useState('');
 	const [sacntionedAmount, setSanctionedAmount] = useState('');
 	const [loanAmount, setLoanAmount] = useState('');
 	const [previousInstallment, setPreviuosInstallment] = useState('');
@@ -39,7 +38,6 @@ const ActualAgreementOverview = () => {
 					setHomeBranch(data.homeBranch);
 					setServicingBranch(data.servBranch);
 					setProduct(data.productCode);
-					// setFinalDisbursment(data.servBranch) needs to be removed
 					setSanctionedAmount(data.sanctionedAmount);
 					setLoanAmount(data.loanAmount);
 					setPreviuosInstallment(data.prevInstallmentAmount);
@@ -118,12 +116,6 @@ const ActualAgreementOverview = () => {
 					<h4 className='customer-title'>{product}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4>Final Disbursment</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>'-'</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Sanctioned Amount/Loan</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
@@ -141,13 +133,13 @@ const ActualAgreementOverview = () => {
 					<h4>Previous Installment Amount</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{previousInstallment}</h4>
+					<h4 className='customer-title'>{numberWithCommas(previousInstallment)}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Next Installment Amount</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{nextInstallment}</h4>
+					<h4 className='customer-title'>{numberWithCommas(nextInstallment)}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Previous Installment Date</h4>

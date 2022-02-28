@@ -17,7 +17,7 @@ function App() {
 			<div className='App'>
 				<Routes>
 					{/* <Route element={<PublicRoute />}> */}
-						<Route path='/' element={<SignIn />} />
+					<Route path='/' element={<SignIn />} />
 					{/* </Route> */}
 					<Route element={<PrivateRoute />}>
 						<Route path='/dashboard' element={<Dashboard />} />
@@ -31,10 +31,7 @@ function App() {
 							element={<AgreementOverview />}
 						/>
 						<Route path='batch-control' element={<Batch />} />
-						<Route
-							path='batch-control/:batchId'
-							element={<BatchDetails />}
-						/>
+						<Route path='batch-control/:batchId' element={<BatchDetails />} />
 						<Route path='future-dues' element={<FutureDues />} />
 					</Route>
 				</Routes>

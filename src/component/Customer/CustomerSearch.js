@@ -129,7 +129,7 @@ const CustomerSearch = (props) => {
 			align: 'center'
 		},
 		{
-			title: 'Customer Type',
+			title: 'Customer Category',
 			dataIndex: 'custCategory',
 			align: 'center'
 		}
@@ -175,7 +175,7 @@ const CustomerSearch = (props) => {
 								<h5>{mobile}</h5>
 							</span>
 							<span className='mobile-right-align'>
-								<h5 className='small-table-label'>Customer Type</h5>
+								<h5 className='small-table-label'>Customer Category</h5>
 								<h5>{type}</h5>
 							</span>
 						</div>

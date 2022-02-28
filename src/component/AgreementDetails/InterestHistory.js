@@ -17,6 +17,7 @@ import Loader from '../Loader';
 import { useParams } from 'react-router-dom';
 import { convertDate } from '../../utils';
 import { agreementLoanList, interstAccuralHistory } from '../../api';
+import { numberWithCommas } from '../../utils';
 
 const InterestHistory = () => {
 	const [loading, setLoading] = useState(false);
@@ -85,7 +86,7 @@ const InterestHistory = () => {
 	// columns for table
 	const webCols = [
 		{
-			title: 'Tran. Date',
+			title: 'Transaction Date',
 			dataIndex: 'dtTranDate',
 			align: 'center'
 		},
@@ -102,11 +103,19 @@ const InterestHistory = () => {
 		{
 			title: 'Debit Amount',
 			dataIndex: 'debitAmount',
+			render: (value, row, key) => {
+				const amount = numberWithCommas(row.debitAmount);
+				return <span>{amount}</span>;
+			},
 			align: 'center'
 		},
 		{
 			title: 'Credit Amount',
 			dataIndex: 'creditAmount',
+			render: (value, row, key) => {
+				const amount = numberWithCommas(row.creditAmount);
+				return <span>{amount}</span>;
+			},
 			align: 'center'
 		}
 	];
@@ -140,13 +149,13 @@ const InterestHistory = () => {
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Debit Amount</h5>
-								<h5>{debitAmount}</h5>
+								<h5>{numberWithCommas(debitAmount)}</h5>
 							</span>
 						</div>
 						<div className='last-label-center'>
 							<span>
 								<h5 className='small-table-label'>Credit Amount</h5>
-								<h5>{creditAmount}</h5>
+								<h5>{numberWithCommas(creditAmount)}</h5>
 							</span>
 						</div>
 					</div>

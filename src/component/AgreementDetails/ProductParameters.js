@@ -4,6 +4,7 @@ import { Alert } from '@material-ui/lab';
 import Loader from '../Loader';
 import { useParams } from 'react-router-dom';
 import { productParameters } from '../../api';
+import { numberWithCommas } from '../../utils';
 
 const ProductParameters = () => {
 	const [loading, setLoading] = useState(false);
@@ -231,7 +232,7 @@ const ProductParameters = () => {
 					<h4>Minimum Prepayment Amount</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{minPrepayAmount}</h4>
+					<h4 className='customer-title'>{numberWithCommas(minPrepayAmount)}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Installment Gap Between Two 2 Prepayment</h4>
@@ -267,13 +268,13 @@ const ProductParameters = () => {
 					<h4>Minimum Installment</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{minInst}</h4>
+					<h4 className='customer-title'>{numberWithCommas(minInst)}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Maximum Installment</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{maxInst}</h4>
+					<h4 className='customer-title'>{numberWithCommas(maxInst)}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Minimum Interest Rate</h4>
@@ -309,7 +310,7 @@ const ProductParameters = () => {
 					<h4>Dropline Amount</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{dropLineAmount}</h4>
+					<h4 className='customer-title'>{numberWithCommas(dropLineAmount)}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Dropline Frequency</h4>

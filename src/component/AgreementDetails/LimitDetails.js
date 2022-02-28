@@ -79,6 +79,12 @@ const LimitDetails = () => {
 		{
 			title: 'Drawing Power',
 			dataIndex: 'drawingPower',
+			render: (value, row, key) => {
+				const power = row.drawingPower;
+				return (
+					<span>{numberWithCommas(power)}</span>
+				)
+			},
 			align: 'center'
 		},
 		{

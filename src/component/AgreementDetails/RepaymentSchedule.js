@@ -82,15 +82,19 @@ const RepaymentSchedule = () => {
 		{
 			title: 'Opening',
 			dataIndex: 'openingPrincipal',
+			render: (value, row, key) => {
+				const opening = numberWithCommas(row.openingPrincipal);
+				return <span>{numberWithCommas(opening)}</span>
+			},
 			align: 'center'
 		},
 		{
-			title: 'Inst#',
+			title: 'Installment No',
 			dataIndex: 'installmentNo',
 			align: 'center'
 		},
 		{
-			title: 'Inst. Date',
+			title: 'Installment Date',
 			dataIndex: 'dtInstallment',
 			align: 'center'
 		},
@@ -104,18 +108,30 @@ const RepaymentSchedule = () => {
 			align: 'center'
 		},
 		{
-			title: 'Interest',
-			dataIndex: 'interestRate',
+			title: 'Interest Amount',
+			dataIndex: 'interestAmount',
+			render: (value, row, key) => {
+				const amount = numberWithCommas(row.interestAmount);
+				return <span>{numberWithCommas(amount)}</span>;
+			},
 			align: 'center'
 		},
 		{
 			title: 'BPI',
 			dataIndex: 'bpiAmount',
+			render: (value, row, key) => {
+				const bpiAmount = row.bpiAmount;
+				return <span>{numberWithCommas(bpiAmount)}</span>;
+			},
 			align: 'center'
 		},
 		{
-			title: 'Inst. Amt.',
+			title: 'Installment Amount',
 			dataIndex: 'installmentAmount',
+			render: (value, row, key) => {
+				const instAmount = row.installmentAmount;
+				return <span>{numberWithCommas(instAmount)}</span>;
+			},
 			align: 'center'
 		},
 		{
@@ -128,7 +144,7 @@ const RepaymentSchedule = () => {
 			align: 'center'
 		},
 		{
-			title: 'Payment Dt.',
+			title: 'Payment Date',
 			dataIndex: 'dtPaymentDate',
 			align: 'center'
 		}
@@ -144,7 +160,7 @@ const RepaymentSchedule = () => {
 				const installmentNo = row.installmentNo;
 				const dtInstallment = row.dtInstallment;
 				const principalAmount = row.principalAmount;
-				const interestRate = row.interestRate;
+				const interestAmount = row.interestAmount;
 				const bpiAmount = row.bpiAmount;
 				const installmentAmount = row.installmentAmount;
 				const closingPrincipal = row.closingPrincipal;
@@ -173,12 +189,12 @@ const RepaymentSchedule = () => {
 						</div>
 						<div className='small-table-div'>
 							<span className='mobile-left-align'>
-								<h5 className='small-table-label'>Interest</h5>
-								<h5>{interestRate}</h5>
+								<h5 className='small-table-label'>Interest Amount</h5>
+								<h5>{numberWithCommas(interestAmount)}</h5>
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>BPI</h5>
-								<h5>{bpiAmount}</h5>
+								<h5>{numberWithCommas(bpiAmount)}</h5>
 							</span>
 						</div>
 						<div className='small-table-div'>
@@ -188,7 +204,7 @@ const RepaymentSchedule = () => {
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Closing</h5>
-								<h5>{closingPrincipal}</h5>
+								<h5>{numberWithCommas(closingPrincipal)}</h5>
 							</span>
 						</div>
 						<div className='last-label-center'>
