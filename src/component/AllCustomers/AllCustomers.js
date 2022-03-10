@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Typography } from '@material-ui/core';
 import BackButton from '../BackButton';
 import { Table } from 'antd';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const AllCustomers = (props) => {
-	const { data, total, setTotal, viewAllCustomers, pageNo, setPageNo } = props;
+	const { data, total, pageNo, setPageNo } = props;
 	const isWebDevice = useMediaQuery('(min-width: 700px)');
 
 	const handleOnPageChange = (index) => {
