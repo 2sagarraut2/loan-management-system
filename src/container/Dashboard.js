@@ -4,13 +4,21 @@ import Grid from '@material-ui/core/Grid';
 import '../styles/dashboard.scss';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
-// import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ListAltRoundedIcon from '@material-ui/icons/ListAltRounded';
 import FindInPageRoundedIcon from '@material-ui/icons/FindInPageRounded';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import BallotRoundedIcon from '@material-ui/icons/BallotRounded';
+import AccessTimeRoundedIcon from '@material-ui/icons/AccessTimeRounded';
+// import ReceiptRoundedIcon from '@material-ui/icons/ReceiptRounded';
+// import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
 	const menuItems = [
+		{
+			text: 'View All Customers',
+			icon: <ListAltRoundedIcon />,
+			path: '/view-customers'
+		},
 		{
 			text: 'Customer Search',
 			icon: <FindInPageRoundedIcon />,
@@ -21,16 +29,26 @@ const Dashboard = () => {
 			icon: <AddBoxRoundedIcon />,
 			path: '/batch-control'
 		},
-		// {
-		// 	text: 'My Approvals',
-		// 	icon: <ThumbUpIcon />,
-		// 	path: '/approvals'
-		// },
 		{
 			text: 'Future Dues',
-			icon: <AccessTimeIcon />,
+			icon: <AccessTimeRoundedIcon />,
 			path: '/future-dues'
 		},
+		{
+			text: 'EOD Status',
+			icon: <BallotRoundedIcon />,
+			path: '/eod-status'
+		},
+		// {
+		// 	text: 'Direct Receipt',
+		// 	icon: <ReceiptRoundedIcon />,
+		// 	path: '/direct-receipt'
+		// },
+		// {
+		// 	text: 'Charges Booking',
+		// 	icon: <AccountBalanceRoundedIcon />,
+		// 	path: '/charges-booking'
+		// },
 	];
 
 	const history = useNavigate();

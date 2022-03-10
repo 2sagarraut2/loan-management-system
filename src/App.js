@@ -10,6 +10,8 @@ import AgreementOverview from './container/AgreementOverview/AgreementOverview';
 import FutureDues from './container/FutureDues/FutureDues';
 import Batch from './container/BatchControl/Batch';
 import BatchDetails from './container/BatchDetails/BatchDetails';
+import EODStatus from './container/EODStatus/EODStatus';
+import ViewCustomers from './container/AllCustomers/ViewCustomers';
 
 function App() {
 	return (
@@ -20,6 +22,7 @@ function App() {
 					<Route path='/' element={<SignIn />} />
 					{/* </Route> */}
 					<Route element={<PrivateRoute />}>
+						<Route path='view-customers' element={<ViewCustomers />} />
 						<Route path='/dashboard' element={<Dashboard />} />
 						<Route path='customer-search' element={<Customer />} />
 						<Route
@@ -33,6 +36,7 @@ function App() {
 						<Route path='batch-control' element={<Batch />} />
 						<Route path='batch-control/:batchId' element={<BatchDetails />} />
 						<Route path='future-dues' element={<FutureDues />} />
+						<Route path='eod-status' element={<EODStatus />} />
 					</Route>
 				</Routes>
 			</div>

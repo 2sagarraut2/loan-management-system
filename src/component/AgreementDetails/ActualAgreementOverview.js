@@ -27,7 +27,8 @@ const ActualAgreementOverview = () => {
 	const [outstanding, setOutstanding] = useState('');
 	const [excessAmount, setExcessAmount] = useState('');
 	const [assetQuality, setAssetQuality] = useState('');
-	const [DPDStatus, SetDPDStatus] = useState('');
+	const [DPDStatus, setDPDStatus] = useState('');
+	const [colender, setColender] = useState([]);
 
 	useEffect(() => {
 		setLoading(true);
@@ -48,7 +49,8 @@ const ActualAgreementOverview = () => {
 					setOutstanding(data.outstandingAmount);
 					setExcessAmount(data.excessAmount);
 					setAssetQuality(data.assetClass);
-					SetDPDStatus(data.dpd);
+					setDPDStatus(data.dpd);
+					setColender(data.colender);
 				}
 				setLoading(false);
 			})
@@ -133,13 +135,17 @@ const ActualAgreementOverview = () => {
 					<h4>Previous Installment Amount</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{numberWithCommas(previousInstallment)}</h4>
+					<h4 className='customer-title'>
+						{numberWithCommas(previousInstallment)}
+					</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Next Installment Amount</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{numberWithCommas(nextInstallment)}</h4>
+					<h4 className='customer-title'>
+						{numberWithCommas(nextInstallment)}
+					</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Previous Installment Date</h4>
@@ -182,6 +188,12 @@ const ActualAgreementOverview = () => {
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4 className='customer-title'>{DPDStatus}</h4>
+				</Grid>
+				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
+					<h4>Co-lender</h4>
+				</Grid>
+				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
+					<span className='customer-title'>{colender.map((item) => `${item}, `)}</span>
 				</Grid>
 			</Grid>
 		</div>

@@ -80,15 +80,6 @@ const RepaymentSchedule = () => {
 	// columns for table
 	const webCols = [
 		{
-			title: 'Opening',
-			dataIndex: 'openingPrincipal',
-			render: (value, row, key) => {
-				const opening = numberWithCommas(row.openingPrincipal);
-				return <span>{numberWithCommas(opening)}</span>
-			},
-			align: 'center'
-		},
-		{
 			title: 'Installment No',
 			dataIndex: 'installmentNo',
 			align: 'center'
@@ -96,6 +87,15 @@ const RepaymentSchedule = () => {
 		{
 			title: 'Installment Date',
 			dataIndex: 'dtInstallment',
+			align: 'center'
+		},
+		{
+			title: 'Opening',
+			dataIndex: 'openingPrincipal',
+			render: (value, row, key) => {
+				const opening = numberWithCommas(row.openingPrincipal);
+				return <span>{numberWithCommas(opening)}</span>;
+			},
 			align: 'center'
 		},
 		{
@@ -169,18 +169,18 @@ const RepaymentSchedule = () => {
 					<div>
 						<div className='small-table-div'>
 							<span className='mobile-left-align'>
-								<h5 className='small-table-label'>Opening</h5>
-								<h5>{numberWithCommas(openingPrincipal)}</h5>
+								<h5 className='small-table-label'>Inst. No.</h5>
+								<h5>{installmentNo}</h5>
 							</span>
 							<span className='mobile-right-align'>
-								<h5 className='small-table-label'>Inst#</h5>
-								<h5>{installmentNo}</h5>
+								<h5 className='small-table-label'>Inst. Date</h5>
+								<h5>{dtInstallment}</h5>
 							</span>
 						</div>
 						<div className='small-table-div'>
 							<span className='mobile-left-align'>
-								<h5 className='small-table-label'>Inst. Date</h5>
-								<h5>{dtInstallment}</h5>
+								<h5 className='small-table-label'>Opening</h5>
+								<h5>{numberWithCommas(openingPrincipal)}</h5>
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Principal</h5>

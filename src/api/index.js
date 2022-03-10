@@ -28,6 +28,7 @@ import {
 	uploadBatch
 } from './batchcontrol';
 import { getBusinessDate } from './businessdate.js';
+import { viewAllCustomers } from './allcustomers.js';
 
 export {
 	CheckUser,
@@ -53,5 +54,6 @@ export {
 	batchDetails,
 	downloadBatch,
 	uploadBatch,
-	getBusinessDate
+	getBusinessDate,
+	viewAllCustomers
 };

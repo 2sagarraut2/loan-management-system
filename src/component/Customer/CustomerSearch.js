@@ -38,6 +38,11 @@ const CustomerSearch = (props) => {
 			return;
 		}
 
+		if (name === 'losapplicationno') {
+			setValues(value.toUpperCase());
+			return;
+		}
+
 		setValues(value);
 	};
 
@@ -72,11 +77,16 @@ const CustomerSearch = (props) => {
 		},
 		{
 			key: 3,
+			name: 'LOS Application No',
+			type: 'los_application'
+		},
+		{
+			key: 4,
 			name: 'Mobile No.',
 			type: 'mobile_no'
 		},
 		{
-			key: 4,
+			key: 5,
 			name: 'Pan No.',
 			type: 'pan_no'
 		}
@@ -254,6 +264,27 @@ const CustomerSearch = (props) => {
 									}}
 								/>
 							)}
+
+							{criterion === 'los_application' && (
+								<TextField
+									className='cust-search-fields'
+									size='small'
+									label='LOS Application No'
+									variant='outlined'
+									name='losapplicationno'
+									value={values}
+									onChange={handleOnChange}
+									style={{ margin: 5 }}
+									onKeyPress={(event) => {
+										if (event.key === 'Enter') {
+											if (values) {
+												handleOnSearch();
+											}
+										}
+									}}
+								/>
+							)}
+
 							{criterion === 'mobile_no' && (
 								<TextField
 									className='cust-search-fields'

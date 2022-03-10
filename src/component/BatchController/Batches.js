@@ -276,7 +276,7 @@ const Batches = (props) => {
 			.then((res) => {
 				if (res.status === 200) {
 					const { data } = res;
-					setBuDate(data.data);
+					setBuDate(data);
 				}
 			})
 			.catch((error) => {
@@ -298,20 +298,15 @@ const Batches = (props) => {
 
 		const params = {
 			arrBatchId: dataIds,
-			businessDate: buDate
+			businessDate: convertDate(buDate)
 		};
-		console.log(params);
 
 		setLoading(true);
 
 		downloadBatch(params)
 			.then((res) => {
 				if (res.status === 200) {
-					const byteArray = res.data;
-
-					var blob = new Blob([byteArray], {
-						type: 'application/octet-stream'
-					});
+					var blob = new Blob([res.data], { type: 'application/zip' });
 					var link = document.createElement('a');
 					link.href = window.URL.createObjectURL(blob);
 					link.download = 'download.zip';
@@ -322,7 +317,7 @@ const Batches = (props) => {
 			.catch((error) => {
 				const {
 					response: {
-						data: { errorResponseMessage }
+						data: { errorResponseMessage = 'Error occured while downloading file' }
 					}
 				} = error;
 				setErrorMsg(`${errorResponseMessage}`);
@@ -566,7 +561,6 @@ const Batches = (props) => {
 					<Button
 						variant='contained'
 						color='primary'
-						className='search-buttons'
 						onClick={handleOnDownload}
 						disabled={!selectedRowKeys.length}
 						style={{ marginLeft: 5 }}>

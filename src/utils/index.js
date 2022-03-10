@@ -44,7 +44,10 @@ export const isLogin = () => {
 // to add commas to numbers
 export const numberWithCommas = (x) => {
 	if (x) {
-		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		return x
+			.toString()
+			.replace(/\D/g, '')
+			.replace(/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/g, '$1,');
 	} else {
 		return x;
 	}

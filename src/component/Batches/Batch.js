@@ -20,7 +20,7 @@ import {
 	uploadBatch,
 	getBusinessDate
 } from '../../api';
-import { numberWithCommas } from '../../utils';
+import { numberWithCommas, convertDate } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -199,21 +199,15 @@ const Batch = (props) => {
 
 		const params = {
 			arrBatchId: dataIds,
-			businessDate: buDate
+			businessDate: convertDate(buDate)
 		};
 
 		setLoading(true);
 
-		console.log('params', params);
-
 		downloadBatch(params)
 			.then((res) => {
 				if (res.status === 200) {
-					const byteArray = res.data;
-
-					var blob = new Blob([byteArray], {
-						type: 'application/octet-stream'
-					});
+					var blob = new Blob([res.data], { type: 'application/zip' });
 					var link = document.createElement('a');
 					link.href = window.URL.createObjectURL(blob);
 					link.download = 'download.zip';
@@ -224,7 +218,7 @@ const Batch = (props) => {
 			.catch((error) => {
 				const {
 					response: {
-						data: { errorResponseMessage }
+						data: { errorResponseMessage = 'Error occured while downloading file' }
 					}
 				} = error;
 				setErrorMsg(`${errorResponseMessage}`);
@@ -248,10 +242,8 @@ const Batch = (props) => {
 				batchId: batchId,
 				fileData: formData,
 				fileName: files[0].name,
-				businessDate: buDate
+				businessDate: convertDate(buDate)
 			};
-
-			console.log(params);
 
 			if (buDate) {
 				setLoading(true);
@@ -323,7 +315,7 @@ const Batch = (props) => {
 					dataSource={data}
 					columns={isWebDevice ? webCols : deviceCols}
 					pagination={false}
-					scroll={{ y: 320 }}
+					scroll={{ y: 330 }}
 				/>
 				<div className='table-footer-batches'>
 					<Button
@@ -342,6 +334,9 @@ const Batch = (props) => {
 							type='file'
 							accept='.csv'
 							onChange={onFileUploadChange}
+							onClick={(event) => {
+								event.target.value = null;
+							}}
 						/>
 						<label htmlFor='contained-button-file'>
 							<Button

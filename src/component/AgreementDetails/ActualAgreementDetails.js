@@ -210,7 +210,7 @@ const ActualAgreementDetails = () => {
 					<h4 className='customer-title'>{tenorEnd}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4>Unbilled Principle</h4>
+					<h4>Unbilled Principal</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4 className='customer-title'>{numberWithCommas(unbilledPrinciple)}</h4>

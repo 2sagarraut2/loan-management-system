@@ -33,6 +33,7 @@ export const downloadBatch = (params) => {
 
 	return axios.get(url, {
 		method: 'GET',
+		responseType: 'arraybuffer',
 		headers: { 'Content-Type': 'application/json' }
 	});
 };
