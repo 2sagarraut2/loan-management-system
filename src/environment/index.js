@@ -8,11 +8,11 @@ const env_urls = {
 
 const environments = {
 	dev: {
-		devDataLambda: `${env_urls.DEV}`
+		dataURL: `${env_urls.DEV}`
 	},
-	stage: {},
-	production: {},
-	uat: {}
+	production: {
+        dataURL: `${env_urls.PRODUCTION}`
+    }
 };
 
 export default environments[process.env.REACT_APP_ENV] || environments['dev'];

@@ -12,6 +12,10 @@ import Batch from './container/BatchControl/Batch';
 import BatchDetails from './container/BatchDetails/BatchDetails';
 import EODStatus from './container/EODStatus/EODStatus';
 import ViewCustomers from './container/AllCustomers/ViewCustomers';
+import CashReceipt from './container/CashReceipt/CashReceipt';
+import CreateCashReceipt from './component/CashReceipt/CreateCashReceipt';
+import ChequeReceipt from './container/ChequeReceipt/ChequeReceipt';
+import CreateChequeReceipt from './component/ChequeReceipt/CreateChequeReceipt'
 
 function App() {
 	return (
@@ -37,6 +41,10 @@ function App() {
 						<Route path='batch-control/:batchId' element={<BatchDetails />} />
 						<Route path='future-dues' element={<FutureDues />} />
 						<Route path='eod-status' element={<EODStatus />} />
+						<Route path='cash-receipt' element={<CashReceipt />} />
+						<Route path='cash-receipt/:userId/:mId' element={<CreateCashReceipt />} />
+						<Route path='cheque-receipt' element={<ChequeReceipt />} />
+						<Route path='cheque-receipt/:userId/:mId' element={<CreateChequeReceipt />} />
 					</Route>
 				</Routes>
 			</div>

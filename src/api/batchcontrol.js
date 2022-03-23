@@ -1,4 +1,6 @@
-import { baseURL } from './environment';
+// import { baseURL } from './environment';
+import environments from '../environment';
+
 import axios from 'axios';
 
 // search batch page
@@ -8,7 +10,7 @@ export const searchBatchDetails = ({
 	toDateParam,
 	fromDateParam
 }) => {
-	let url = `${baseURL}/lmsapi/instrument/getBatchList?instrumentType=${instrumentType}&batchStatus=${batchStatus}&fromDate=${fromDateParam}&toDate=${toDateParam}`;
+	let url = `${environments.dataURL}/lmsapi/instrument/getBatchList?instrumentType=${instrumentType}&batchStatus=${batchStatus}&fromDate=${fromDateParam}&toDate=${toDateParam}`;
 
 	return axios.get(url, {
 		method: 'GET',
@@ -18,7 +20,7 @@ export const searchBatchDetails = ({
 
 // show batch details
 export const batchDetails = (batchId) => {
-	let url = `${baseURL}/lmsapi/instrument/getBatchDetailsList?batchId=${batchId}`;
+	let url = `${environments.dataURL}/lmsapi/instrument/getBatchDetailsList?batchId=${batchId}`;
 
 	return axios.get(url, {
 		method: 'GET',
@@ -29,7 +31,7 @@ export const batchDetails = (batchId) => {
 // Download Batch
 export const downloadBatch = (params) => {
 	const { arrBatchId, businessDate } = params;
-	let url = `${baseURL}/lmsapi/instrument/batchDownloadInBulk?arrBatchId=${arrBatchId}&businessDate=${businessDate}`;
+	let url = `${environments.dataURL}/lmsapi/instrument/batchDownloadInBulk?arrBatchId=${arrBatchId}&businessDate=${businessDate}`;
 
 	return axios.get(url, {
 		method: 'GET',
@@ -41,7 +43,7 @@ export const downloadBatch = (params) => {
 // upload batch
 export const uploadBatch = (params) => {
 	const { batchId, fileData, fileName, businessDate } = params;
-	let url = `${baseURL}/lmsapi/instrument/batchUploadCsv?batchId=${batchId}&fileName=${fileName}&businessDate=${businessDate}`;
+	let url = `${environments.dataURL}/lmsapi/instrument/batchUploadCsv?batchId=${batchId}&fileName=${fileName}&businessDate=${businessDate}`;
 
 	return axios.post(url, fileData, {
 		method: 'POST',

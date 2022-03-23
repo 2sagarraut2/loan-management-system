@@ -19,7 +19,10 @@ import {
 	agreementTransList,
 	interstAccuralHistory,
 	agreementInfo,
-	agreementLoanInfo
+	agreementLoanInfo,
+	ePayAgreementDetails,
+	collateralDetails,
+	customerList
 } from './agreementdetails';
 import {
 	searchBatchDetails,
@@ -29,6 +32,7 @@ import {
 } from './batchcontrol';
 import { getBusinessDate } from './businessdate.js';
 import { viewAllCustomers } from './allcustomers.js';
+import { cashReceipt, chequeReceipt } from './paymentrequests.js';
 
 export {
 	CheckUser,
@@ -55,5 +59,10 @@ export {
 	downloadBatch,
 	uploadBatch,
 	getBusinessDate,
-	viewAllCustomers
+	viewAllCustomers,
+	ePayAgreementDetails,
+	collateralDetails,
+	customerList,
+	cashReceipt,
+	chequeReceipt
 };

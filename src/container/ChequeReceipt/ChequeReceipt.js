@@ -1,53 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import CustomerSearch from '../../component/Customer/CustomerSearch';
+// import CustomerTable from '../../component/Customer/CustomerTable';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Loader from '../../component/Loader';
 import '../../styles/customer.scss';
-import { searchCustomer, viewAllCustomers } from '../../api';
-import CustomerTable from '../../component/Customer/CustomerTable';
+import '../../styles/paymentrequest.scss';
+import { searchCustomer } from '../../api';
+import ChequeReceiptTable from '../../component/ChequeReceipt/ChequeReceiptTable';
 
-const Customer = () => {
+const ChequeReceipt = () => {
 	const [data, setData] = useState([]);
 	const [pageNo, setPageNo] = useState(1);
 	const [total, setTotal] = useState(0);
 	const [loading, setLoading] = useState(false);
 	const [successMsg, setSuccessMsg] = useState('');
 	const [errorMsg, setErrorMsg] = useState('');
-
-	useEffect(() => {
-		getAllCustomers();
-
-		// eslint-disable-next-line
-	}, []);
-
-	const getAllCustomers = () => {
-		setLoading(true);
-
-		const params = {
-			pageNo: pageNo - 1,
-			pageSize: 10
-		};
-
-		viewAllCustomers(params)
-			.then((res) => {
-				if (res.status === 200) {
-					setData(res.data.allAgreementDto);
-					setTotal(res.data.totalRows);
-				}
-				setLoading(false);
-			})
-			.catch((error) => {
-				const {
-					response: {
-						data: { errorResponseMessage }
-					}
-				} = error;
-				setErrorMsg(`${errorResponseMessage}`);
-				setData([]);
-				setLoading(false);
-			});
-	};
 
 	const searchForCustomer = (params) => {
 		setLoading(true);
@@ -102,13 +70,18 @@ const Customer = () => {
 			</Snackbar>
 			{loading && <Loader />}
 			<div>
+				{/* using customer search component  */}
 				<CustomerSearch
-					title="Customer Search"
+					title='Cheque Receipt'
+					data={data}
 					searchForCustomer={searchForCustomer}
 					setData={setData}
-					getAllCustomers={getAllCustomers}
+					pageNo={pageNo}
+					setPageNo={setPageNo}
+					total={total}
+					setTotal={setTotal}
 				/>
-				<CustomerTable
+				<ChequeReceiptTable
 					data={data}
 					pageNo={pageNo}
 					setPageNo={setPageNo}
@@ -120,4 +93,4 @@ const Customer = () => {
 	);
 };
 
-export default Customer;
+export default ChequeReceipt;

@@ -8,7 +8,8 @@ import ListAltRoundedIcon from '@material-ui/icons/ListAltRounded';
 import FindInPageRoundedIcon from '@material-ui/icons/FindInPageRounded';
 import BallotRoundedIcon from '@material-ui/icons/BallotRounded';
 import AccessTimeRoundedIcon from '@material-ui/icons/AccessTimeRounded';
-// import ReceiptRoundedIcon from '@material-ui/icons/ReceiptRounded';
+import ReceiptRoundedIcon from '@material-ui/icons/ReceiptRounded';
+import CreditCardRoundedIcon from '@material-ui/icons/CreditCardRounded';
 // import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,7 +26,7 @@ const Dashboard = () => {
 			path: '/customer-search'
 		},
 		{
-			text: 'Batch Control Center',
+			text: 'EMI Presentation Batches',
 			icon: <AddBoxRoundedIcon />,
 			path: '/batch-control'
 		},
@@ -39,11 +40,16 @@ const Dashboard = () => {
 			icon: <BallotRoundedIcon />,
 			path: '/eod-status'
 		},
-		// {
-		// 	text: 'Direct Receipt',
-		// 	icon: <ReceiptRoundedIcon />,
-		// 	path: '/direct-receipt'
-		// },
+		{
+			text: 'Cash Receipt',
+			icon: <ReceiptRoundedIcon />,
+			path: '/cash-receipt'
+		},
+		{
+			text: 'Cheque Receipt',
+			icon: <CreditCardRoundedIcon />,
+			path: '/cheque-receipt'
+		},
 		// {
 		// 	text: 'Charges Booking',
 		// 	icon: <AccountBalanceRoundedIcon />,

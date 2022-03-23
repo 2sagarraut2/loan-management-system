@@ -1,8 +1,10 @@
+// import { baseURL } from './environment';
+
+import environments from '../environment';
 import axios from 'axios';
 
 export const CheckUser = (requestParams) => {
-
-	let url = `http://qa.4fin.in/creditapi/validateUser`;
+	let url = `${environments.dataURL}/creditapi/validateUser`;
 
 	return axios.post(url, requestParams, {
 		method: 'POST',

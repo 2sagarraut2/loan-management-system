@@ -1,9 +1,11 @@
-import { baseURL } from './environment';
+// import { baseURL } from './environment';
+import environments from '../environment';
+
 import axios from 'axios';
 
 // agreement overview
 export const agreementInfo = (agreementId) => {
-    let url = `${baseURL}/lmsapi/agreement/getAgreementInfo?masterAgreement=${agreementId}`;
+    let url = `${environments.dataURL}/lmsapi/agreement/getAgreementInfo?masterAgreement=${agreementId}`;
 
 	return axios.get(url, {
 		method: 'GET',
@@ -13,7 +15,7 @@ export const agreementInfo = (agreementId) => {
 
 // agreement details
 export const agreementLoanInfo = (agreementId, loanId) => {
-    let url = `${baseURL}/lmsapi/agreement/getAgreementLoanInfo?mastAgrId=${agreementId}&loanId=${loanId}`;
+    let url = `${environments.dataURL}/lmsapi/agreement/getAgreementLoanInfo?mastAgrId=${agreementId}&loanId=${loanId}`;
 
 	return axios.get(url, {
 		method: 'GET',
@@ -23,7 +25,7 @@ export const agreementLoanInfo = (agreementId, loanId) => {
 
 // product parameters
 export const productParameters = (agreementId) => {
-    let url = `${baseURL}/lmsapi/agreement/getAgreementProductInfo?masterAgreement=${agreementId}`;
+    let url = `${environments.dataURL}/lmsapi/agreement/getAgreementProductInfo?masterAgreement=${agreementId}`;
 
 	return axios.get(url, {
 		method: 'GET',
@@ -33,7 +35,7 @@ export const productParameters = (agreementId) => {
 
 // fee
 export const feeList = (agreementId) => {
-    let url = `${baseURL}/lmsapi/agreement/getAgreementFeeList?masterAgreement=${agreementId}`;
+    let url = `${environments.dataURL}/lmsapi/agreement/getAgreementFeeList?masterAgreement=${agreementId}`;
 
 	return axios.get(url, {
 		method: 'GET',
@@ -43,7 +45,7 @@ export const feeList = (agreementId) => {
 
 // current due details
 export const agreementDueList = (agreementId) => {
-    let url = `${baseURL}/lmsapi/agreement/getAgreementDueList?masterAgreement=${agreementId}`;
+    let url = `${environments.dataURL}/lmsapi/agreement/getAgreementDueList?masterAgreement=${agreementId}`;
 
 	return axios.get(url, {
 		method: 'GET',
@@ -53,7 +55,7 @@ export const agreementDueList = (agreementId) => {
 
 // limit details
 export const agreementLimitList = (agreementId) => {
-    let url = `${baseURL}/lmsapi/agreement/getAgreementLimitList?masterAgreement=${agreementId}`;
+    let url = `${environments.dataURL}/lmsapi/agreement/getAgreementLimitList?masterAgreement=${agreementId}`;
 
 	return axios.get(url, {
 		method: 'GET',
@@ -63,7 +65,7 @@ export const agreementLimitList = (agreementId) => {
 
 // repayment schedule loanID dropdown
 export const agreementLoanList = (agreementId) => {
-    let url = `${baseURL}/lmsapi/agreement/getAgreementLoanList?masterAgreement=${agreementId}`;
+    let url = `${environments.dataURL}/lmsapi/agreement/getAgreementLoanList?masterAgreement=${agreementId}`;
 
 	return axios.get(url, {
 		method: 'GET',
@@ -73,7 +75,7 @@ export const agreementLoanList = (agreementId) => {
 
 // repayment schedule table
 export const agreementAmortList = (agreementId) => {
-    let url = `${baseURL}/lmsapi/agreement/getAgreementAmortList?masterAgreement=${agreementId}`;
+    let url = `${environments.dataURL}/lmsapi/agreement/getAgreementAmortList?masterAgreement=${agreementId}`;
 
 	return axios.get(url, {
 		method: 'GET',
@@ -83,7 +85,7 @@ export const agreementAmortList = (agreementId) => {
 
 // transaction history header
 export const agreementTransHeader = (agreementId) => {
-    let url = `${baseURL}/lmsapi/agreement/getAgreementTranHistoryHeader?masterAgreement=${agreementId}`;
+    let url = `${environments.dataURL}/lmsapi/agreement/getAgreementTranHistoryHeader?masterAgreement=${agreementId}`;
 
 	return axios.get(url, {
 		method: 'GET',
@@ -93,7 +95,7 @@ export const agreementTransHeader = (agreementId) => {
 
 // transaction history
 export const agreementTransList = (agreementId) => {
-    let url = `${baseURL}/lmsapi/agreement/getAgreementTranHistoryList?masterAgreement=${agreementId}`;
+    let url = `${environments.dataURL}/lmsapi/agreement/getAgreementTranHistoryList?masterAgreement=${agreementId}`;
 
 	return axios.get(url, {
 		method: 'GET',
@@ -103,7 +105,37 @@ export const agreementTransList = (agreementId) => {
 
 //interst accural history
 export const interstAccuralHistory = (agreementId, loanID, fromDate, toDate) => {
-    let url = `${baseURL}/lmsapi/agreement/getAgreementIntAccrualList?masterAgreement=${agreementId}&loanId=${loanID}&fromDate=${fromDate}&toDate=${toDate}`;
+    let url = `${environments.dataURL}/lmsapi/agreement/getAgreementIntAccrualList?masterAgreement=${agreementId}&loanId=${loanID}&fromDate=${fromDate}&toDate=${toDate}`;
+
+	return axios.get(url, {
+		method: 'GET',
+		headers: { 'Content-Type': 'application/json' }
+	});
+};
+
+// epay
+export const ePayAgreementDetails = (agreementId) => {
+    let url = `${environments.dataURL}/lmsapi/agreement/getEpayAgreementDetails?mastAgrId=${agreementId}`;
+
+	return axios.get(url, {
+		method: 'GET',
+		headers: { 'Content-Type': 'application/json' }
+	});
+};
+
+// collateral details
+export const collateralDetails = (agreementId) => {
+    let url = `${environments.dataURL}/lmsapi/agreement/getCollateralDetails?mastAgrId=${agreementId}`;
+
+	return axios.get(url, {
+		method: 'GET',
+		headers: { 'Content-Type': 'application/json' }
+	});
+};
+
+// list of co-applicant / customers
+export const customerList = (agreementId) => {
+    let url = `${environments.dataURL}/lmsapi/customer/getCustomerList?type=master_agreement_id&value=${agreementId}`;
 
 	return axios.get(url, {
 		method: 'GET',

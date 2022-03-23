@@ -399,7 +399,7 @@ const Batches = (props) => {
 			{loading && <Loader />}
 			<div className='header_container'>
 				<div className='title-container'>
-					<Typography variant='h6'>Batch Control Center</Typography>
+					<Typography variant='h6'>EMI Presentation Batches</Typography>
 					<BackButton
 						path='/dashboard'
 						size={isWebDevice ? 'medium' : 'small'}

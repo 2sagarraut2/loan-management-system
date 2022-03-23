@@ -1,9 +1,11 @@
-import { baseURL } from './environment';
+// import { baseURL } from './environment';
+
+import environments from '../environment';
 import axios from 'axios';
 
 // get business Date
 export const getBusinessDate = () => {
-	let url = `${baseURL}/lmsapi/commonServices/getBusinessDateInDate`;
+	let url = `${environments.dataURL}/lmsapi/commonServices/getBusinessDateInDate`;
 
 	return axios.get(url, {
 		method: 'GET',

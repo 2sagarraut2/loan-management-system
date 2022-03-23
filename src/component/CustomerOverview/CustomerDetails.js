@@ -28,6 +28,7 @@ const CustomerDetails = () => {
 			<div className='tab-wrapper'>
 				<Tabs
 					orientation='vertical'
+					variant="scrollable"
 					value={value}
 					onChange={handleTabChange}
 					classes={{ indicator: classes.indicator }}

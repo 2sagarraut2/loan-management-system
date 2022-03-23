@@ -178,14 +178,8 @@ const SignIn = (props) => {
 							)}
 						</div>
 					</div>
-					{/* {isWebDevice ? <div style={{ width: '100%' }}>A</div> : null} */}
 				</div>
 			</div>
-			{/* <div className='footer-wrapper'>
-				<h4 style={{ color: '#fff', wordBreak: 'break-word' }}>
-					Powered by: 4A Financial Technologies Pvt. Ltd.
-				</h4>
-			</div> */}
 		</div>
 	);
 };

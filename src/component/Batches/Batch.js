@@ -218,7 +218,9 @@ const Batch = (props) => {
 			.catch((error) => {
 				const {
 					response: {
-						data: { errorResponseMessage = 'Error occured while downloading file' }
+						data: {
+							errorResponseMessage = 'Error occured while downloading file'
+						}
 					}
 				} = error;
 				setErrorMsg(`${errorResponseMessage}`);
@@ -315,7 +317,7 @@ const Batch = (props) => {
 					dataSource={data}
 					columns={isWebDevice ? webCols : deviceCols}
 					pagination={false}
-					scroll={{ y: 330 }}
+					scroll={{ y: 355 }}
 				/>
 				<div className='table-footer-batches'>
 					<Button
