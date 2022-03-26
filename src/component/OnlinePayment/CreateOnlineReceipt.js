@@ -23,7 +23,7 @@ import { useParams } from 'react-router-dom';
 import { convertDate } from '../../utils';
 import { cashReceipt } from '../../api';
 
-const CreateCashReceipt = () => {
+const CreateOnlineReceipt = () => {
 	const [loading, setLoading] = useState(false);
 	const [successMsg, setSuccessMsg] = useState('');
 	const [errorMsg, setErrorMsg] = useState('');
@@ -224,11 +224,11 @@ const CreateCashReceipt = () => {
 			{loading && <Loader />}
 			<div className='header_container'>
 				<div className='title-container'>
-					<Typography variant='h6'>Cash Receipt</Typography>
+					<Typography variant='h6'>Online Payment Receipt</Typography>
 					<BackButton
-						path='/cash-receipt'
+						path='/online-payment'
 						size={isWebDevice ? 'medium' : 'small'}
-						text='Cash Receipt'
+						text='Online Payment Receipt'
 					/>
 				</div>
 				<Grid container spacing={2}>
@@ -401,4 +401,4 @@ const CreateCashReceipt = () => {
 	);
 };
 
-export default CreateCashReceipt;
+export default CreateOnlineReceipt;

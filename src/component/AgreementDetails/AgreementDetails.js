@@ -43,7 +43,7 @@ const AgreementDetails = () => {
 					className='tab-inner-wrapper'>
 					<Tab label='Agreement Overview' />
 					<Tab label='Agreement Details' />
-					<Tab label='List of Customers' />
+					<Tab label='List of Borrowers' />
 					<Tab label='Product Parameters' />
 					<Tab label='Fee Parameters' />
 					<Tab label='Current Due Details' />

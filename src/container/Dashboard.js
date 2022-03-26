@@ -10,7 +10,7 @@ import BallotRoundedIcon from '@material-ui/icons/BallotRounded';
 import AccessTimeRoundedIcon from '@material-ui/icons/AccessTimeRounded';
 import ReceiptRoundedIcon from '@material-ui/icons/ReceiptRounded';
 import CreditCardRoundedIcon from '@material-ui/icons/CreditCardRounded';
-// import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
+import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
@@ -47,8 +47,13 @@ const Dashboard = () => {
 		},
 		{
 			text: 'Cheque Receipt',
-			icon: <CreditCardRoundedIcon />,
+			icon: <AccountBalanceRoundedIcon />,
 			path: '/cheque-receipt'
+		},
+		{
+			text: 'Online Payment Receipt',
+			icon: <CreditCardRoundedIcon />,
+			path: '/online-payment'
 		},
 		// {
 		// 	text: 'Charges Booking',

@@ -15,7 +15,9 @@ import ViewCustomers from './container/AllCustomers/ViewCustomers';
 import CashReceipt from './container/CashReceipt/CashReceipt';
 import CreateCashReceipt from './component/CashReceipt/CreateCashReceipt';
 import ChequeReceipt from './container/ChequeReceipt/ChequeReceipt';
-import CreateChequeReceipt from './component/ChequeReceipt/CreateChequeReceipt'
+import CreateChequeReceipt from './component/ChequeReceipt/CreateChequeReceipt';
+import OnlineReceipt from './container/OnlinePayment/OnlinePayment';
+import CreateOnlineReceipt from './component/OnlinePayment/CreateOnlineReceipt';
 
 function App() {
 	return (
@@ -45,6 +47,8 @@ function App() {
 						<Route path='cash-receipt/:userId/:mId' element={<CreateCashReceipt />} />
 						<Route path='cheque-receipt' element={<ChequeReceipt />} />
 						<Route path='cheque-receipt/:userId/:mId' element={<CreateChequeReceipt />} />
+						<Route path='online-payment' element={<OnlineReceipt />} />
+						<Route path='online-payment/:userId/:mId' element={<CreateOnlineReceipt />} />
 					</Route>
 				</Routes>
 			</div>

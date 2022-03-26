@@ -5,7 +5,7 @@ import {
 import { Table } from 'antd';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-const CustomerTable = (props) => {
+const OnlineReceiptTable = (props) => {
 	const {
 		data,
 		pageNo,
@@ -105,11 +105,12 @@ const CustomerTable = (props) => {
 			align: 'center',
 			render: (value, row, index) => {
 				const id = row.customerId;
+				const mid = row.mastAgrId;
 				return (
 					<span>
 						<Link
 							onClick={() => {
-								window.location.href = `/customer-search/${id}`;
+								window.location.href = `/online-payment/${id}/${mid}`;
 							}}>
 							{id}
 						</Link>
@@ -119,18 +120,18 @@ const CustomerTable = (props) => {
 		},
 		{
 			title: 'Customer Name',
-			dataIndex: 'customerName',
+			dataIndex: 'cust_name',
 			align: 'center',
-			// render: (value, row, index) => {
-			// 	const title = row.title;
-			// 	const firstName = row.firstName;
-			// 	const lastName = row.lastName;
-			// 	return (
-			// 		<span>
-			// 			{title} {firstName} {lastName}
-			// 		</span>
-			// 	);
-			// }
+			render: (value, row, index) => {
+				const title = row.title;
+				const firstName = row.firstName;
+				const lastName = row.lastName;
+				return (
+					<span>
+						{title} {firstName} {lastName}
+					</span>
+				);
+			}
 		},
 		{
 			title: 'Mobile',
@@ -151,6 +152,7 @@ const CustomerTable = (props) => {
 			align: 'left',
 			render: (value, row, index) => {
 				const id = row.customerId;
+				const mid = row.mastAgrId;
 				const title = row.title;
 				const firstName = row.firstName;
 				const lastName = row.lastName;
@@ -165,7 +167,7 @@ const CustomerTable = (props) => {
 								<h5>
 									<Link
 										onClick={() => {
-											window.location.href = `/customer-search/${id}`;
+											window.location.href = `/online-payment/${id}/${mid}`;
 										}}>
 										{id}
 									</Link>
@@ -221,4 +223,4 @@ const CustomerTable = (props) => {
 	);
 };
 
-export default CustomerTable;
+export default OnlineReceiptTable;
