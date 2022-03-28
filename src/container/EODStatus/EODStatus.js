@@ -3,7 +3,7 @@ import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Loader from '../../component/Loader';
 import EndOfDay from '../../component/EndOfDay';
-import { eodStatus } from '../../api/endofday';
+import { eodStatus } from '../../api';
 import '../../styles/basicdetails.scss';
 
 const EODStatus = () => {

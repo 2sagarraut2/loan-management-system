@@ -21,7 +21,8 @@ const OnlinePayment = () => {
 		searchCustomer(params)
 			.then((res) => {
 				if (res.status === 200) {
-					setData(res.data);
+					setData(res.data.customerList);
+					setTotal(res.data.totalRows);
 				}
 				setLoading(false);
 			})

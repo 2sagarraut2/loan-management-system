@@ -32,7 +32,14 @@ import {
 } from './batchcontrol';
 import { getBusinessDate } from './businessdate.js';
 import { viewAllCustomers } from './allcustomers.js';
-import { cashReceipt, chequeReceipt } from './paymentrequests.js';
+import {
+	cashReceipt,
+	chequeReceipt,
+	onlinePayment
+} from './paymentrequests.js';
+import { futureDues } from './futuredues';
+import { eodStatus } from './endofday';
+import { startEOD } from './runeod';
 
 export {
 	CheckUser,
@@ -64,5 +71,9 @@ export {
 	collateralDetails,
 	customerList,
 	cashReceipt,
-	chequeReceipt
+	chequeReceipt,
+	futureDues,
+	onlinePayment,
+	eodStatus,
+	startEOD
 };

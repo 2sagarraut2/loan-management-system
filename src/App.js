@@ -18,6 +18,7 @@ import ChequeReceipt from './container/ChequeReceipt/ChequeReceipt';
 import CreateChequeReceipt from './component/ChequeReceipt/CreateChequeReceipt';
 import OnlineReceipt from './container/OnlinePayment/OnlinePayment';
 import CreateOnlineReceipt from './component/OnlinePayment/CreateOnlineReceipt';
+import EOD from './container/RunEOD/EOD';
 
 function App() {
 	return (
@@ -44,11 +45,21 @@ function App() {
 						<Route path='future-dues' element={<FutureDues />} />
 						<Route path='eod-status' element={<EODStatus />} />
 						<Route path='cash-receipt' element={<CashReceipt />} />
-						<Route path='cash-receipt/:userId/:mId' element={<CreateCashReceipt />} />
+						<Route
+							path='cash-receipt/:userId/:mId'
+							element={<CreateCashReceipt />}
+						/>
 						<Route path='cheque-receipt' element={<ChequeReceipt />} />
-						<Route path='cheque-receipt/:userId/:mId' element={<CreateChequeReceipt />} />
+						<Route
+							path='cheque-receipt/:userId/:mId'
+							element={<CreateChequeReceipt />}
+						/>
 						<Route path='online-payment' element={<OnlineReceipt />} />
-						<Route path='online-payment/:userId/:mId' element={<CreateOnlineReceipt />} />
+						<Route
+							path='online-payment/:userId/:mId'
+							element={<CreateOnlineReceipt />}
+						/>
+						<Route path='run-eod' element={<EOD />} />
 					</Route>
 				</Routes>
 			</div>

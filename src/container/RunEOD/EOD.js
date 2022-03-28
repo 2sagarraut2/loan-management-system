@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
-import CustomerSearch from '../../component/Customer/CustomerSearch';
-// import CustomerTable from '../../component/Customer/CustomerTable';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Loader from '../../component/Loader';
-import '../../styles/customer.scss';
-import { searchCustomer } from '../../api';
-import CashReceiptTable from '../../component/CashReceipt/CashReceiptTable';
+import RunEOD from '../../component/EOD/RunEOD';
+import { startEOD, getBusinessDate } from '../../api';
+import '../../styles/basicdetails.scss';
 
-const CashReceipt = () => {
-	const [data, setData] = useState([]);
-	const [pageNo, setPageNo] = useState(1);
-	const [total, setTotal] = useState(0);
+const EOD = () => {
 	const [loading, setLoading] = useState(false);
 	const [successMsg, setSuccessMsg] = useState('');
 	const [errorMsg, setErrorMsg] = useState('');
 
-	const searchForCustomer = (params) => {
+	// form hooks
+	const [businessDate, setBusinessDate] = useState('');
+
+	// run EOD call
+	const WakeEOD = () => {
 		setLoading(true);
-		searchCustomer(params)
+
+		startEOD()
 			.then((res) => {
 				if (res.status === 200) {
-					setData(res.data.customerList);
-					setTotal(res.data.totalRows);
+					setSuccessMsg('EOD run Successful');
+                    getDate();
 				}
 				setLoading(false);
 			})
@@ -33,8 +33,26 @@ const CashReceipt = () => {
 					}
 				} = error;
 				setErrorMsg(`${errorResponseMessage}`);
-				setData([]);
 				setLoading(false);
+			});
+	};
+
+	// get business date call
+	const getDate = () => {
+		getBusinessDate()
+			.then((res) => {
+				if (res.status === 200) {
+					const { data } = res;
+					setBusinessDate(data);
+				}
+			})
+			.catch((error) => {
+				const {
+					response: {
+						data: { errorResponseMessage }
+					}
+				} = error;
+				setErrorMsg(`${errorResponseMessage}`);
 			});
 	};
 
@@ -70,27 +88,10 @@ const CashReceipt = () => {
 			</Snackbar>
 			{loading && <Loader />}
 			<div>
-				{/* using customer search component  */}
-				<CustomerSearch
-					title="Cash Receipt"
-					data={data}
-					searchForCustomer={searchForCustomer}
-					setData={setData}
-					pageNo={pageNo}
-					setPageNo={setPageNo}
-					total={total}
-					setTotal={setTotal}
-				/>
-				<CashReceiptTable
-					data={data}
-					pageNo={pageNo}
-					setPageNo={setPageNo}
-					total={total}
-					setTotal={setTotal}
-				/>
+				<RunEOD EOD={WakeEOD} getDate={getDate} businessDate={businessDate} />
 			</div>
 		</div>
 	);
 };
 
-export default CashReceipt;
+export default EOD;

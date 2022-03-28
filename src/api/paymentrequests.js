@@ -20,3 +20,12 @@ export const chequeReceipt = (params) => {
 		headers: { 'Content-Type': 'application/json' }
 	});
 };
+
+export const onlinePayment = (params) => {
+	let url = `${environments.dataURL}/lmsapi/request/dreReqOnline`;
+
+	return axios.post(url, params, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' }
+	});
+}

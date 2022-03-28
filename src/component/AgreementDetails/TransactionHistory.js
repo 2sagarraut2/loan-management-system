@@ -16,6 +16,8 @@ const TransactionHistory = () => {
 	const { agreementId } = useParams();
 
 	// form hooks
+	const [pageNo, setPageNo] = useState(1);
+	const [total, setTotal] = useState(0);
 	const [prinOutstanding, setprinOutstanding] = useState('');
 	const [dueAmount, setDueAmount] = useState('');
 	const [instlDue, setInstlDue] = useState('');
@@ -25,11 +27,19 @@ const TransactionHistory = () => {
 
 	useEffect(() => {
 		setLoading(true);
-		agreementTransList(agreementId)
+
+		const params = {
+			agreementId: agreementId,
+			pageNo: pageNo - 1,
+			pageSize: 10
+		}
+
+		agreementTransList(params)
 			.then((res) => {
 				if (res.status === 200) {
 					const { data } = res;
-					setData(data);
+					setData(data.historyList);
+					setTotal(data.totalRows);
 					setprinOutstanding('');
 					setDueAmount('');
 					setInstlDue('');
@@ -120,7 +130,7 @@ const TransactionHistory = () => {
 			dataIndex: 'creditAmount',
 			render: (value, row, key) => {
 				const amount = numberWithCommas(row.creditAmount);
-				return <span>{amount}</span>
+				return <span>{amount}</span>;
 			},
 			align: 'center'
 		}
@@ -181,6 +191,10 @@ const TransactionHistory = () => {
 			}
 		}
 	];
+
+	const handleOnPageChange = (index) => {
+		setPageNo(index);
+	};
 
 	return (
 		<div>
@@ -255,7 +269,14 @@ const TransactionHistory = () => {
 						className='cust-table'
 						dataSource={data}
 						columns={isWebDevice ? webCols : deviceCols}
-						pagination={false}
+						pagination={{
+							size: 'small',
+							showSizeChanger: false,
+							total: total,
+							current: pageNo,
+							onChange: handleOnPageChange,
+							defaultPageSize: 10
+						}}
 						scroll={{ y: 190 }}
 					/>
 				</div>

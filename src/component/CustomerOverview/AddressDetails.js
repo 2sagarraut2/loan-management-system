@@ -123,7 +123,7 @@ const AddressDetails = () => {
 						<Select native value={selectedAddress} onChange={handleOnSelectChange}>
 							{address.map((item) => (
 								<option key={item.addrType} value={item.addrType}>
-									{item.addrType}
+									{item.addrTypeDesc}
 								</option>
 							))}
 						</Select>

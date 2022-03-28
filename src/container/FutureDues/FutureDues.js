@@ -4,7 +4,7 @@ import { Alert } from '@material-ui/lab';
 import Loader from '../../component/Loader';
 import '../../styles/batchcontrol.scss';
 import Dues from '../../component/Dues/Dues';
-import { futureDues } from '../../api/futuredues';
+import { futureDues } from '../../api';
 
 const FutureDues = () => {
 	const [data, setData] = useState([]);
@@ -13,7 +13,6 @@ const FutureDues = () => {
 	const [errorMsg, setErrorMsg] = useState('');
 
 	const getFutureDues = (fromDate, toDate) => {
-		const params = { fromDate, toDate };
 		// console.log("params", params)
 		setLoading(true);
 		futureDues(fromDate, toDate)

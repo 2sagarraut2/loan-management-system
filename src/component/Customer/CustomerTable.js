@@ -202,7 +202,7 @@ const CustomerTable = (props) => {
 		<div>
 			<div className='table-wrapper'>
 				<Table
-					rowKey='customerId'
+					rowKey='custInternalId'
 					className='cust-table'
 					dataSource={data}
 					columns={isWebDevice ? webCols : deviceCols}

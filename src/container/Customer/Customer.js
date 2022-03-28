@@ -19,7 +19,7 @@ const Customer = () => {
 		getAllCustomers();
 
 		// eslint-disable-next-line
-	}, []);
+	}, [pageNo]);
 
 	const getAllCustomers = () => {
 		setLoading(true);
@@ -54,7 +54,8 @@ const Customer = () => {
 		searchCustomer(params)
 			.then((res) => {
 				if (res.status === 200) {
-					setData(res.data);
+					setData(res.data.customerList);
+					setTotal(res.data.totalRows);
 				}
 				setLoading(false);
 			})
@@ -107,6 +108,7 @@ const Customer = () => {
 					searchForCustomer={searchForCustomer}
 					setData={setData}
 					getAllCustomers={getAllCustomers}
+					pageNo={pageNo}
 				/>
 				<CustomerTable
 					data={data}

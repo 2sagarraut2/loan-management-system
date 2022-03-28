@@ -29,13 +29,16 @@ const InterestHistory = () => {
 
 	// form hooks
 	const [data, setData] = useState([]);
+	const [pageNo, setPageNo] = useState(1);
+	const [total, setTotal] = useState(0);
 	const [loanID, setLoanID] = useState([]);
 	const [selectedLoanID, setSelectedLoanID] = useState('');
 	const [fromDate, setFromDate] = useState(new Date());
 	const [toDate, setToDate] = useState(new Date());
 
 	useEffect(() => {
-		// setLoading(true);
+		setLoading(true);
+
 		agreementLoanList(agreementId)
 			.then((res) => {
 				if (res.status === 200) {
@@ -60,14 +63,25 @@ const InterestHistory = () => {
 	}, [agreementId]);
 
 	const interestAccuralHistory = (agreementId, loanID, fromDate, toDate) => {
-		const fromDateParam = convertDate(fromDate);
-		const toDateParam = convertDate(toDate);
+		// const fromDateParam = convertDate(fromDate);
+		// const toDateParam = convertDate(toDate);
 		setLoading(true);
-		interstAccuralHistory(agreementId, loanID, fromDateParam, toDateParam)
+
+		const params = {
+			agreementId: agreementId,
+			loanID: loanID,
+			fromDate: convertDate(fromDate),
+			toDate: convertDate(toDate),
+			pageNo: pageNo - 1,
+			pageSize: 10
+		}
+
+		interstAccuralHistory(params)
 			.then((res) => {
 				if (res.status === 200) {
 					const { data } = res;
-					setData(data);
+					setData(data.intAccList);
+					setTotal(data.totalRows);
 				}
 				setLoading(false);
 			})
@@ -183,6 +197,10 @@ const InterestHistory = () => {
 		}
 	};
 
+	const handleOnPageChange = (index) => {
+		setPageNo(index);
+	};
+
 	return (
 		<div>
 			<Snackbar
@@ -277,7 +295,14 @@ const InterestHistory = () => {
 						className='cust-table'
 						dataSource={data}
 						columns={isWebDevice ? webCols : deviceCols}
-						pagination={false}
+						pagination={{
+							size: 'small',
+							showSizeChanger: false,
+							total: total,
+							current: pageNo,
+							onChange: handleOnPageChange,
+							defaultPageSize: 10
+						}}
 						scroll={{ y: 300 }}
 					/>
 				</div>

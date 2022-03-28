@@ -11,11 +11,7 @@ import { Search } from '@material-ui/icons';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const CustomerSearch = (props) => {
-	const {
-		searchForCustomer,
-		getAllCustomers,
-		title
-	} = props;
+	const { searchForCustomer, getAllCustomers, title, pageNo } = props;
 	const [criterion, setCriterion] = useState('customer_id');
 	const [values, setValues] = useState('');
 	const isWebDevice = useMediaQuery('(min-width: 700px)');
@@ -52,7 +48,9 @@ const CustomerSearch = (props) => {
 	const handleOnSearch = async () => {
 		const params = {
 			type: criterion,
-			value: values
+			value: values,
+			pageNo: pageNo - 1,
+			pageSize: 10
 		};
 
 		searchForCustomer(params);

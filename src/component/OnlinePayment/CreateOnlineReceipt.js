@@ -14,14 +14,14 @@ import {
 	MuiPickersUtilsProvider,
 	KeyboardDatePicker
 } from '@material-ui/pickers';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Checkbox from '@material-ui/core/Checkbox';
 import DateFnsUtils from '@date-io/date-fns';
 import BackButton from '../BackButton';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useParams } from 'react-router-dom';
 import { convertDate } from '../../utils';
-import { cashReceipt } from '../../api';
+import { onlinePayment } from '../../api';
 
 const CreateOnlineReceipt = () => {
 	const [loading, setLoading] = useState(false);
@@ -39,6 +39,16 @@ const CreateOnlineReceipt = () => {
 	const [agency, setAgency] = useState('agency1');
 	const [collected, setCollected] = useState('collector1');
 	// const [apportion, setApportion] = useState(false);
+	const [receiptDate, setReceiptDate] = useState(new Date());
+	const [utrNo, setUTRNo] = useState('');
+	const [instType, setInstType] = useState('neft');
+	// const [instAmount, setInstAmount] = useState('');
+	const [ifscCode, setIfscCode] = useState('');
+	const [bankName, setBankName] = useState('');
+	// const [accType, setAccType] = useState('savings');
+	const [branchName, setBranchName] = useState('');
+	// const [depositBank, setDepositBank] = useState('');
+	// const [accNo, setAccNo] = useState('');
 
 	// search options array
 	const paymentOptions = [
@@ -118,15 +128,97 @@ const CreateOnlineReceipt = () => {
 		setDate(e);
 	};
 
+	// location options
+	const instrumentType = [
+		{
+			key: 1,
+			name: 'NEFT',
+			type: 'neft'
+		},
+		{
+			key: 2,
+			name: 'RTGS',
+			type: 'rtgs'
+		}
+	];
+
+	// // account options
+	// const accountOptions = [
+	// 	{
+	// 		key: 1,
+	// 		name: 'Savings',
+	// 		type: 'savings'
+	// 	},
+	// 	{
+	// 		key: 2,
+	// 		name: 'Current',
+	// 		type: 'current'
+	// 	}
+	// ];
+
+	const handleInstrumentChange = (e) => {
+		setInstType(e.target.value);
+	};
+
+	const handleReceiptDateChange = (e) => {
+		setReceiptDate(e);
+	};
+
+	const handleUTRChange = (e) => {
+		setUTRNo(e.target.value);
+	};
+
+	// const handleInstAmtChange = (e) => {
+	// 	const amt = e.target.value;
+
+	// 	setReceiptAmount(amt);
+	// };
+
+	const handleIfscChange = (e) => {
+		const code = e.target.value;
+
+		setIfscCode(code);
+	};
+
+	const handleBankChange = (e) => {
+		const bank = e.target.value;
+
+		setBankName(bank);
+	};
+
+	const handleBranchChange = (e) => {
+		const branch = e.target.value;
+
+		setBranchName(branch);
+	};
+
+	// const handleAccountTypeChange = (e) => {
+	// 	const accType = e.target.value;
+
+	// 	setAccType(e.target.value);
+	// };
+
+	// const handleAccChange = (e) => {
+	// 	const acc = e.target.value;
+
+	// 	setAccNo(acc);
+	// };
+
+	// const handleDepositChange = (e) => {
+	// 	const deposit = e.target.value;
+
+	// 	setDepositBank(deposit);
+	// };
+
 	const saveReceiptDetails = (params) => {
 		setLoading(true);
 
-		cashReceipt(params)
+		onlinePayment(params)
 			.then((res) => {
 				if (res.status === 200) {
-					setSuccessMsg('Cash Receipt generated successfully!');
 					setLoading(false);
-					window.location.href = `/cash-receipt`;
+					window.location.href = `/online-payment`;
+					setSuccessMsg('Online Payment Receipt generated successfully!');
 				}
 			})
 			.catch((error) => {
@@ -144,33 +236,37 @@ const CreateOnlineReceipt = () => {
 		console.log(receiptAmount, date, payOption, referenceNo, agency, collected);
 
 		const params = {
-			"collectedBy": collected,
-			"collectionAgency": "ABC Recovery Serv",
-			"depositRefNo": "12345",
-			"dreAllocation": [
-			  {
-				"allocatedAmount": 5000,
-				"chargeBookTranId": "",
-				"installmentNo": "",
-				"loanId": "",
-				"tranCategory": "",
-				"tranHead": ""
-			  }
+			'bankBranchCode': branchName,
+			'bankCode': bankName,
+			'collectedBy': collected,
+			'collectionAgency': agency,
+			'depositRefNo': referenceNo,
+			'dreAllocation': [
+				{
+					'allocatedAmount': 1111,
+					'chargeBookTranId': 0,
+					'installmentNo': 0,
+					'loanId': '',
+					'tranCategory': '',
+					'tranHead': ''
+				}
 			],
-			"flowType": "NF",
-			"instrumentAmount": receiptAmount,
-			"instrumentDate": convertDate(date),
-			"masterAgreementId": mId,
-			"paymentFor": payOption,
-			"paymentMode": "DRE",
-			"paymentType": "CA",
-			"provisionalReceiptFlag": "N",
-			"reason": "",
-			"remark": "",
-			"requestDate": convertDate(date),
-			"requestStatus": "APR",
-			"userId": "DMG"
-		  };
+			'flowType': 'NF',
+			'ifscCode': ifscCode,
+			'instrumentAmount': receiptAmount,
+			'instrumentDate': convertDate(date),
+			'masterAgreementId': mId,
+			'paymentFor': payOption,
+			'paymentMode': 'DRE',
+			'paymentType': 'CA',
+			'provisionalReceiptFlag': '12345',
+			'reason': 'CP',
+			'remark': 'CP',
+			'requestDate': convertDate(date),
+			'requestStatus': 'APR',
+			'userId': 'DMG',
+			'utrNo': 'UTR0123123'
+		};
 
 		saveReceiptDetails(params);
 	};
@@ -343,6 +439,165 @@ const CreateOnlineReceipt = () => {
 								/>
 							}
 							label='Manual Apportion?'
+						/>
+					</Grid> */}
+
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<h4 style={{ marginRight: '10%' }}>Receipt Date</h4>
+					</Grid>
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<MuiPickersUtilsProvider utils={DateFnsUtils}>
+							<KeyboardDatePicker
+								clearable
+								value={receiptDate}
+								onChange={(date) => handleReceiptDateChange(date)}
+								format='dd/MM/yyyy'
+								allowKeyboardControl={false}
+								invalidDateMessage={'Invalid Date Format'}
+							/>
+						</MuiPickersUtilsProvider>
+					</Grid>
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<h4 style={{ marginRight: '10%' }}>UTR No.</h4>
+					</Grid>
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<TextField
+							className='cust-search-fields'
+							size='small'
+							label='UTR No.'
+							variant='outlined'
+							name='custid'
+							value={utrNo}
+							onChange={handleUTRChange}
+						/>
+					</Grid>
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<h4 style={{ marginRight: '10%' }}>Instrument Type</h4>
+					</Grid>
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<FormControl style={{ margin: 7 }}>
+							<Select native value={instType} onChange={handleInstrumentChange}>
+								{instrumentType.map((item) => (
+									<option key={item.key} value={item.type}>
+										{item.name}
+									</option>
+								))}
+							</Select>
+						</FormControl>
+					</Grid>
+					{/* <Grid item xs={12} sm={6} md={3} lg={3}>
+						<h4 style={{ marginRight: '10%' }}>Expected Date</h4>
+					</Grid>
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<MuiPickersUtilsProvider utils={DateFnsUtils}>
+							<KeyboardDatePicker
+								clearable
+								value={receiptDate}
+								// onChange={(date) => handleReceiptDateChange(date)}
+								format='dd/MM/yyyy'
+								allowKeyboardControl={false}
+								invalidDateMessage={'Invalid Date Format'}
+								disabled={true}
+							/>
+						</MuiPickersUtilsProvider>
+					</Grid> */}
+					{/* <Grid item xs={12} sm={6} md={3} lg={3}>
+						<h4 style={{ marginRight: '10%' }}>Instrument Amount</h4>
+					</Grid>
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<TextField
+							className='cust-search-fields'
+							size='small'
+							label='Instrument Amount'
+							disabled={true}
+							variant='outlined'
+							name='instAmount'
+							value={instAmount}
+							onChange={handleInstAmtChange}
+						/>
+					</Grid> */}
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<h4 style={{ marginRight: '10%' }}>IFSC Code</h4>
+					</Grid>
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<TextField
+							className='cust-search-fields'
+							size='small'
+							label='IFSC Code'
+							variant='outlined'
+							name='ifsccode'
+							value={ifscCode}
+							onChange={handleIfscChange}
+						/>
+					</Grid>
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<h4 style={{ marginRight: '10%' }}>Bank Name</h4>
+					</Grid>
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<TextField
+							className='cust-search-fields'
+							size='small'
+							label='Bank Name'
+							variant='outlined'
+							name='bankname'
+							value={bankName}
+							onChange={handleBankChange}
+						/>
+					</Grid>
+					{/* <Grid item xs={12} sm={6} md={3} lg={3}>
+						<h4 style={{ marginRight: '10%' }}>Account Type</h4>
+					</Grid>
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<FormControl style={{ margin: 7 }}>
+							<Select native value={accType} onChange={handleAccountTypeChange}>
+								{accountOptions.map((item) => (
+									<option key={item.key} value={item.type}>
+										{item.name}
+									</option>
+								))}
+							</Select>
+						</FormControl>
+					</Grid> */}
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<h4 style={{ marginRight: '10%' }}>Branch Name</h4>
+					</Grid>
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<TextField
+							className='cust-search-fields'
+							size='small'
+							label='Branch Name'
+							variant='outlined'
+							name='branchname'
+							value={branchName}
+							onChange={handleBranchChange}
+						/>
+					</Grid>
+					{/* <Grid item xs={12} sm={6} md={3} lg={3}>
+						<h4 style={{ marginRight: '10%' }}>Account No.</h4>
+					</Grid>
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<TextField
+							className='cust-search-fields'
+							size='small'
+							label='Account No.'
+							variant='outlined'
+							name='accountno'
+							value={accNo}
+							onChange={handleAccChange}
+						/>
+					</Grid> */}
+					{/* <Grid item xs={12} sm={6} md={3} lg={3}>
+						<h4 style={{ marginRight: '10%' }}>Deposit Bank</h4>
+					</Grid>
+					<Grid item xs={12} sm={6} md={3} lg={3}>
+						<TextField
+							className='cust-search-fields'
+							size='small'
+							label='Deposit Bank'
+							variant='outlined'
+							name='deposit Bank'
+							value={depositBank}
+							onChange={handleDepositChange}
 						/>
 					</Grid> */}
 
