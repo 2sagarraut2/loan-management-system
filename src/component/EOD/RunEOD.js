@@ -32,8 +32,8 @@ const RunEOD = (props) => {
 					<Grid
 						item
 						xs={12}
-						sm={6}
-						md={2}
+						sm={4}
+						md={4}
 						lg={2}
 						style={{
 							display: 'flex',
@@ -45,8 +45,8 @@ const RunEOD = (props) => {
 					<Grid
 						item
 						xs={12}
-						sm={6}
-						md={3}
+						sm={3}
+						md={6}
 						lg={3}
 						style={{
 							display: 'flex',

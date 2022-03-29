@@ -136,8 +136,10 @@ export const collateralDetails = (agreementId) => {
 };
 
 // list of co-applicant / customers
-export const customerList = (agreementId) => {
-	let url = `${environments.dataURL}/lmsapi/customer/getCustomerList?type=master_agreement_id&value=${agreementId}`;
+export const customerList = (params) => {
+	const { agreementId, pageNo, pageSize } = params;
+
+	let url = `${environments.dataURL}/lmsapi/customer/getCustomerList?type=master_agreement_id&value=${agreementId}&pageNo=${pageNo}&pageSize=${pageSize}`;
 
 	return axios.get(url, {
 		method: 'GET',

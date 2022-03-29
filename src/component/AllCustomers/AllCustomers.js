@@ -111,7 +111,7 @@ const AllCustomers = (props) => {
 					/>
 				</div>
 				<Table
-					rowKey='customerId'
+					rowKey='custInternalId'
 					className='cust-table'
 					dataSource={data}
 					columns={isWebDevice ? webCols : deviceCols}

@@ -10,20 +10,30 @@ const CustomerList = () => {
 	const [loading, setLoading] = useState(false);
 	const [successMsg, setSuccessMsg] = useState('');
 	const [errorMsg, setErrorMsg] = useState('');
-    const isWebDevice = useMediaQuery('(min-width: 980px)');
+	const isWebDevice = useMediaQuery('(min-width: 980px)');
 
 	const { agreementId } = useParams();
 
 	// form hooks
 	const [data, setData] = useState([]);
+	const [pageNo, setPageNo] = useState(1);
+	const [total, setTotal] = useState(0);
 
 	useEffect(() => {
 		setLoading(true);
-		customerList(agreementId)
+
+		const params = {
+			agreementId: agreementId,
+			pageNo: pageNo - 1,
+			pageSize: 10
+		};
+
+		customerList(params)
 			.then((res) => {
 				if (res.status === 200) {
 					const { data } = res;
-					setData(data);
+					setData(data.customerList);
+					setTotal(data.totalRows);
 				}
 				setLoading(false);
 			})
@@ -40,7 +50,7 @@ const CustomerList = () => {
 		// eslint-disable-next-line
 	}, [agreementId]);
 
-    // columns for table
+	// columns for table
 	const webCols = [
 		{
 			title: 'Customer ID',
@@ -51,38 +61,37 @@ const CustomerList = () => {
 			title: 'Customer Name',
 			dataIndex: 'firstName',
 			align: 'center',
-            render: (value, row, key) => {
-                const title = row.title;
+			render: (value, row, key) => {
+				const title = row.title;
 				const firstName = row.firstName;
-                const middleName = row.middleName;
-                const lastName = row.lastName;
+				const middleName = row.middleName;
+				const lastName = row.lastName;
 
-				return <span>{title} {firstName} {middleName} {lastName}</span>;
-			},
+				return (
+					<span>
+						{title} {firstName} {middleName} {lastName}
+					</span>
+				);
+			}
 		},
 		{
 			title: 'Customer Type',
 			dataIndex: 'customerType',
-			align: 'center',
+			align: 'center'
 		},
-        {
+		{
 			title: 'Customer Category',
 			dataIndex: 'custCategory',
-			align: 'center',
+			align: 'center'
 		},
-        {
+		{
 			title: 'Customer Internal ID',
 			dataIndex: 'custInternalId',
-			align: 'center',
+			align: 'center'
 		},
 		{
 			title: 'Home Branch',
 			dataIndex: 'homeBranch',
-			align: 'center'
-		},
-		{
-			title: 'Adhaar No.',
-			dataIndex: 'aadharNo',
 			align: 'center'
 		},
 		{
@@ -94,7 +103,7 @@ const CustomerList = () => {
 			title: 'Status',
 			dataIndex: 'status',
 			align: 'center'
-		},
+		}
 	];
 
 	const deviceCols = [
@@ -104,15 +113,14 @@ const CustomerList = () => {
 			align: 'center',
 			render: (value, row, index) => {
 				const customerId = row.customerId;
-                const title = row.title;
+				const title = row.title;
 				const firstName = row.firstName;
-                const middleName = row.middleName;
-                const lastName = row.lastName;
+				const middleName = row.middleName;
+				const lastName = row.lastName;
 				const customerType = row.customerType;
 				const custCategory = row.custCategory;
 				const custInternalId = row.custInternalId;
 				const homeBranch = row.homeBranch;
-				const aadharNo = row.aadharNo;
 				const pan = row.pan;
 				const status = row.status;
 
@@ -125,7 +133,9 @@ const CustomerList = () => {
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Customer Name</h5>
-								<h5>{title} {firstName} {middleName} {lastName}</h5>
+								<h5>
+									{title} {firstName} {middleName} {lastName}
+								</h5>
 							</span>
 						</div>
 						<div className='small-table-div'>
@@ -150,39 +160,23 @@ const CustomerList = () => {
 						</div>
 						<div className='small-table-div'>
 							<span className='mobile-left-align'>
-								<h5 className='small-table-label'>Adhaar No.</h5>
-								<h5>{aadharNo}</h5>
-							</span>
-							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Pan</h5>
 								<h5>{pan}</h5>
 							</span>
-						</div>
-                        <div className='small-table-div'>
-							<span className='mobile-left-align'>
-								<h5 className='small-table-label'>Status</h5>
-								<h5>{status}</h5>
-							</span>
-							{/* <span className='mobile-right-align'>
-								<h5 className='small-table-label'>Servicing Branch</h5>
-								<h5>{servBranch}</h5>
-							</span> */}
-						</div>
-						{/* <div className='small-table-div'>
-							<span className='mobile-left-align'>
-								<h5 className='small-table-label'>Status</h5>
-								<h5>{status}</h5>
-							</span>
 							<span className='mobile-right-align'>
-								<h5 className='small-table-label'>Valuation Frequency</h5>
-								<h5>{valuationFreq}</h5>
+								<h5 className='small-table-label'>Status</h5>
+								<h5>{status}</h5>
 							</span>
-						</div> */}
+						</div>
 					</div>
 				);
 			}
 		}
 	];
+
+	const handleOnPageChange = (index) => {
+		setPageNo(index);
+	};
 
 	return (
 		<div style={{ padding: '1% 20px' }}>
@@ -221,7 +215,14 @@ const CustomerList = () => {
 					className='cust-table'
 					dataSource={data}
 					columns={isWebDevice ? webCols : deviceCols}
-					pagination={false}
+					pagination={{
+						size: 'small',
+						showSizeChanger: false,
+						total: total,
+						current: pageNo,
+						onChange: handleOnPageChange,
+						defaultPageSize: 10
+					}}
 					scroll={{ y: 430 }}
 				/>
 			</div>

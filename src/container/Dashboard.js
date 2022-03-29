@@ -21,14 +21,17 @@ import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded'
 import DateRangeRoundedIcon from '@material-ui/icons/DateRangeRounded';
 import { useNavigate } from 'react-router-dom';
 import { getBusinessDate } from '../api';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const Dashboard = () => {
 	const [successMsg, setSuccessMsg] = useState('');
 	const [errorMsg, setErrorMsg] = useState('');
 
+	const isWebDevice = useMediaQuery('(min-width: 650px)');
+
 	const menuItems = [
 		{
-			text: 'View All Customers',
+			text: 'All Customers',
 			icon: <ListAltRoundedIcon />,
 			path: '/view-customers'
 		},
@@ -67,16 +70,20 @@ const Dashboard = () => {
 			icon: <CreditCardRoundedIcon />,
 			path: '/online-payment'
 		},
-		// {
-		// 	text: 'Charges Booking',
-		// 	icon: <AccountBalanceRoundedIcon />,
-		// 	path: '/charges-booking'
-		// },
+
+		// comment this code while production deployment ==> from here
 		{
 			text: 'Run EOD',
 			icon: <DateRangeRoundedIcon />,
 			path: '/run-eod'
 		}
+		// ==> to here
+
+		// {
+		// 	text: 'Charges Booking',
+		// 	icon: <AccountBalanceRoundedIcon />,
+		// 	path: '/charges-booking'
+		// },
 	];
 
 	const history = useNavigate();
@@ -132,32 +139,58 @@ const Dashboard = () => {
 					{errorMsg}
 				</Alert>
 			</Snackbar>
-			<Grid container spacing={3}>
-				<Grid item xs={12} sm={4} md={3} lg={3}>
-					<List>
-						{menuItems.map((item) => (
-							<Paper
-								className='nav-button'
-								onClick={() => history(item.path)}
-								key={item.text}>
-								<ListItem button key={item.text}>
-									<ListItemIcon className='nav-icon'>{item.icon}</ListItemIcon>
-									<ListItemText primary={item.text} className='nav-text' />
-								</ListItem>
-							</Paper>
-						))}
-					</List>
+			<div>
+				<Grid container spacing={3}>
+					<Grid item xs={6} sm={4} md={3} lg={3}>
+						{!isWebDevice ? (
+							<div>
+								<Grid
+									item
+									xs={12}
+									sm={8}
+									md={9}
+									lg={9}
+									style={{ display: 'flex', justifyContent: 'flex-end' }}>
+									<h3>Business Date: </h3>
+									{' '}
+									<h3>{businessDate}</h3>
+								</Grid>
+							</div>
+						) : (
+							''
+						)}
+						<List>
+							{menuItems.map((item) => (
+								<Paper
+									className='nav-button'
+									onClick={() => history(item.path)}
+									key={item.text}>
+									<ListItem button key={item.text}>
+										<ListItemIcon className='nav-icon'>
+											{item.icon}
+										</ListItemIcon>
+										<ListItemText primary={item.text} className='nav-text' />
+									</ListItem>
+								</Paper>
+							))}
+						</List>
+					</Grid>
+					{isWebDevice ? (
+						<Grid
+							item
+							xs={12}
+							sm={8}
+							md={9}
+							lg={9}
+							style={{ display: 'flex', justifyContent: 'flex-end' }}>
+							<h3>Business Date: </h3>
+							<h3>{businessDate}</h3>
+						</Grid>
+					) : (
+						''
+					)}
 				</Grid>
-				<Grid
-					item
-					xs={12}
-					sm={8}
-					md={9}
-					lg={9}
-					style={{ display: 'flex', justifyContent: 'flex-end' }}>
-					<h3>Business Date: {businessDate}</h3>
-				</Grid>
-			</Grid>
+			</div>
 		</div>
 	);
 };
