@@ -151,19 +151,25 @@ const EPay = () => {
 						<h4>Bank Code</h4>
 					</Grid>
 					<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-						<h4 className='customer-title'>{bankBranchCode}</h4>
+					<h4 className='customer-title'>{bankCode}</h4>
 					</Grid>
 					<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 						<h4>Bank Branch Code</h4>
 					</Grid>
 					<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-						<h4 className='customer-title'>{bankCode}</h4>
+						<h4 className='customer-title'>{bankBranchCode}</h4>
 					</Grid>
 					<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 						<h4>Deposit Bank</h4>
 					</Grid>
 					<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 						<h4 className='customer-title'>{depositBank}</h4>
+					</Grid>
+					<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
+						<h4>IFSC Code</h4>
+					</Grid>
+					<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
+						<h4 className='customer-title'>{ifscCode}</h4>
 					</Grid>
 					<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 						<h4>From Date</h4>
@@ -194,12 +200,6 @@ const EPay = () => {
 					</Grid>
 					<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 						<h4 className='customer-title'>{iban}</h4>
-					</Grid>
-					<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-						<h4>IFSC Code</h4>
-					</Grid>
-					<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-						<h4 className='customer-title'>{ifscCode}</h4>
 					</Grid>
 					<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 						<h4>Installment Amount</h4>

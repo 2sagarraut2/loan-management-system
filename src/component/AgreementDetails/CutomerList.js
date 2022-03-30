@@ -211,7 +211,7 @@ const CustomerList = () => {
 			{loading && <Loader />}
 			<div className='table-wrapper'>
 				<Table
-					rowKey='repaySchId'
+					rowKey='custInternalId'
 					className='cust-table'
 					dataSource={data}
 					columns={isWebDevice ? webCols : deviceCols}

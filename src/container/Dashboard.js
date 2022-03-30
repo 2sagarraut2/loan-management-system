@@ -150,7 +150,7 @@ const Dashboard = () => {
 									sm={8}
 									md={9}
 									lg={9}
-									style={{ display: 'flex', justifyContent: 'flex-end' }}>
+									style={{ display: 'flex', justifyContent: 'flex-end', minWidth: 'max-content' }}>
 									<h3>Business Date: </h3>
 									{' '}
 									<h3>{businessDate}</h3>
