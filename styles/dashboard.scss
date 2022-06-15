@@ -1,0 +1,39 @@
+.nav-bar {
+	background: linear-gradient(
+		90deg,
+		#d7dee6 1%,
+		#bcdbeb 40%,
+		#3da8df 90%,
+		#4aade0
+	) !important;
+	display: flex;
+	justify-content: space-between;
+}
+
+.business-date-comp {
+	display: flex;
+	justify-content: flex-end;
+	min-width: max-content;
+	padding-bottom: 0 !important;
+}
+
+.nav-button {
+	margin-bottom: 10px;
+	min-width: max-content;
+	margin: 4px;
+}
+
+.menu-button {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.MuiButtonBase-root .nav-icon {
+	color: #370be5a6;
+	min-width: 40px;
+}
+
+.MuiButtonBase-root .nav-text {
+	color: #370be5a6;
+	min-width: 40px;
+}

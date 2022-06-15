@@ -1,0 +1,133 @@
+.container-wrapper {
+	background-color: #2596be;
+	height: 100%;
+}
+
+.container {
+	position: relative;
+	border-radius: 8px;
+	background-color: #fff;
+
+	// display: flex;
+	padding: 25px 35px;
+	max-width: max-content;
+	// flex-direction: column;
+	// align-items: flex-start;
+	// justify-content: space-between;
+	border-radius: 8px;
+	background-color: white;
+	overflow: hidden;
+}
+
+.center {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.heading-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #d3d3d3;
+}
+
+.head-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: baseline;
+	padding-bottom: 8px;
+}
+
+.main-logo {
+	width: 100px;
+	height: 30px;
+	padding-right: 15px;
+}
+
+.login-heading {
+	margin-top: 0.5em;
+	margin-bottom: 0;
+}
+
+
+.version-div {
+	padding-left: 10px;
+}
+
+.login-container {
+	padding: 9% 5% 4% 5%;
+	display: flex;
+	justify-content: center;
+}
+
+.login-wrapper {
+	display: flex;
+	align-items: center;
+}
+
+.login-title {
+	font-size: medium;
+}
+
+.MuiFormControl-root > .MuiTextField-root {
+	margin-bottom: 10%;
+}
+
+.action-wrapper > .login-button {
+	padding: 9px 60px;
+}
+
+.action-wrapper {
+	display: flex;
+	justify-content: center;
+}
+
+.login-inner-wrapper > .MuiFormControl-root {
+	width: 100%;
+}
+
+.password-icon {
+	cursor: pointer;
+}
+
+.footer-wrapper {
+	position: absolute;
+	top: 76%;
+	left: 38%;
+}
+
+.footer-wrapper > h4 {
+	word-break: break-all;
+}
+
+@media only screen and (max-width: 768px) {
+	.heading-wrapper {
+		justify-content: center;
+		text-align-last: center;
+	}
+
+	.head-wrapper {
+		justify-content: center;
+	}
+
+	.container-wrapper {
+		padding: 0 12%;
+	}
+
+	.center {
+		position: relative;
+	}
+
+	.login-container {
+		flex-direction: column;
+	}
+}

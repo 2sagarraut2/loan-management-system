@@ -1,0 +1,22 @@
+.table-footer-batches {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	padding: 3% 0 0 0;
+	width: 100%;
+}
+
+.table-footer-batches > Button {
+	min-width: 100px;
+}
+
+@media only screen and (max-width: 705px) {
+	.table-footer-batches {
+		padding: 3% 2%;
+	}
+
+	.table-footer-batches > Button {
+		margin: 0 2% 2% 2%;
+	}
+}
