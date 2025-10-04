@@ -19,28 +19,12 @@ import {
 	agreementTransList,
 	interstAccuralHistory,
 	agreementInfo,
-	agreementLoanInfo,
-	ePayAgreementDetails,
-	collateralDetails,
-	customerList
+	agreementLoanInfo
 } from './agreementdetails';
 import {
 	searchBatchDetails,
-	batchDetails,
-	downloadBatch,
-	uploadBatch
+	batchDetails
 } from './batchcontrol';
-import { getBusinessDate } from './businessdate.js';
-import { viewAllCustomers } from './allcustomers.js';
-import {
-	cashReceipt,
-	chequeReceipt,
-	onlinePayment
-} from './paymentrequests.js';
-import { futureDues } from './futuredues';
-import { eodStatus } from './endofday';
-import { startEOD } from './runeod';
-import { limitHistory, limitHistoryTableData } from './limithistory';
 
 export {
 	CheckUser,
@@ -63,20 +47,5 @@ export {
 	agreementInfo,
 	agreementLoanInfo,
 	searchBatchDetails,
-	batchDetails,
-	downloadBatch,
-	uploadBatch,
-	getBusinessDate,
-	viewAllCustomers,
-	ePayAgreementDetails,
-	collateralDetails,
-	customerList,
-	cashReceipt,
-	chequeReceipt,
-	futureDues,
-	onlinePayment,
-	eodStatus,
-	startEOD,
-	limitHistory,
-	limitHistoryTableData
+	batchDetails
 };

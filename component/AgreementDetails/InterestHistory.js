@@ -15,9 +15,7 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import Loader from '../Loader';
 import { useParams } from 'react-router-dom';
-import { convertDate } from '../../utils';
 import { agreementLoanList, interstAccuralHistory } from '../../api';
-import { numberWithCommas } from '../../utils';
 
 const InterestHistory = () => {
 	const [loading, setLoading] = useState(false);
@@ -29,16 +27,13 @@ const InterestHistory = () => {
 
 	// form hooks
 	const [data, setData] = useState([]);
-	const [pageNo, setPageNo] = useState(1);
-	const [total, setTotal] = useState(0);
 	const [loanID, setLoanID] = useState([]);
 	const [selectedLoanID, setSelectedLoanID] = useState('');
 	const [fromDate, setFromDate] = useState(new Date());
 	const [toDate, setToDate] = useState(new Date());
 
 	useEffect(() => {
-		setLoading(true);
-
+		// setLoading(true);
 		agreementLoanList(agreementId)
 			.then((res) => {
 				if (res.status === 200) {
@@ -63,25 +58,14 @@ const InterestHistory = () => {
 	}, [agreementId]);
 
 	const interestAccuralHistory = (agreementId, loanID, fromDate, toDate) => {
-		// const fromDateParam = convertDate(fromDate);
-		// const toDateParam = convertDate(toDate);
+		const fromDateParam = fromDate.toJSON().slice(0,10).replace(/-/g,'-');
+		const toDateParam = toDate.toJSON().slice(0,10).replace(/-/g,'-');
 		setLoading(true);
-
-		const params = {
-			agreementId: agreementId,
-			loanID: loanID,
-			fromDate: convertDate(fromDate),
-			toDate: convertDate(toDate),
-			pageNo: pageNo - 1,
-			pageSize: 10
-		}
-
-		interstAccuralHistory(params)
+		interstAccuralHistory(agreementId, loanID, fromDateParam, toDateParam)
 			.then((res) => {
 				if (res.status === 200) {
 					const { data } = res;
-					setData(data.intAccList);
-					setTotal(data.totalRows);
+					setData(data);
 				}
 				setLoading(false);
 			})
@@ -100,7 +84,7 @@ const InterestHistory = () => {
 	// columns for table
 	const webCols = [
 		{
-			title: 'Transaction Date',
+			title: 'Tran. Date',
 			dataIndex: 'dtTranDate',
 			align: 'center'
 		},
@@ -117,19 +101,11 @@ const InterestHistory = () => {
 		{
 			title: 'Debit Amount',
 			dataIndex: 'debitAmount',
-			render: (value, row, key) => {
-				const amount = numberWithCommas(row.debitAmount);
-				return <span>{amount}</span>;
-			},
 			align: 'center'
 		},
 		{
 			title: 'Credit Amount',
 			dataIndex: 'creditAmount',
-			render: (value, row, key) => {
-				const amount = numberWithCommas(row.creditAmount);
-				return <span>{amount}</span>;
-			},
 			align: 'center'
 		}
 	];
@@ -163,13 +139,13 @@ const InterestHistory = () => {
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Debit Amount</h5>
-								<h5>{numberWithCommas(debitAmount)}</h5>
+								<h5>{debitAmount}</h5>
 							</span>
 						</div>
 						<div className='last-label-center'>
 							<span>
 								<h5 className='small-table-label'>Credit Amount</h5>
-								<h5>{numberWithCommas(creditAmount)}</h5>
+								<h5>{creditAmount}</h5>
 							</span>
 						</div>
 					</div>
@@ -195,10 +171,6 @@ const InterestHistory = () => {
 		if (fromDate && toDate) {
 			interestAccuralHistory(agreementId, selectedLoanID, fromDate, e);
 		}
-	};
-
-	const handleOnPageChange = (index) => {
-		setPageNo(index);
 	};
 
 	return (
@@ -295,14 +267,7 @@ const InterestHistory = () => {
 						className='cust-table'
 						dataSource={data}
 						columns={isWebDevice ? webCols : deviceCols}
-						pagination={{
-							size: 'small',
-							showSizeChanger: false,
-							total: total,
-							current: pageNo,
-							onChange: handleOnPageChange,
-							defaultPageSize: 10
-						}}
+						pagination={false}
 						scroll={{ y: 300 }}
 					/>
 				</div>

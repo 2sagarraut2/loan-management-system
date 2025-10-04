@@ -63,7 +63,7 @@ const CurrentDue = () => {
 			align: 'center'
 		},
 		{
-			title: 'Installment No',
+			title: 'Installment',
 			dataIndex: 'installmentNo',
 			align: 'center'
 		},

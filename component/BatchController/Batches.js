@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
 	Grid,
 	Button,
@@ -10,30 +10,29 @@ import {
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Loader from '../Loader';
-// import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import {
 	MuiPickersUtilsProvider,
 	KeyboardDatePicker
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import BackButton from '../BackButton';
-// import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { Table } from 'antd';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { searchBatchDetails, downloadBatch, getBusinessDate } from '../../api';
-import { convertDate } from '../../utils';
-// import { downloadFile } from '../../utils';
+import { searchBatchDetails } from '../../api';
+import { downloadFile } from '../../utils';
 
-// const useStyles = makeStyles((theme) => ({
-// 	root: {
-// 		'& > *': {
-// 			margin: theme.spacing(1)
-// 		}
-// 	},
-// 	input: {
-// 		display: 'none'
-// 	}
-// }));
+const useStyles = makeStyles((theme) => ({
+	root: {
+		'& > *': {
+			margin: theme.spacing(1)
+		}
+	},
+	input: {
+		display: 'none'
+	}
+}));
 
 const Batches = (props) => {
 	const isWebDevice = useMediaQuery('(min-width: 700px)');
@@ -41,7 +40,7 @@ const Batches = (props) => {
 	const [successMsg, setSuccessMsg] = useState('');
 	const [errorMsg, setErrorMsg] = useState('');
 
-	// const classes = useStyles();
+	const classes = useStyles();
 
 	// form hooks
 	const [data, setData] = useState([]);
@@ -51,17 +50,10 @@ const Batches = (props) => {
 	const [toDate, setToDate] = useState(new Date());
 	const [selectedRows, setSelectedRows] = useState([]);
 	const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-	const [buDate, setBuDate] = useState('');
-
-	useEffect(() => {
-		// to get latest business date from api
-		getDate();
-	}, []);
 
 	const searchBatches = (instrumentType, batchStatus, toDate, fromDate) => {
-		// const fromDateParam = fromDate.toJSON().slice(0, 10).replace(/-/g, '-');
-		const fromDateParam = convertDate(fromDate);
-		const toDateParam = convertDate(toDate);
+		const fromDateParam = fromDate.toJSON().slice(0, 10).replace(/-/g, '-');
+		const toDateParam = toDate.toJSON().slice(0, 10).replace(/-/g, '-');
 		const params = { instrumentType, batchStatus, toDateParam, fromDateParam };
 		setLoading(true);
 
@@ -101,11 +93,6 @@ const Batches = (props) => {
 			key: 3,
 			name: 'NACH',
 			type: 'nach'
-		},
-		{
-			key: 4,
-			name: 'ENACH',
-			type: 'enach'
 		}
 	];
 
@@ -271,100 +258,31 @@ const Batches = (props) => {
 		onChange: onSelectChange
 	};
 
-	const getDate = () => {
-		getBusinessDate()
-			.then((res) => {
-				if (res.status === 200) {
-					const { data } = res;
-					setBuDate(data);
-				}
-			})
-			.catch((error) => {
-				const {
-					response: {
-						data: { errorResponseMessage }
-					}
-				} = error;
-				setErrorMsg(`${errorResponseMessage}`);
-				setBuDate('');
-			});
-	};
-
 	// function for download
 	const handleOnDownload = () => {
 		const dataIds = selectedRows.map((item) => {
 			return item.batchId;
 		});
 
-		const params = {
-			arrBatchId: dataIds,
-			businessDate: convertDate(buDate)
-		};
-
-		setLoading(true);
-
-		downloadBatch(params)
-			.then((res) => {
-				if (res.status === 200) {
-					var blob = new Blob([res.data], { type: 'application/zip' });
-					var link = document.createElement('a');
-					link.href = window.URL.createObjectURL(blob);
-					link.download = 'download.zip';
-					link.click();
-				}
-				setLoading(false);
-			})
-			.catch((error) => {
-				const {
-					response: {
-						data: { errorResponseMessage = 'Error occured while downloading file' }
-					}
-				} = error;
-				setErrorMsg(`${errorResponseMessage}`);
-				setLoading(false);
-			});
+		console.log(dataIds);
+		const url = '';
+		downloadFile(url);
 	};
 
 	// file upload function
-	// const onFileUploadChange = (e) => {
-	// 	const files = e.target.files;
-	// 	console.warn(files[0].name);
+	const onFileUploadChange = (e) => {
+		const files = e.target.files;
+		console.warn(files);
 
-	// 	const reader = new FileReader();
-	// 	reader.readAsDataURL(files[0]);
+		const reader = new FileReader();
+		reader.readAsDataURL(files[0]);
 
-	// 	reader.onload = (e) => {
-	// 		const formData = { file: e.target.result };
-	// 		// console.log(formData);
-	// 		// send form data to api
-
-	// 		const params = {
-	// 			batchId: batchId,
-	// 			fileData: formData,
-	// 			fileName: files[0].name,
-	// 			businessDate: '2020-02-01'
-	// 		};
-
-	// 		console.log(params)
-
-	// 		uploadBatch(params)
-	// 			.then((res) => {
-	// 				if (res.status === 200) {
-	// 					const { data } = res;
-	// 				}
-	// 				setLoading(false);
-	// 			})
-	// 			.catch((error) => {
-	// 				const {
-	// 					response: {
-	// 						data: { errorResponseMessage }
-	// 					}
-	// 				} = error;
-	// 				setErrorMsg(`${errorResponseMessage}`);
-	// 				setLoading(false);
-	// 			});
-	// 	};
-	// };
+		reader.onload = (e) => {
+			const formData = { file: e.target.result };
+			console.log(formData);
+			// send form data to api
+		};
+	};
 
 	return (
 		<div>
@@ -399,7 +317,7 @@ const Batches = (props) => {
 			{loading && <Loader />}
 			<div className='header_container'>
 				<div className='title-container'>
-					<Typography variant='h6'>EMI Presentation Batches</Typography>
+					<Typography variant='h6'>Batch Control Center</Typography>
 					<BackButton
 						path='/dashboard'
 						size={isWebDevice ? 'medium' : 'small'}
@@ -534,6 +452,7 @@ const Batches = (props) => {
 							color='primary'
 							className='search-buttons'
 							onClick={handleOnSearch}
+							// disabled={!Boolean(instrumentType || batchStatus|| fromDate || toDate)}
 							style={{ marginLeft: 5 }}>
 							APPLY FILTER
 						</Button>
@@ -541,6 +460,7 @@ const Batches = (props) => {
 							variant='contained'
 							className='search-buttons'
 							onClick={handleOnReset}
+							// disabled={!Boolean(instrumentType || batchStatus || fromDate || toDate)}
 							style={{ marginLeft: 5 }}>
 							CLEAR FILTER
 						</Button>
@@ -561,18 +481,19 @@ const Batches = (props) => {
 					<Button
 						variant='contained'
 						color='primary'
+						className='search-buttons'
 						onClick={handleOnDownload}
 						disabled={!selectedRowKeys.length}
 						style={{ marginLeft: 5 }}>
 						Batch Downoad
 					</Button>
-					{/* <FormControl>
+					<FormControl>
 						<input
 							className={classes.input}
 							id='contained-button-file'
 							multiple
 							type='file'
-							accept='.csv'
+							accept=".csv"
 							onChange={onFileUploadChange}
 						/>
 						<label htmlFor='contained-button-file'>
@@ -584,7 +505,7 @@ const Batches = (props) => {
 								Batch Upload
 							</Button>
 						</label>
-					</FormControl> */}
+					</FormControl>
 				</div>
 			</div>
 		</div>

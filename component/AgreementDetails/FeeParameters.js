@@ -52,8 +52,8 @@ const FeeParameters = () => {
 		},
 		{
 			title: 'Fee Head',
-			key: 'feeCode',
-			dataIndex: 'feeCode',
+			key: 'fee_Head',
+			dataIndex: 'fee_head',
 			align: 'center'
 		},
 		{
@@ -105,22 +105,12 @@ const FeeParameters = () => {
 			align: 'center'
 		},
 		{
-			title: 'Amount',
+			title: 'Amount / %',
 			key: 'feeAmount',
 			dataIndex: 'feeAmount',
 			render: (value, row, key) => {
 				const amount = row.feeAmount;
 				return <div>{numberWithCommas(amount)}</div>;
-			},
-			align: 'center'
-		},
-		{
-			title: 'Percentage',
-			key: 'feePercentage',
-			dataIndex: 'feePercentage',
-			render: (value, row, key) => {
-				const percentage = row.feePercentage;
-				return <div>{numberWithCommas(percentage)}</div>;
 			},
 			align: 'center'
 		},
@@ -138,14 +128,13 @@ const FeeParameters = () => {
 			align: 'center',
 			render: (value, row, index) => {
 				const feeEvent = row.feeEvent;
-				const feeCode = row.feeCode;
+				const fee_head = row.fee_head;
 				const from_tenor = row.minTenor;
 				const to_tenor = row.maxTenor;
 				const minAmount = numberWithCommas(row.minAmount);
 				const maxAmount = numberWithCommas(row.maxAmount);
 				const feeType = row.feeType;
 				const feeAmount = row.feeAmount;
-				const percentage = row.feePercentage;
 				const taxApplicatbleYN = row.taxApplicatbleYN;
 				return (
 					<div>
@@ -156,7 +145,7 @@ const FeeParameters = () => {
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Fee Head</h5>
-								<h5>{feeCode}</h5>
+								<h5>{fee_head}</h5>
 							</span>
 						</div>
 						<div className='small-table-div'>
@@ -177,15 +166,11 @@ const FeeParameters = () => {
 								<h5>{feeType}</h5>
 							</span>
 							<span className='mobile-right-align'>
-								<h5 className='small-table-label'>Amount</h5>
+								<h5 className='small-table-label'>Amount / %</h5>
 								<h5>{numberWithCommas(feeAmount)}</h5>
 							</span>
 						</div>
-						<div className='small-table-div'>
-							<span className='mobile-left-align'>
-								<h5 className='small-table-label'>Percentage</h5>
-								<h5>{percentage}</h5>
-							</span>
+						<div className='last-label-center'>
 							<span>
 								<h5 className='small-table-label'>Tax Applicable</h5>
 								<h5>{taxApplicatbleYN}</h5>

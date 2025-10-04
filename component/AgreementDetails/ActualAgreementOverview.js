@@ -14,10 +14,10 @@ const ActualAgreementOverview = () => {
 	const { agreementId } = useParams();
 
 	// form hooks
-	const [od, setOd] = useState(0);
 	const [homeBranch, setHomeBranch] = useState('');
 	const [servicingBranch, setServicingBranch] = useState('');
 	const [product, setProduct] = useState('');
+	// const [finalDisbursment, setFinalDisbursment] = useState('');
 	const [sacntionedAmount, setSanctionedAmount] = useState('');
 	const [loanAmount, setLoanAmount] = useState('');
 	const [previousInstallment, setPreviuosInstallment] = useState('');
@@ -28,11 +28,7 @@ const ActualAgreementOverview = () => {
 	const [outstanding, setOutstanding] = useState('');
 	const [excessAmount, setExcessAmount] = useState('');
 	const [assetQuality, setAssetQuality] = useState('');
-	const [DPDStatus, setDPDStatus] = useState('');
-	const [colender, setColender] = useState([]);
-	const [odDate, SetOdDate] = useState('');
-	const [avaLimit, setAvaLimit] = useState('');
-	const [utiLimit, setUtiLimit] = useState('');
+	const [DPDStatus, SetDPDStatus] = useState('');
 
 	useEffect(() => {
 		setLoading(true);
@@ -40,10 +36,10 @@ const ActualAgreementOverview = () => {
 			.then((res) => {
 				if (res.status === 200) {
 					const { data } = res;
-					setOd(data.odYn);
 					setHomeBranch(data.homeBranch);
 					setServicingBranch(data.servBranch);
 					setProduct(data.productCode);
+					// setFinalDisbursment(data.servBranch) needs to be removed
 					setSanctionedAmount(data.sanctionedAmount);
 					setLoanAmount(data.loanAmount);
 					setPreviuosInstallment(data.prevInstallmentAmount);
@@ -54,11 +50,7 @@ const ActualAgreementOverview = () => {
 					setOutstanding(data.outstandingAmount);
 					setExcessAmount(data.excessAmount);
 					setAssetQuality(data.assetClass);
-					setDPDStatus(data.dpd);
-					setColender(data.colender);
-					SetOdDate(data.dtOdClosure);
-					setAvaLimit(data.availableLimit);
-					setUtiLimit(data.utilizedLimit);
+					SetDPDStatus(data.dpd);
 				}
 				setLoading(false);
 			})
@@ -126,6 +118,12 @@ const ActualAgreementOverview = () => {
 					<h4 className='customer-title'>{product}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
+					<h4>Final Disbursment</h4>
+				</Grid>
+				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
+					<h4 className='customer-title'>'-'</h4>
+				</Grid>
+				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Sanctioned Amount/Loan</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
@@ -139,36 +137,17 @@ const ActualAgreementOverview = () => {
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4 className='customer-title'>{numberWithCommas(loanAmount)}</h4>
 				</Grid>
-				{od === 'true' ? (
-					<>
-						<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-							<h4>Previous Interest Amount</h4>
-						</Grid>
-						<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-							<h4 className='customer-title'>
-								{numberWithCommas(previousInstallment)}
-							</h4>
-						</Grid>
-					</>
-				) : (
-					<>
-						<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-							<h4>Previous Installment Amount</h4>
-						</Grid>
-						<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-							<h4 className='customer-title'>
-								{numberWithCommas(previousInstallment)}
-							</h4>
-						</Grid>
-					</>
-				)}
+				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
+					<h4>Previous Installment Amount</h4>
+				</Grid>
+				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
+					<h4 className='customer-title'>{previousInstallment}</h4>
+				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Next Installment Amount</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>
-						{numberWithCommas(nextInstallment)}
-					</h4>
+					<h4 className='customer-title'>{nextInstallment}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4>Previous Installment Date</h4>
@@ -212,38 +191,6 @@ const ActualAgreementOverview = () => {
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4 className='customer-title'>{DPDStatus}</h4>
 				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4>Co-lender Name</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<span className='customer-title'>
-						{colender.map((item) => `${item}, `)}
-					</span>
-				</Grid>
-				{od === 'true' ? (
-					<>
-						<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-							<h4>OD Closure Date</h4>
-						</Grid>
-						<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-							<h4 className='customer-title'>{odDate}</h4>
-						</Grid>
-						<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-							<h4>Available Limit</h4>
-						</Grid>
-						<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-							<h4 className='customer-title'>{avaLimit}</h4>
-						</Grid>
-						<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-							<h4>Utilized Limit</h4>
-						</Grid>
-						<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-							<h4 className='customer-title'>{utiLimit}</h4>
-						</Grid>
-					</>
-				) : (
-					''
-				)}
 			</Grid>
 		</div>
 	);

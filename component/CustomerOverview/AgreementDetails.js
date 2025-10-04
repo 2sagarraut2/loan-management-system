@@ -91,7 +91,7 @@ const AgreementDetails = () => {
 			align: 'center'
 		},
 		{
-			title: 'Agreement Status',
+			title: 'agreementStatus',
 			dataIndex: 'agreementStatus',
 			align: 'center'
 		}

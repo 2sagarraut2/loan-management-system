@@ -123,7 +123,7 @@ const AddressDetails = () => {
 						<Select native value={selectedAddress} onChange={handleOnSelectChange}>
 							{address.map((item) => (
 								<option key={item.addrType} value={item.addrType}>
-									{item.addrTypeDesc}
+									{item.addrType}
 								</option>
 							))}
 						</Select>
@@ -172,7 +172,7 @@ const AddressDetails = () => {
 					<h4 className='customer-title'>{postal}</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4>Preferred Address</h4>
+					<h4>Preffered Address</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4 className='customer-title'>{preferred}</h4>

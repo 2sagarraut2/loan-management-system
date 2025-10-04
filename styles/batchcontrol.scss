@@ -1,13 +1,13 @@
 .table-footer-batch {
 	display: flex;
-	justify-content: flex-end;
+	justify-content: space-between;
 	align-items: flex-start;
     flex-wrap: wrap;
     padding: 1% 1%;
 }
 
 .table-footer-batch > Button {
-    // margin: 0 2% 2% 2%;
+    margin: 0 2% 2% 2%;
     min-width: 100px;
 }
 

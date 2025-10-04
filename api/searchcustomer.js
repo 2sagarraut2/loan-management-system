@@ -1,12 +1,10 @@
-// import { baseURL } from './environment';
-import environments from '../environment';
-
+import { baseURL } from './environment';
 import axios from 'axios';
 
 export const searchCustomer = (params) => {
-	let { type, value, pageNo, pageSize } = params;
+	let { type, value } = params;
 
-	let url = `${environments.dataURL}/lmsapi/customer/getCustomerList?type=${type}&value=${value}&pageNo=${pageNo}&pageSize=${pageSize}`;
+	let url = `${baseURL}/lmsapi/customer/getCustomerList?type=${type}&value=${value}`;
 
 	return axios.get(url, {
 		method: 'GET',

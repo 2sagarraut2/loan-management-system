@@ -12,7 +12,7 @@ const BasicDetails = () => {
 	const [errorMsg, setErrorMsg] = useState('');
 
 	// form hooks
-	// const [sal, setSal] = useState('');
+	const [sal, setSal] = useState('');
 	const [firstName, setFirstName] = useState('');
 	const [middleName, setMiddleName] = useState('');
 	const [lastName, setLastName] = useState('');
@@ -30,7 +30,7 @@ const BasicDetails = () => {
 			.then((res) => {
 				if (res.status === 200) {
 					const { data } = res;
-					// setSal(data.title);
+					setSal(data.title);
 					setFirstName(data.firstName);
 					setMiddleName(data.middleName);
 					setLastName(data.lastName);
@@ -92,7 +92,7 @@ const BasicDetails = () => {
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 					<h4 className='customer-title'>
-						{firstName}
+						{sal} {firstName}
 					</h4>
 				</Grid>
 				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-// import { Table } from 'antd';
-import { Grid, Snackbar } from '@material-ui/core';
+import { Table } from 'antd';
+import { useMediaQuery, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Loader from '../Loader';
 import { useParams } from 'react-router-dom';
@@ -11,19 +11,12 @@ const LimitDetails = () => {
 	const [loading, setLoading] = useState(false);
 	const [successMsg, setSuccessMsg] = useState('');
 	const [errorMsg, setErrorMsg] = useState('');
+	const isWebDevice = useMediaQuery('(min-width: 820px)');
 
 	const { agreementId } = useParams();
 
 	// form hooks
-	const [drawingPower, setDrawingPower] = useState(0);
-	const [dtLimitExpired, setDtLimitExpired] = useState('');
-	const [dtLimitSanctioned, setDtLimitSanctioned] = useState('');
-	const [limitSanctionAmount, setLimitSanctionAmount] = useState(0);
-	const [loanId, setLoanId] = useState('');
-	const [masterAgreement, setMasterAgreement] = useState('');
-	const [purpose, setPurpose] = useState('');
-	// const [slimitId, setSlimitId] = useState('');
-	const [utilizedLimit, setUtilizedLimit] = useState('');
+	const [data, setData] = useState([]);
 
 	useEffect(() => {
 		setLoading(true);
@@ -31,15 +24,7 @@ const LimitDetails = () => {
 			.then((res) => {
 				if (res.status === 200) {
 					const { data } = res;
-					setDrawingPower(data.drawingPower);
-					setDtLimitExpired(data.dtLimitExpired);
-					setDtLimitSanctioned(data.dtLimitSanctioned);
-					setLimitSanctionAmount(data.limitSanctionAmount);
-					setLoanId(data.loanId);
-					setMasterAgreement(data.masterAgreement);
-					setPurpose(data.purpose);
-					// setSlimitId(data.slimitId);
-					setUtilizedLimit(data.utilizedLimit);
+					setData(data);
 				}
 				setLoading(false);
 			})
@@ -50,11 +35,107 @@ const LimitDetails = () => {
 					}
 				} = error;
 				setErrorMsg(`${errorResponseMessage}`);
+				setData([]);
 				setLoading(false);
 			});
 
 		// eslint-disable-next-line
 	}, [agreementId]);
+
+	// columns for table
+	const webCols = [
+		{
+			title: 'Loan ID',
+			dataIndex: 'loanId',
+			align: 'center'
+		},
+		{
+			title: 'Limit Sanction Date',
+			dataIndex: 'dtLimitSanctioned',
+			align: 'center'
+		},
+		{
+			title: 'Sanction Amount',
+			dataIndex: 'limitSanctionAmount',
+			render: (value, row, key) => {
+				const amount = row.limitSanctionAmount;
+				return (
+					<span>{numberWithCommas(amount)}</span>
+				)
+			},
+			align: 'center'
+		},
+		{
+			title: 'Utilized Amount',
+			dataIndex: 'utilizedLimit',
+			render: (value, row, key) => {
+				const amount = row.utilizedLimit;
+				return (
+					<span>{numberWithCommas(amount)}</span>
+				)
+			},
+			align: 'center'
+		},
+		{
+			title: 'Drawing Power',
+			dataIndex: 'drawingPower',
+			align: 'center'
+		},
+		{
+			title: 'Limit Expiry',
+			dataIndex: 'dtLimitExpired',
+			align: 'center'
+		}
+	];
+
+	const deviceCols = [
+		{
+			title: 'Limit Details',
+			align: 'center',
+			render: (value, row, index) => {
+				const id = row.loanId;
+				const sanction_date = row.dtLimitSanctioned;
+				const limitSanctionAmount = row.limitSanctionAmount;
+				const utilizedLimit = row.utilizedLimit;
+				const drawingPower = row.drawingPower;
+				const dtLimitExpired = row.dtLimitExpired;
+				return (
+					<div>
+						<div className='small-table-div'>
+							<span className='mobile-left-align'>
+								<h5 className='small-table-label'>Loan ID</h5>
+								<h5>{id}</h5>
+							</span>
+							<span className='mobile-right-align'>
+								<h5 className='small-table-label'>Limit Sanction Date</h5>
+								<h5>{sanction_date}</h5>
+							</span>
+						</div>
+						<div className='small-table-div'>
+							<span className='mobile-left-align'>
+								<h5 className='small-table-label'>Sanction Amount</h5>
+								<h5>{numberWithCommas(limitSanctionAmount)}</h5>
+							</span>
+							<span className='mobile-right-align'>
+								<h5 className='small-table-label'>Utilized Amount</h5>
+								<h5>{numberWithCommas(utilizedLimit)}</h5>
+							</span>
+						</div>
+						<div className='small-table-div'>
+							<span className='mobile-left-align'>
+								<h5 className='small-table-label'>Drawing Power</h5>
+								<h5>{drawingPower}</h5>
+							</span>
+							<span className='mobile-right-align'>
+								<h5 className='small-table-label'>Limit Expiry</h5>
+								<h5>{dtLimitExpired}</h5>
+							</span>
+						</div>
+					</div>
+				);
+			}
+		}
+	];
 
 	return (
 		<div style={{ padding: '1% 20px' }}>
@@ -87,58 +168,16 @@ const LimitDetails = () => {
 				</Alert>
 			</Snackbar>
 			{loading && <Loader />}
-			<Grid container style={{ padding: '1% 20px' }}>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4>Drawing Power</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{drawingPower}</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4>Limit Expiry Date</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{dtLimitExpired}</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4>Limit Sanctioned Date</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{dtLimitSanctioned}</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4>Limit Sanctioned Amount</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>
-						{numberWithCommas(limitSanctionAmount)}
-					</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4>Loan ID</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{loanId}</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4>Master Agreement ID</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{masterAgreement}</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4>Purpose</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{purpose}</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4>Utilized Limit</h4>
-				</Grid>
-				<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{numberWithCommas(utilizedLimit)}</h4>
-				</Grid>
-			</Grid>
+			<div className='table-wrapper'>
+				<Table
+					rowKey='slimitId'
+					className='cust-table'
+					dataSource={data}
+					columns={isWebDevice ? webCols : deviceCols}
+					pagination={false}
+					scroll={{ y: 450 }}
+				/>
+			</div>
 		</div>
 	);
 };

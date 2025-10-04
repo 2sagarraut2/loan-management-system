@@ -80,22 +80,18 @@ const RepaymentSchedule = () => {
 	// columns for table
 	const webCols = [
 		{
-			title: 'Installment No',
+			title: 'Opening',
+			dataIndex: 'openingPrincipal',
+			align: 'center'
+		},
+		{
+			title: 'Inst#',
 			dataIndex: 'installmentNo',
 			align: 'center'
 		},
 		{
-			title: 'Installment Date',
+			title: 'Inst. Date',
 			dataIndex: 'dtInstallment',
-			align: 'center'
-		},
-		{
-			title: 'Opening',
-			dataIndex: 'openingPrincipal',
-			render: (value, row, key) => {
-				const opening = numberWithCommas(row.openingPrincipal);
-				return <span>{numberWithCommas(opening)}</span>;
-			},
 			align: 'center'
 		},
 		{
@@ -108,30 +104,18 @@ const RepaymentSchedule = () => {
 			align: 'center'
 		},
 		{
-			title: 'Interest Amount',
-			dataIndex: 'interestAmount',
-			render: (value, row, key) => {
-				const amount = numberWithCommas(row.interestAmount);
-				return <span>{numberWithCommas(amount)}</span>;
-			},
+			title: 'Interest',
+			dataIndex: 'interestRate',
 			align: 'center'
 		},
 		{
 			title: 'BPI',
 			dataIndex: 'bpiAmount',
-			render: (value, row, key) => {
-				const bpiAmount = row.bpiAmount;
-				return <span>{numberWithCommas(bpiAmount)}</span>;
-			},
 			align: 'center'
 		},
 		{
-			title: 'Installment Amount',
+			title: 'Inst. Amt.',
 			dataIndex: 'installmentAmount',
-			render: (value, row, key) => {
-				const instAmount = row.installmentAmount;
-				return <span>{numberWithCommas(instAmount)}</span>;
-			},
 			align: 'center'
 		},
 		{
@@ -144,7 +128,7 @@ const RepaymentSchedule = () => {
 			align: 'center'
 		},
 		{
-			title: 'Payment Date',
+			title: 'Payment Dt.',
 			dataIndex: 'dtPaymentDate',
 			align: 'center'
 		}
@@ -160,7 +144,7 @@ const RepaymentSchedule = () => {
 				const installmentNo = row.installmentNo;
 				const dtInstallment = row.dtInstallment;
 				const principalAmount = row.principalAmount;
-				const interestAmount = row.interestAmount;
+				const interestRate = row.interestRate;
 				const bpiAmount = row.bpiAmount;
 				const installmentAmount = row.installmentAmount;
 				const closingPrincipal = row.closingPrincipal;
@@ -169,18 +153,18 @@ const RepaymentSchedule = () => {
 					<div>
 						<div className='small-table-div'>
 							<span className='mobile-left-align'>
-								<h5 className='small-table-label'>Inst. No.</h5>
-								<h5>{installmentNo}</h5>
+								<h5 className='small-table-label'>Opening</h5>
+								<h5>{numberWithCommas(openingPrincipal)}</h5>
 							</span>
 							<span className='mobile-right-align'>
-								<h5 className='small-table-label'>Inst. Date</h5>
-								<h5>{dtInstallment}</h5>
+								<h5 className='small-table-label'>Inst#</h5>
+								<h5>{installmentNo}</h5>
 							</span>
 						</div>
 						<div className='small-table-div'>
 							<span className='mobile-left-align'>
-								<h5 className='small-table-label'>Opening</h5>
-								<h5>{numberWithCommas(openingPrincipal)}</h5>
+								<h5 className='small-table-label'>Inst. Date</h5>
+								<h5>{dtInstallment}</h5>
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Principal</h5>
@@ -189,12 +173,12 @@ const RepaymentSchedule = () => {
 						</div>
 						<div className='small-table-div'>
 							<span className='mobile-left-align'>
-								<h5 className='small-table-label'>Interest Amount</h5>
-								<h5>{numberWithCommas(interestAmount)}</h5>
+								<h5 className='small-table-label'>Interest</h5>
+								<h5>{interestRate}</h5>
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>BPI</h5>
-								<h5>{numberWithCommas(bpiAmount)}</h5>
+								<h5>{bpiAmount}</h5>
 							</span>
 						</div>
 						<div className='small-table-div'>
@@ -204,7 +188,7 @@ const RepaymentSchedule = () => {
 							</span>
 							<span className='mobile-right-align'>
 								<h5 className='small-table-label'>Closing</h5>
-								<h5>{numberWithCommas(closingPrincipal)}</h5>
+								<h5>{closingPrincipal}</h5>
 							</span>
 						</div>
 						<div className='last-label-center'>

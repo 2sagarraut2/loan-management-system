@@ -14,13 +14,8 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { Table } from 'antd';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useParams } from 'react-router-dom';
-import {
-	batchDetails,
-	downloadBatch,
-	uploadBatch,
-	getBusinessDate
-} from '../../api';
-import { numberWithCommas, convertDate } from '../../utils';
+import { batchDetails } from '../../api';
+import { numberWithCommas } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -45,7 +40,6 @@ const Batch = (props) => {
 
 	// form hooks
 	const [data, setData] = useState([]);
-	const [buDate, setBuDate] = useState('');
 
 	useEffect(() => {
 		batchDetails(batchId)
@@ -66,11 +60,6 @@ const Batch = (props) => {
 				setLoading(false);
 				setData([]);
 			});
-	}, [batchId]);
-
-	useEffect(() => {
-		// to get latest business date from api
-		getDate();
 	}, [batchId]);
 
 	// columns for table
@@ -117,7 +106,9 @@ const Batch = (props) => {
 			dataIndex: 'instrumentAmount',
 			render: (value, row, key) => {
 				const amount = numberWithCommas(row.instrumentAmount);
-				return <span>{amount}</span>;
+				return (
+					<span>{amount}</span>
+				)
 			},
 			align: 'center'
 		}
@@ -175,100 +166,8 @@ const Batch = (props) => {
 		}
 	];
 
-	const getDate = () => {
-		getBusinessDate()
-			.then((res) => {
-				if (res.status === 200) {
-					const { data } = res;
-					setBuDate(data);
-				}
-			})
-			.catch((error) => {
-				const {
-					response: {
-						data: { errorResponseMessage }
-					}
-				} = error;
-				setErrorMsg(`${errorResponseMessage}`);
-				setBuDate('');
-			});
-	};
-
 	const handleOnDownload = () => {
-		const dataIds = batchId;
-
-		const params = {
-			arrBatchId: dataIds,
-			businessDate: convertDate(buDate)
-		};
-
-		setLoading(true);
-
-		downloadBatch(params)
-			.then((res) => {
-				if (res.status === 200) {
-					var blob = new Blob([res.data], { type: 'application/zip' });
-					var link = document.createElement('a');
-					link.href = window.URL.createObjectURL(blob);
-					link.download = 'download.zip';
-					link.click();
-				}
-				setLoading(false);
-			})
-			.catch((error) => {
-				const {
-					response: {
-						data: {
-							errorResponseMessage = 'Error occured while downloading file'
-						}
-					}
-				} = error;
-				setErrorMsg(`${errorResponseMessage}`);
-				setLoading(false);
-			});
-	};
-
-	// file upload function
-	const onFileUploadChange = (e) => {
-		const files = e.target.files;
-		// console.warn(files[0].name);
-
-		const reader = new FileReader();
-		reader.readAsDataURL(files[0]);
-
-		reader.onload = (e) => {
-			const formData = { file: e.target.result };
-			// send form data to api
-
-			const params = {
-				batchId: batchId,
-				fileData: formData,
-				fileName: files[0].name,
-				businessDate: convertDate(buDate)
-			};
-
-			if (buDate) {
-				setLoading(true);
-				uploadBatch(params)
-					.then((res) => {
-						if (res.status === 200) {
-							const { data } = res;
-							console.log(data);
-							setSuccessMsg(data);
-						}
-						setLoading(false);
-					})
-					.catch((error) => {
-						const {
-							response: {
-								data: { errorResponseMessage }
-							}
-						} = error;
-						setErrorMsg(`${errorResponseMessage}`);
-						setLoading(false);
-					});
-			}
-		};
+		
 	};
 
 	return (
@@ -312,12 +211,12 @@ const Batch = (props) => {
 					/>
 				</div>
 				<Table
-					rowKey='mastAgrId'
+					rowKey='batchNo'
 					className='cust-table'
 					dataSource={data}
 					columns={isWebDevice ? webCols : deviceCols}
 					pagination={false}
-					scroll={{ y: 355 }}
+					scroll={{ y: 320 }}
 				/>
 				<div className='table-footer-batches'>
 					<Button
@@ -330,15 +229,11 @@ const Batch = (props) => {
 					</Button>
 					<FormControl>
 						<input
+							accept='image/*'
 							className={classes.input}
 							id='contained-button-file'
 							multiple
 							type='file'
-							accept='.csv'
-							onChange={onFileUploadChange}
-							onClick={(event) => {
-								event.target.value = null;
-							}}
 						/>
 						<label htmlFor='contained-button-file'>
 							<Button

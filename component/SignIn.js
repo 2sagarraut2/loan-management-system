@@ -110,7 +110,7 @@ const SignIn = (props) => {
 						<div>
 							<img className='main-logo' src={logo} alt='4FIN' />
 						</div>
-						<h4 className='login-heading'>Loan Management System</h4>
+						<h4>Loan Management System</h4>
 					</div>
 					<div className='version-div'>
 						<h6>Version 1.0</h6>
@@ -178,8 +178,14 @@ const SignIn = (props) => {
 							)}
 						</div>
 					</div>
+					{/* {isWebDevice ? <div style={{ width: '100%' }}>A</div> : null} */}
 				</div>
 			</div>
+			{/* <div className='footer-wrapper'>
+				<h4 style={{ color: '#fff', wordBreak: 'break-word' }}>
+					Powered by: 4A Financial Technologies Pvt. Ltd.
+				</h4>
+			</div> */}
 		</div>
 	);
 };

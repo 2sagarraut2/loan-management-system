@@ -3,15 +3,17 @@ import {
 	TextField,
 	Button,
 	Typography,
+	Link,
 	FormControl,
 	Select
 } from '@material-ui/core';
 import BackButton from '../BackButton';
 import { Search } from '@material-ui/icons';
+import { Table } from 'antd';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const CustomerSearch = (props) => {
-	const { searchForCustomer, getAllCustomers, title, pageNo } = props;
+	const { data, searchForCustomer } = props;
 	const [criterion, setCriterion] = useState('customer_id');
 	const [values, setValues] = useState('');
 	const isWebDevice = useMediaQuery('(min-width: 700px)');
@@ -36,11 +38,6 @@ const CustomerSearch = (props) => {
 			return;
 		}
 
-		if (name === 'losapplicationno') {
-			setValues(value.toUpperCase());
-			return;
-		}
-
 		setValues(value);
 	};
 
@@ -48,9 +45,7 @@ const CustomerSearch = (props) => {
 	const handleOnSearch = async () => {
 		const params = {
 			type: criterion,
-			value: values,
-			pageNo: pageNo - 1,
-			pageSize: 10
+			value: values
 		};
 
 		searchForCustomer(params);
@@ -61,7 +56,6 @@ const CustomerSearch = (props) => {
 		setValues('');
 		setCriterion('customer_id');
 		// setData([]);
-		getAllCustomers();
 	};
 
 	// search options array
@@ -78,16 +72,11 @@ const CustomerSearch = (props) => {
 		},
 		{
 			key: 3,
-			name: 'LOS Application No',
-			type: 'los_application'
-		},
-		{
-			key: 4,
 			name: 'Mobile No.',
 			type: 'mobile_no'
 		},
 		{
-			key: 5,
+			key: 4,
 			name: 'Pan No.',
 			type: 'pan_no'
 		}
@@ -99,11 +88,108 @@ const CustomerSearch = (props) => {
 		setCriterion(e.target.value);
 	};
 
+	// columns for table
+	const webCols = [
+		{
+			title: 'Customer ID',
+			dataIndex: 'customerId',
+			align: 'center',
+			render: (value, row, index) => {
+				const id = row.customerId;
+				return (
+					<span>
+						<Link
+							onClick={() => {
+								window.location.href = `/customer-search/${id}`;
+							}}>
+							{id}
+						</Link>
+					</span>
+				);
+			}
+		},
+		{
+			title: 'Customer Name',
+			dataIndex: 'cust_name',
+			align: 'center',
+			render: (value, row, index) => {
+				const title = row.title;
+				const firstName = row.firstName;
+				const lastName = row.lastName;
+				return (
+					<span>
+						{title} {firstName} {lastName}
+					</span>
+				);
+			}
+		},
+		{
+			title: 'Mobile',
+			dataIndex: 'mobile',
+			align: 'center'
+		},
+		{
+			title: 'Customer Type',
+			dataIndex: 'custCategory',
+			align: 'center'
+		}
+	];
+
+	const deviceCols = [
+		{
+			title: 'Customer Details',
+			dataIndex: 'customerId',
+			align: 'left',
+			render: (value, row, index) => {
+				const id = row.customerId;
+				const title = row.title;
+				const firstName = row.firstName;
+				const lastName = row.lastName;
+				const mobile = row.mobile;
+				const type = row.custCategory;
+
+				return (
+					<div>
+						<div className='small-table-div'>
+							<span>
+								<h5 className='small-table-label'>Customer ID</h5>
+								<h5>
+									<Link
+										onClick={() => {
+											window.location.href = `/customer-search/${id}`;
+										}}>
+										{id}
+									</Link>
+								</h5>
+							</span>
+							<span className='mobile-right-align'>
+								<h5 className='small-table-label'>Customer Name</h5>
+								<h5>
+									{title} {firstName} {lastName}
+								</h5>
+							</span>
+						</div>
+						<div className='small-table-div'>
+							<span>
+								<h5 className='small-table-label'>Mobile</h5>
+								<h5>{mobile}</h5>
+							</span>
+							<span className='mobile-right-align'>
+								<h5 className='small-table-label'>Customer Type</h5>
+								<h5>{type}</h5>
+							</span>
+						</div>
+					</div>
+				);
+			}
+		}
+	];
+
 	return (
 		<div>
 			<div className='header_container'>
 				<div className='title-container'>
-					<Typography variant='h6'>{title}</Typography>
+					<Typography variant='h6'>Customer Search</Typography>
 					<BackButton
 						path='/dashboard'
 						size={isWebDevice ? 'medium' : 'small'}
@@ -168,27 +254,6 @@ const CustomerSearch = (props) => {
 									}}
 								/>
 							)}
-
-							{criterion === 'los_application' && (
-								<TextField
-									className='cust-search-fields'
-									size='small'
-									label='LOS Application No'
-									variant='outlined'
-									name='losapplicationno'
-									value={values}
-									onChange={handleOnChange}
-									style={{ margin: 5 }}
-									onKeyPress={(event) => {
-										if (event.key === 'Enter') {
-											if (values) {
-												handleOnSearch();
-											}
-										}
-									}}
-								/>
-							)}
-
 							{criterion === 'mobile_no' && (
 								<TextField
 									className='cust-search-fields'
@@ -257,6 +322,16 @@ const CustomerSearch = (props) => {
 						</div>
 					</div>
 				</div>
+			</div>
+			<div className='table-wrapper'>
+				<Table
+					rowKey='customerId'
+					className='cust-table'
+					dataSource={data}
+					columns={isWebDevice ? webCols : deviceCols}
+					pagination={false}
+					scroll={{ y: 310 }}
+				/>
 			</div>
 		</div>
 	);
