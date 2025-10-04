@@ -40,6 +40,7 @@ import {
 import { futureDues } from './futuredues';
 import { eodStatus } from './endofday';
 import { startEOD } from './runeod';
+import { limitHistory, limitHistoryTableData } from './limithistory';
 
 export {
 	CheckUser,
@@ -75,5 +76,7 @@ export {
 	futureDues,
 	onlinePayment,
 	eodStatus,
-	startEOD
+	startEOD,
+	limitHistory,
+	limitHistoryTableData
 };

@@ -110,7 +110,7 @@ const EPay = () => {
 				</Alert>
 			</Snackbar>
 			{loading && <Loader />}
-			<div className="cate-main-wrapper">
+			<div className='cate-main-wrapper'>
 				<div className='cate-title-wrapper'>
 					<h3>Customer Details</h3>
 				</div>
@@ -142,7 +142,7 @@ const EPay = () => {
 					</Grid>
 				</Grid>
 			</div>
-			<div className="cate-main-wrapper">
+			<div className='cate-main-wrapper'>
 				<div className='cate-title-wrapper'>
 					<h3>ENACH Details</h3>
 				</div>
@@ -151,7 +151,7 @@ const EPay = () => {
 						<h4>Bank Code</h4>
 					</Grid>
 					<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
-					<h4 className='customer-title'>{bankCode}</h4>
+						<h4 className='customer-title'>{bankCode}</h4>
 					</Grid>
 					<Grid item xs={6} sm={6} md={3} lg={3} style={{ padding: '1%' }}>
 						<h4>Bank Branch Code</h4>

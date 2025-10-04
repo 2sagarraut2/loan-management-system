@@ -5,14 +5,15 @@ import {
 import { Table } from 'antd';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-const ChequeReceiptTable = (props) => {
+const LimitHistoryTable = (props) => {
 	const {
 		data,
 		pageNo,
 		setPageNo,
 		total,
 	} = props;
-	
+	// const [criterion, setCriterion] = useState('customer_id');
+	// const [values, setValues] = useState('');
 	const isWebDevice = useMediaQuery('(min-width: 700px)');
 
 	// columns for table
@@ -23,12 +24,11 @@ const ChequeReceiptTable = (props) => {
 			align: 'center',
 			render: (value, row, index) => {
 				const id = row.customerId;
-				const mid = row.mastAgrId;
 				return (
 					<span>
 						<Link
 							onClick={() => {
-								window.location.href = `/cheque-receipt/${id}/${mid}`;
+								window.location.href = `/limit-history/${id}`;
 							}}>
 							{id}
 						</Link>
@@ -38,18 +38,18 @@ const ChequeReceiptTable = (props) => {
 		},
 		{
 			title: 'Customer Name',
-			dataIndex: 'cust_name',
+			dataIndex: 'customerName',
 			align: 'center',
-			render: (value, row, index) => {
-				const title = row.title;
-				const firstName = row.firstName;
-				const lastName = row.lastName;
-				return (
-					<span>
-						{title} {firstName} {lastName}
-					</span>
-				);
-			}
+			// render: (value, row, index) => {
+			// 	const title = row.title;
+			// 	const firstName = row.firstName;
+			// 	const lastName = row.lastName;
+			// 	return (
+			// 		<span>
+			// 			{title} {firstName} {lastName}
+			// 		</span>
+			// 	);
+			// }
 		},
 		{
 			title: 'Mobile',
@@ -70,7 +70,6 @@ const ChequeReceiptTable = (props) => {
 			align: 'left',
 			render: (value, row, index) => {
 				const id = row.customerId;
-				const mid = row.mastAgrId;
 				const title = row.title;
 				const firstName = row.firstName;
 				const lastName = row.lastName;
@@ -85,7 +84,7 @@ const ChequeReceiptTable = (props) => {
 								<h5>
 									<Link
 										onClick={() => {
-											window.location.href = `/cheque-receipt/${id}/${mid}`;
+											window.location.href = `/limit-history/${id}`;
 										}}>
 										{id}
 									</Link>
@@ -122,7 +121,7 @@ const ChequeReceiptTable = (props) => {
 		<div>
 			<div className='table-wrapper'>
 				<Table
-					rowKey='customerId'
+					rowKey='custInternalId'
 					className='cust-table'
 					dataSource={data}
 					columns={isWebDevice ? webCols : deviceCols}
@@ -141,4 +140,4 @@ const ChequeReceiptTable = (props) => {
 	);
 };
 
-export default ChequeReceiptTable;
+export default LimitHistoryTable;

@@ -19,6 +19,8 @@ import CreateChequeReceipt from './component/ChequeReceipt/CreateChequeReceipt';
 import OnlineReceipt from './container/OnlinePayment/OnlinePayment';
 import CreateOnlineReceipt from './component/OnlinePayment/CreateOnlineReceipt';
 import EOD from './container/RunEOD/EOD';
+import Limit from './container/LimitHistory/Limit';
+import LimitPage from './component/Limits/LimitPage';
 
 function App() {
 	return (
@@ -60,6 +62,11 @@ function App() {
 							element={<CreateOnlineReceipt />}
 						/>
 						<Route path='run-eod' element={<EOD />} />
+						<Route path='limit-history' element={<Limit />} />
+						<Route
+							path='limit-history/:userId'
+							element={<LimitPage />}
+						/>
 					</Route>
 				</Routes>
 			</div>

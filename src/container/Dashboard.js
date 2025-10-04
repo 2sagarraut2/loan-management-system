@@ -19,6 +19,7 @@ import ReceiptRoundedIcon from '@material-ui/icons/ReceiptRounded';
 import CreditCardRoundedIcon from '@material-ui/icons/CreditCardRounded';
 import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
 import DateRangeRoundedIcon from '@material-ui/icons/DateRangeRounded';
+import HistoryRoundedIcon from '@material-ui/icons/HistoryRounded';
 import { useNavigate } from 'react-router-dom';
 import { getBusinessDate } from '../api';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -76,7 +77,7 @@ const Dashboard = () => {
 			text: 'Run EOD',
 			icon: <DateRangeRoundedIcon />,
 			path: '/run-eod'
-		}
+		},
 		// ==> to here
 
 		// {
@@ -84,6 +85,11 @@ const Dashboard = () => {
 		// 	icon: <AccountBalanceRoundedIcon />,
 		// 	path: '/charges-booking'
 		// },
+		{
+			text: 'Limit History',
+			icon: <HistoryRoundedIcon />,
+			path: '/limit-history'
+		}
 	];
 
 	const history = useNavigate();
@@ -141,25 +147,17 @@ const Dashboard = () => {
 			</Snackbar>
 			<div>
 				<Grid container spacing={3}>
-					<Grid item xs={6} sm={4} md={3} lg={3}>
-						{!isWebDevice ? (
-							<div>
-								<Grid
-									item
-									xs={12}
-									sm={8}
-									md={9}
-									lg={9}
-									style={{ display: 'flex', justifyContent: 'flex-end', minWidth: 'max-content' }}>
-									<h3>Business Date: </h3>
-									{' '}
-									<h3>{businessDate}</h3>
-								</Grid>
-							</div>
-						) : (
-							''
-						)}
-						<List>
+					<Grid
+						item
+						xs={12}
+						sm={12}
+						md={12}
+						lg={12}
+						className='business-date-comp'>
+						<h3>Business Date: </h3> <h3>{businessDate}</h3>
+					</Grid>
+					<Grid item xs={6} sm={12} md={12} lg={12} style={{ paddingTop: '0' }}>
+						<List className='menu-button'>
 							{menuItems.map((item) => (
 								<Paper
 									className='nav-button'
@@ -175,7 +173,7 @@ const Dashboard = () => {
 							))}
 						</List>
 					</Grid>
-					{isWebDevice ? (
+					{/* {isWebDevice ? (
 						<Grid
 							item
 							xs={12}
@@ -188,7 +186,7 @@ const Dashboard = () => {
 						</Grid>
 					) : (
 						''
-					)}
+					)} */}
 				</Grid>
 			</div>
 		</div>
